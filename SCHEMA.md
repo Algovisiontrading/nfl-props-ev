@@ -13,7 +13,7 @@ Copied at publish time from `out/props_ev.json` when that file exists. Until the
   "generated_at": "2026-11-13T09:00:00-05:00",
   "updated_at": "2026-11-13T09:00:00-05:00",
   "season": 2026,
-  "week": 11,
+  "week": 10,
   "sample": false,
   "rows": [ { "...row fields..." } ]
 }
@@ -26,7 +26,7 @@ Copied at publish time from `out/props_ev.json` when that file exists. Until the
 | `generated_at` | preferred | ISO-8601 timestamp. Shown as last updated in America/New_York, labeled **ET**. |
 | `updated_at` | optional | Alias for `generated_at` if `generated_at` is missing. Per-row `updated_at` is also accepted as a fallback (max of rows). |
 | `season` | preferred | Integer season year (e.g. `2026`). |
-| `week` | preferred | Integer NFL week (e.g. `11`). |
+| `week` | preferred | Integer NFL week (e.g. `10`). |
 | `sample` | optional | If `true`, the dashboard shows a banner: **Sample data, model outputs not published yet**. Sample numbers must never be presented as real. When a real `out/props_ev.json` is published, omit `sample` or set it to `false` so the banner disappears. |
 | `rows` | preferred | Array of prop rows. A bare array at the top level is also accepted. |
 
