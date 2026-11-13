@@ -419,6 +419,315 @@
       });
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
-  else init();
+
+  var GRADED_BUCKETS = [
+    { lo: 0.50, hi: 0.55, label: "50–55%" },
+    { lo: 0.55, hi: 0.60, label: "55–60%" },
+    { lo: 0.60, hi: 0.65, label: "60–65%" },
+    { lo: 0.65, hi: 0.70, label: "65–70%" },
+    { lo: 0.70, hi: 0.80, label: "70–80%" },
+    { lo: 0.80, hi: Infinity, label: "80%+" },
+  ];
+
+  var GRADED_COLS = [
+    { key: "week_label", label: "Week" },
+    { key: "player", label: "Player" },
+    { key: "game", label: "Game" },
+    { key: "market", label: "Market" },
+    { key: "side", label: "Side" },
+    { key: "line", label: "Line", num: true },
+    { key: "actual", label: "Actual", num: true },
+    { key: "model_prob", label: "Model", num: true },
+    { key: "edge_pct", label: "Edge", num: true },
+    { key: "result", label: "Result" },
+    { key: "source", label: "Source" },
+    { key: "model_name", label: "Model name" },
+  ];
+
+  var gradedState = { rows: [], sortKey: "kickoff", sortDir: "desc", bound: false };
+
+  function parseTs(iso) {
+    if (!iso) return null;
+    var d = new Date(iso);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function isInvalidSnapshot(row) {
+    var snap = parseTs(row.snapshot_at);
+    var ko = parseTs(row.kickoff);
+    if (!snap || !ko) return false;
+    return snap.getTime() >= ko.getTime();
+  }
+
+  function normalizePick(raw) {
+    raw = raw || {};
+    var row = {
+      season: P.num(P.pick(raw, ["season"])),
+      week: P.num(P.pick(raw, ["week"])),
+      game: P.pick(raw, ["game", "matchup"]) || "",
+      kickoff: P.pick(raw, ["kickoff"]),
+      player: P.pick(raw, ["player", "player_name"]) || "",
+      position: P.pick(raw, ["position", "pos"]) || "",
+      market: P.pick(raw, ["market"]) || "",
+      side: String(P.pick(raw, ["side"]) || "").toLowerCase(),
+      line: P.num(P.pick(raw, ["line"])),
+      odds_american: P.num(P.pick(raw, ["odds_american", "odds"])),
+      book: P.pick(raw, ["book"]) || "",
+      model_prob: P.num(P.pick(raw, ["model_prob", "prob"])),
+      edge_pct: P.num(P.pick(raw, ["edge_pct", "edge"])),
+      model_name: P.pick(raw, ["model_name", "model"]) || "",
+      snapshot_at: P.pick(raw, ["snapshot_at", "snapshot"]),
+      actual: P.num(P.pick(raw, ["actual", "actual_value", "stat"])),
+      result: String(P.pick(raw, ["result"]) || "").toLowerCase(),
+      source: String(P.pick(raw, ["source"]) || "").toLowerCase(),
+    };
+    row.invalid = isInvalidSnapshot(row);
+    row.week_label = (row.season != null ? String(row.season) + " " : "") + (row.week != null ? "W" + String(row.week) : "");
+    row.week_key = (row.season != null ? String(row.season) : "") + "|" + (row.week != null ? String(row.week) : "");
+    return row;
+  }
+
+  function inBucket(p, b) {
+    if (!Number.isFinite(p.model_prob)) return false;
+    if (b.hi === Infinity) return p.model_prob >= b.lo;
+    return p.model_prob >= b.lo && p.model_prob < b.hi;
+  }
+
+  function renderBuckets(rows) {
+    var usable = rows.filter(function (r) {
+      return !r.invalid && r.result !== "push" && r.result !== "void";
+    });
+    $("graded-buckets-tbody").innerHTML = GRADED_BUCKETS.map(function (b) {
+      var set = usable.filter(function (r) { return inBucket(r, b); });
+      var n = set.length;
+      var hits = set.filter(function (r) { return r.result === "hit"; }).length;
+      var rate = n ? hits / n : null;
+      var avg = n ? set.reduce(function (s, r) { return s + r.model_prob; }, 0) / n : null;
+      var gap = rate != null && avg != null ? (rate - avg) * 100 : null;
+      return "<tr>" +
+        "<td>" + P.escapeHtml(b.label) + "</td>" +
+        '<td class="num">' + n + "</td>" +
+        '<td class="num">' + hits + "</td>" +
+        '<td class="num">' + (rate == null ? "—" : P.formatPct(rate * 100)) + "</td>" +
+        '<td class="num">' + (avg == null ? "—" : P.formatProb(avg)) + "</td>" +
+        '<td class="num ' + P.edgeClass(gap) + '">' + (gap == null ? "—" : P.formatSignedPct(gap)) + "</td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  function fillGradedSelect(sel, values, placeholder, labelFn) {
+    var current = sel.value;
+    sel.innerHTML = "";
+    var opt0 = document.createElement("option");
+    opt0.value = "";
+    opt0.textContent = placeholder;
+    sel.appendChild(opt0);
+    values.forEach(function (v) {
+      var o = document.createElement("option");
+      o.value = v.value != null ? v.value : v;
+      o.textContent = labelFn ? labelFn(v) : (v.label != null ? v.label : v);
+      sel.appendChild(o);
+    });
+    var keys = values.map(function (v) { return v.value != null ? v.value : v; });
+    if (current && keys.indexOf(current) !== -1) sel.value = current;
+  }
+
+  function populateGradedFilters(rows) {
+    var weeks = [];
+    var seenW = {};
+    rows.forEach(function (r) {
+      if (!r.week_key || seenW[r.week_key]) return;
+      seenW[r.week_key] = true;
+      weeks.push({ value: r.week_key, label: r.week_label || r.week_key, season: r.season, week: r.week });
+    });
+    weeks.sort(function (a, b) {
+      if (a.season !== b.season) return (b.season || 0) - (a.season || 0);
+      return (b.week || 0) - (a.week || 0);
+    });
+    fillGradedSelect($("graded-week"), weeks, "All weeks");
+
+    var markets = [];
+    var seenM = {};
+    rows.forEach(function (r) {
+      if (!r.market || seenM[r.market]) return;
+      seenM[r.market] = true;
+      markets.push(r.market);
+    });
+    markets.sort();
+    fillGradedSelect($("graded-market"), markets, "All markets", P.marketLabel);
+
+    var results = ["hit", "miss", "push", "void"];
+    fillGradedSelect($("graded-result"), results, "All results");
+
+    var sources = [];
+    var seenS = {};
+    rows.forEach(function (r) {
+      if (!r.source || seenS[r.source]) return;
+      seenS[r.source] = true;
+      sources.push(r.source);
+    });
+    sources.sort();
+    fillGradedSelect($("graded-source"), sources, "All sources");
+  }
+
+  function filterGraded(rows) {
+    var week = $("graded-week").value;
+    var market = $("graded-market").value;
+    var result = $("graded-result").value;
+    var source = $("graded-source").value;
+    return rows.filter(function (r) {
+      if (week && r.week_key !== week) return false;
+      if (market && r.market !== market) return false;
+      if (result && r.result !== result) return false;
+      if (source && r.source !== source) return false;
+      return true;
+    });
+  }
+
+  function sortGraded(rows) {
+    var key = gradedState.sortKey;
+    var dir = gradedState.sortDir === "asc" ? 1 : -1;
+    var numeric = ["line", "actual", "model_prob", "edge_pct", "week", "season", "odds_american"];
+    var copy = rows.slice();
+    copy.sort(function (a, b) {
+      var va = a[key];
+      var vb = b[key];
+      if (key === "kickoff" || key === "snapshot_at") {
+        va = parseTs(va);
+        vb = parseTs(vb);
+        if (!va && !vb) return 0;
+        if (!va) return 1;
+        if (!vb) return -1;
+        return (va.getTime() - vb.getTime()) * dir;
+      }
+      var na = va == null || va === "";
+      var nb = vb == null || vb === "";
+      if (na && nb) return 0;
+      if (na) return 1;
+      if (nb) return -1;
+      if (numeric.indexOf(key) !== -1) return (Number(va) - Number(vb)) * dir;
+      return String(va).localeCompare(String(vb), undefined, { sensitivity: "base" }) * dir;
+    });
+    return copy;
+  }
+
+  function resultBadge(row) {
+    var res = row.result || "—";
+    var cls = "badge " + (["hit", "miss", "push", "void"].indexOf(res) >= 0 ? res : "");
+    var html = '<span class="' + cls + '">' + P.escapeHtml(res) + "</span>";
+    if (row.invalid) html += ' <span class="badge invalid">invalid snapshot</span>';
+    return html;
+  }
+
+  function renderGradedTable(rows) {
+    $("graded-thead").innerHTML = "<tr>" + GRADED_COLS.map(function (c) {
+      var sort = c.key === gradedState.sortKey ? ' aria-sort="' + (gradedState.sortDir === "asc" ? "ascending" : "descending") + '"' : "";
+      var cls = c.num ? " num" : "";
+      return '<th scope="col" data-key="' + c.key + '" class="' + cls + '"' + sort + ">" + c.label + "</th>";
+    }).join("") + "</tr>";
+
+    if (!rows.length) {
+      $("graded-tbody").innerHTML = '<tr><td colspan="' + GRADED_COLS.length + '" class="muted">No picks match the current filters.</td></tr>';
+      return;
+    }
+    $("graded-tbody").innerHTML = rows.map(function (r) {
+      var sideCls = r.side === "over" ? "pill over" : r.side === "under" ? "pill under" : "pill";
+      var cells = [
+        "<td>" + P.escapeHtml(r.week_label || "—") + "</td>",
+        "<td><span class=\"player-cell\">" + P.escapeHtml(r.player || "—") + "</span>" +
+          (r.position ? '<span class="sub">' + P.escapeHtml(r.position) + "</span>" : "") + "</td>",
+        "<td>" + P.escapeHtml(r.game || "—") +
+          (r.kickoff ? '<span class="sub">' + P.escapeHtml(P.formatKickoff(r.kickoff)) + "</span>" : "") + "</td>",
+        "<td>" + P.escapeHtml(P.marketLabel(r.market)) + "</td>",
+        "<td><span class=\"" + sideCls + "\">" + P.escapeHtml(r.side || "—") + "</span></td>",
+        '<td class="num">' + (r.line != null ? r.line : "—") + "</td>",
+        '<td class="num">' + (r.actual != null ? r.actual : "—") + "</td>",
+        '<td class="num">' + P.formatProb(r.model_prob) + "</td>",
+        '<td class="num ' + P.edgeClass(r.edge_pct) + '">' + P.formatSignedPct(r.edge_pct) + "</td>",
+        "<td>" + resultBadge(r) + "</td>",
+        "<td>" + P.escapeHtml(r.source || "—") + "</td>",
+        "<td>" + P.escapeHtml(r.model_name || "—") +
+          (r.snapshot_at ? '<span class="sub">snap ' + P.escapeHtml(P.formatET(r.snapshot_at)) + "</span>" : "") + "</td>",
+      ];
+      return '<tr class="' + (r.invalid ? "invalid" : "") + '">' + cells.join("") + "</tr>";
+    }).join("");
+  }
+
+  function renderGraded() {
+    var visible = sortGraded(filterGraded(gradedState.rows));
+    $("graded-count").textContent = visible.length + " of " + gradedState.rows.length + " pick" + (gradedState.rows.length === 1 ? "" : "s");
+    renderGradedTable(visible);
+  }
+
+  function bindGraded() {
+    if (gradedState.bound) return;
+    gradedState.bound = true;
+    ["graded-week", "graded-market", "graded-result", "graded-source"].forEach(function (id) {
+      $(id).addEventListener("change", renderGraded);
+    });
+    $("graded-thead").addEventListener("click", function (e) {
+      var th = e.target.closest("th[data-key]");
+      if (!th) return;
+      var key = th.getAttribute("data-key");
+      if (gradedState.sortKey === key) {
+        gradedState.sortDir = gradedState.sortDir === "desc" ? "asc" : "desc";
+      } else {
+        gradedState.sortKey = key;
+        gradedState.sortDir = key === "kickoff" || key === "week_label" || key === "model_prob" || key === "edge_pct" ? "desc" : "asc";
+      }
+      renderGraded();
+    });
+  }
+
+  function initGraded() {
+    P.fetchJson("data/graded_picks.json")
+      .then(function (raw) {
+        var payload = raw;
+        var picks = [];
+        if (Array.isArray(raw)) {
+          payload = { sample: false, picks: raw };
+          picks = raw;
+        } else {
+          picks = (raw && (raw.picks || raw.rows || raw.data)) || [];
+        }
+        if (!Array.isArray(picks) || !picks.length) {
+          $("graded-content").hidden = true;
+          $("graded-banner").hidden = true;
+          $("graded-empty").hidden = false;
+          $("graded-empty").textContent = "No graded picks yet.";
+          return;
+        }
+        var rows = picks.map(normalizePick);
+        gradedState.rows = rows;
+        $("graded-empty").hidden = true;
+        $("graded-content").hidden = false;
+        var banner = $("graded-banner");
+        if (payload.sample === true) {
+          banner.hidden = false;
+          banner.className = "banner sample";
+          banner.innerHTML = "<strong>Sample data, model outputs not published yet.</strong> These graded picks are placeholders — not real results.";
+        } else {
+          banner.hidden = true;
+          banner.textContent = "";
+        }
+        populateGradedFilters(rows);
+        renderBuckets(rows);
+        bindGraded();
+        renderGraded();
+      })
+      .catch(function (err) {
+        $("graded-content").hidden = true;
+        $("graded-banner").hidden = true;
+        $("graded-empty").hidden = false;
+        if (err && err.status === 404) {
+          $("graded-empty").textContent = "No graded picks yet.";
+        } else {
+          $("graded-empty").className = "banner err";
+          $("graded-empty").textContent = "Could not load data/graded_picks.json.";
+        }
+      });
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function () { init(); initGraded(); });
+  else { init(); initGraded(); }
 })();

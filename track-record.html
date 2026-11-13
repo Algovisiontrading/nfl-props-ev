@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%230c0e12'/%3E%3Cpath d='M3 11 L7 5 L10 9 L13 4' fill='none' stroke='%233ecf8e' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 </head>
-<body>
+<body class="track-page">
   <header class="site-header">
     <div class="wrap">
       <a class="brand" href="index.html">
@@ -97,6 +97,57 @@
         </div>
       </section>
     </div>
+
+    <section class="panel" id="graded-panel">
+      <h2>Past picks, graded</h2>
+      <p class="compare-legend">Probabilities are frozen before kickoff; misses are shown too.</p>
+      <div class="banner sample" id="graded-banner" hidden></div>
+      <div class="banner empty" id="graded-empty" hidden>No graded picks yet.</div>
+      <div id="graded-content" hidden>
+        <h3 style="margin:16px 0 8px;font-size:14px;">Probability buckets</h3>
+        <div class="table-wrap" style="border:0;background:transparent;">
+          <table class="plain" aria-label="Graded picks by probability bucket">
+            <thead>
+              <tr>
+                <th>Bucket</th>
+                <th class="num">Picks</th>
+                <th class="num">Hits</th>
+                <th class="num">Hit rate</th>
+                <th class="num">Avg model prob</th>
+                <th class="num">Gap</th>
+              </tr>
+            </thead>
+            <tbody id="graded-buckets-tbody"></tbody>
+          </table>
+        </div>
+
+        <form class="graded-filters" id="graded-filters" onsubmit="return false;">
+          <label>Week
+            <select id="graded-week"><option value="">All weeks</option></select>
+          </label>
+          <label>Market
+            <select id="graded-market"><option value="">All markets</option></select>
+          </label>
+          <label>Result
+            <select id="graded-result"><option value="">All results</option></select>
+          </label>
+          <label>Source
+            <select id="graded-source"><option value="">All sources</option></select>
+          </label>
+        </form>
+        <div class="results-bar">
+          <span id="graded-count"></span>
+          <span class="muted">Click a column to sort. Hits and misses are both listed.</span>
+        </div>
+        <div class="table-wrap">
+          <table class="plain props" id="graded-table" aria-label="Past graded picks">
+            <thead id="graded-thead"></thead>
+            <tbody id="graded-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer">

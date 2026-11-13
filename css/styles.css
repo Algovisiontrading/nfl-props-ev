@@ -519,3 +519,58 @@ table.plain tr.failed td { opacity: 0.7; }
   .compare-table .stub { width: auto; }
   .compare-cell .metrics-line span { display: block; margin: 0 0 2px; }
 }
+
+/* Graded picks */
+.badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+}
+.badge.hit { color: var(--accent); background: var(--accent-dim); border-color: #245c45; }
+.badge.miss { color: var(--neg); background: var(--neg-dim); border-color: #5a2a2e; }
+.badge.push { color: var(--warn); background: var(--warn-dim); border-color: var(--warn-line); }
+.badge.void { color: var(--muted); background: var(--bg); border-color: var(--line-strong); }
+.badge.invalid { color: #f8e7b0; background: var(--warn-bg); border-color: var(--warn-line); }
+tr.invalid td, .card.invalid { opacity: 0.85; }
+.graded-filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px 12px;
+  margin: 12px 0;
+}
+.graded-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.graded-filters select {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  padding: 0 10px;
+}
+@media (max-width: 760px) {
+  .graded-filters { grid-template-columns: 1fr 1fr; }
+}
+
+/* Keep track-record tables visible on small screens (dashboard uses cards instead). */
+.track-page .table-wrap {
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}

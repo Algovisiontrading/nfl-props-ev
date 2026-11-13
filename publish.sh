@@ -39,6 +39,7 @@ mkdir -p "$SITE/data"
 
 copy_if_present "$ROOT/out/props_ev.json" "$SITE/data/props_ev.json" || true
 copy_if_present "$ROOT/models/track_record.json" "$SITE/data/track_record.json" || true
+copy_if_present "$ROOT/models/graded_picks.json" "$SITE/data/graded_picks.json" || true
 
 if [[ ! -d "$SITE/.git" ]]; then
   log "error: $SITE is not a git repository; initialize it and add the $REPO_SLUG remote first."
@@ -101,7 +102,11 @@ while (( $(date +%s) < deadline )); do
   idx_code="$(curl -sS -o /tmp/nfl-props-index.html -w '%{http_code}' --max-time 20 "$LIVE_BASE/" || echo "000")"
   tr_code="$(curl -sS -o /tmp/nfl-props-track.html -w '%{http_code}' --max-time 20 "$LIVE_BASE/track-record.html" || echo "000")"
   json_code="$(curl -sS -o /tmp/nfl-props-live.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/props_ev.json" || echo "000")"
-  last_info="index=$idx_code track=$tr_code data=$json_code"
+  graded_code="skip"
+  if [[ -f "$SITE/data/graded_picks.json" ]]; then
+    graded_code="$(curl -sS -o /tmp/nfl-props-graded.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/graded_picks.json" || echo "000")"
+  fi
+  last_info="index=$idx_code track=$tr_code data=$json_code graded=$graded_code"
   live_gen=""
   if [[ "$json_code" == "200" ]]; then
     live_gen="$(python3 - <<'PY'
@@ -119,7 +124,7 @@ PY
 )"
     last_info="$last_info generated_at=$live_gen"
   fi
-  if [[ "$idx_code" == "200" && "$tr_code" == "200" && "$json_code" == "200" ]]; then
+  if [[ "$idx_code" == "200" && "$tr_code" == "200" && "$json_code" == "200" && ( "$graded_code" == "skip" || "$graded_code" == "200" ) ]]; then
     if [[ -z "$generated_at" || "$live_gen" == "$generated_at" ]]; then
       ok=1
       break

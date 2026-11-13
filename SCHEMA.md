@@ -157,3 +157,56 @@ Canonical `models[].name` values (use these; the site still **tolerates arbitrar
 A stats-only model is defined as one with **no betting-market inputs** such as spread, implied total, or moneyline.
 
 Hypothetical ROI and CLV are model backtest figures only — not live betting results. No bets are placed by this project.
+
+
+## `data/graded_picks.json`
+
+Copied at publish time from `models/graded_picks.json` when that file exists. If the file is missing, the Track Record page shows **No graded picks yet.** If `"sample": true`, a sample banner is shown and the figures are not presented as real graded results.
+
+```json
+{
+  "generated_at": "ISO-8601",
+  "sample": false,
+  "picks": [
+    {
+      "season": 2026,
+      "week": 10,
+      "game": "WAS @ NYG",
+      "kickoff": "2026-11-12T20:15:00-05:00",
+      "player": "Player Name",
+      "position": "WR",
+      "market": "rec_yds",
+      "side": "over",
+      "line": 62.5,
+      "odds_american": -110,
+      "book": "DraftKings",
+      "model_prob": 0.58,
+      "edge_pct": 6.4,
+      "model_name": "ml_market",
+      "snapshot_at": "2026-11-12T12:05:00-05:00",
+      "actual": 71.0,
+      "result": "hit",
+      "source": "live"
+    }
+  ]
+}
+```
+
+| Field | Notes |
+|---|---|
+| `generated_at` | ISO-8601 timestamp for the file. |
+| `sample` | If `true`, show a sample banner. Never present sample picks as real. |
+| `picks` | Array of graded picks (a top-level array is also accepted). |
+| `season`, `week` | Integers. |
+| `game` | Matchup string, e.g. `"WAS @ NYG"`. Alias: `matchup`. |
+| `kickoff` | ISO-8601 kickoff. |
+| `player`, `position`, `market`, `side`, `line`, `odds_american`, `book` | Same meaning as in `props_ev.json`. |
+| `model_prob` | Pregame side probability only (0–1), frozen at `snapshot_at`. |
+| `edge_pct` | Optional pregame edge. |
+| `model_name` | Optional, e.g. `ml_market`. |
+| `snapshot_at` | ISO-8601. **Must be before `kickoff`.** If `snapshot_at` is on or after kickoff, the site flags the row as invalid and **drops it from bucket stats**. |
+| `actual` | Realized stat value (number; may be null for voids). |
+| `result` | `"hit"` \| `"miss"` \| `"push"` \| `"void"`. Hits **and** misses are listed. |
+| `source` | `"backtest"` \| `"live"` \| `"user_slip"`. |
+
+Probability-bucket summary uses side `model_prob` in bins **50–55, 55–60, 60–65, 65–70, 70–80, and 80+**. Columns: bucket, picks, hits, hit rate, average model prob, gap (hit rate minus average prob). **Pushes, voids, and invalid snapshots are excluded from the rates.**
