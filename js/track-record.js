@@ -17,6 +17,7 @@
       n: numPick(raw, ["n", "sample_size"]),
       roi_pct: numPick(raw, ["roi_pct", "roi"]),
       clv_pct: numPick(raw, ["clv_pct", "clv"]),
+      crps: numPick(raw, ["crps"]),
     };
   }
 
@@ -31,6 +32,7 @@
       n: numPick(row, ["n", "sample_size"]),
       roi_pct: numPick(row, ["roi_pct", "roi"]),
       clv_pct: numPick(row, ["clv_pct", "clv"]),
+      crps: numPick(row, ["crps"]),
       passed: row.passed != null ? row.passed : row.model_passed,
     };
   }
@@ -250,6 +252,9 @@
       "<span class=\"" + P.evClass(row.clv_pct) + "\">CLV " + P.formatSignedPct(row.clv_pct) + "</span>",
       "<span>n=" + (row.n != null ? P.formatInt(row.n) : "—") + "</span>",
     ];
+    if (row.crps != null && Number.isFinite(row.crps)) {
+      parts.push("<span>CRPS " + fmtScore(row.crps, 1) + "</span>");
+    }
     if (row.passed === false || row.passed === "false") {
       parts.push('<span class="muted">did not pass</span>');
     }
@@ -455,8 +460,13 @@
   function isInvalidSnapshot(row) {
     var snap = parseTs(row.snapshot_at);
     var ko = parseTs(row.kickoff);
-    if (!snap || !ko) return false;
+    if (!snap) return false; // missing snapshot_at is unverified, not invalid
+    if (!ko) return false;
     return snap.getTime() >= ko.getTime();
+  }
+
+  function isUnverifiedSnapshot(row) {
+    return !row.snapshot_at || !parseTs(row.snapshot_at);
   }
 
   function normalizePick(raw) {
@@ -482,6 +492,7 @@
       source: String(P.pick(raw, ["source"]) || "").toLowerCase(),
     };
     row.invalid = isInvalidSnapshot(row);
+    row.unverified = !row.invalid && isUnverifiedSnapshot(row);
     row.week_label = (row.season != null ? String(row.season) + " " : "") + (row.week != null ? "W" + String(row.week) : "");
     row.week_key = (row.season != null ? String(row.season) : "") + "|" + (row.week != null ? String(row.week) : "");
     return row;
@@ -616,6 +627,7 @@
     var cls = "badge " + (["hit", "miss", "push", "void"].indexOf(res) >= 0 ? res : "");
     var html = '<span class="' + cls + '">' + P.escapeHtml(res) + "</span>";
     if (row.invalid) html += ' <span class="badge invalid">invalid snapshot</span>';
+    if (row.unverified) html += ' <span class="badge unverified">unverified</span>';
     return html;
   }
 

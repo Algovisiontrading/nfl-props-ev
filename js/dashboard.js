@@ -12,6 +12,7 @@
   var COLUMNS = [
     { key: "player", label: "Player" },
     { key: "position", label: "Pos" },
+    { key: "tier", label: "Tier" },
     { key: "matchup", label: "Matchup" },
     { key: "market", label: "Market" },
     { key: "side", label: "Side" },
@@ -124,6 +125,13 @@
     return copy;
   }
 
+
+  function tierBadge(row) {
+    var tier = row.tier || "Pass";
+    var cls = "badge tier-" + String(tier).toLowerCase();
+    return '<span class="' + cls + '">' + P.escapeHtml(tier) + "</span>";
+  }
+
   function confCell(row) {
     var parts = [];
     if (row.confidence) parts.push(P.escapeHtml(String(row.confidence)));
@@ -159,6 +167,7 @@
           (r.team ? '<span class="sub">' + P.escapeHtml(r.team + (r.opponent ? " vs " + r.opponent : "")) + "</span>" : "") +
           "</td>",
         '<td class="pos">' + P.escapeHtml(r.position || "—") + "</td>",
+        "<td>" + tierBadge(r) + "</td>",
         '<td class="wrap">' + matchup + "</td>",
         "<td>" + P.escapeHtml(P.marketLabel(r.market)) + "</td>",
         "<td><span class=\"" + sideCls + "\">" + P.escapeHtml(r.side || "—") + "</span></td>",
@@ -170,7 +179,7 @@
         '<td class="num ' + P.edgeClass(r.edge_pct) + '">' + P.formatSignedPct(r.edge_pct) + "</td>",
         '<td class="num ' + P.evClass(r.ev_per_100) + '">' + P.formatMoney(r.ev_per_100) + "</td>",
         '<td class="num">' + (Number.isFinite(r.kelly_stake_pct) ? r.kelly_stake_pct.toFixed(2) + "%" : "—") + "</td>",
-        '<td class="wrap">' + P.escapeHtml(r.drivers || "—") + "</td>",
+        '<td class="wrap">' + P.escapeHtml(r.summary || r.drivers || "—") + (r.summary && r.drivers && r.summary !== r.drivers ? '<span class="sub">' + P.escapeHtml(r.drivers) + "</span>" : "") + "</td>",
         "<td>" + confCell(r) + "</td>",
       ];
       return '<tr class="' + failed.trim() + '">' + cells.join("") + "</tr>";
@@ -196,7 +205,7 @@
           '<div class="card-top">' +
             "<div>" +
               '<div class="player-cell">' + P.escapeHtml(r.player || "—") +
-                ' <span class="pos">' + P.escapeHtml(r.position || "") + "</span></div>" +
+                ' <span class="pos">' + P.escapeHtml(r.position || "") + "</span> " + tierBadge(r) + "</div>" +
               '<div class="sub">' + P.escapeHtml(r.matchup || "") +
                 (r.kickoff ? " · " + P.escapeHtml(P.formatKickoff(r.kickoff)) : "") + "</div>" +
               chips +
@@ -217,7 +226,7 @@
             (liq ? cell("Liquidity", P.escapeHtml(liq)) : "") +
             cell("Conf / N", confCell(r)) +
           "</div>" +
-          (r.drivers ? '<div class="card-why">' + P.escapeHtml(r.drivers) + "</div>" : "") +
+          ((r.summary || r.drivers) ? '<div class="card-why">' + P.escapeHtml(r.summary || r.drivers) + "</div>" : "") +
         "</article>"
       );
     }).join("");

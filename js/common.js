@@ -148,6 +148,62 @@
     return v === false || v === "false" || v === 0 || v === "0";
   }
 
+
+  // Fallback tier/summary rules. Keep in sync with SCHEMA.md and the How-to box.
+  var TIER_THRESHOLDS = {
+    strongMinEv: 5,     // Strong when ev_per_100 >= 5
+    strongMinEdge: 4,   // and edge_pct >= 4
+    // and confidence is not "low"
+    leanMinEv: 0,       // Lean when ev_per_100 > 0
+    leanMinEdge: 2,     // and edge_pct >= 2
+    // Pass otherwise
+  };
+
+  function normalizeTierName(v) {
+    if (v == null || v === "") return null;
+    var s = String(v).trim();
+    var low = s.toLowerCase();
+    if (low === "strong") return "Strong";
+    if (low === "lean") return "Lean";
+    if (low === "pass") return "Pass";
+    return s;
+  }
+
+  function fallbackTier(row) {
+    var ev = row.ev_per_100;
+    var edge = row.edge_pct;
+    var conf = String(row.confidence || "").toLowerCase();
+    if (Number.isFinite(ev) && Number.isFinite(edge) && ev >= TIER_THRESHOLDS.strongMinEv && edge >= TIER_THRESHOLDS.strongMinEdge && conf !== "low") {
+      return "Strong";
+    }
+    if (Number.isFinite(ev) && Number.isFinite(edge) && ev > TIER_THRESHOLDS.leanMinEv && edge >= TIER_THRESHOLDS.leanMinEdge) {
+      return "Lean";
+    }
+    return "Pass";
+  }
+
+  function fallbackSummary(row) {
+    var ev = Number.isFinite(row.ev_per_100) ? formatMoney(row.ev_per_100) + " EV / $100" : "EV unavailable";
+    var edge = Number.isFinite(row.edge_pct) ? formatSignedPct(row.edge_pct) + " edge" : "edge unavailable";
+    if (row.tier === "Strong") {
+      return "Strong: " + ev + " and " + edge + ", confidence is not low.";
+    }
+    if (row.tier === "Lean") {
+      return "Lean: positive EV (" + ev + ", " + edge + ").";
+    }
+    return "Pass: does not meet the Lean threshold (EV / $100 > 0 and edge ≥ 2%).";
+  }
+
+  function applyTierAndSummary(row, raw) {
+    var suppliedTier = normalizeTierName(pick(raw || {}, ["tier"]));
+    var suppliedSummary = pick(raw || {}, ["summary"]);
+    row.tier_source = suppliedTier ? "modeler" : "fallback";
+    row.summary_source = suppliedSummary ? "modeler" : "fallback";
+    row.tier = suppliedTier || fallbackTier(row);
+    row.summary = suppliedSummary || fallbackSummary(row);
+    return row;
+  }
+
   function normalizePayload(raw) {
     if (Array.isArray(raw)) {
       return { generated_at: null, updated_at: null, season: null, week: null, sample: false, rows: raw };
@@ -220,6 +276,7 @@
     if (row.kelly_stake_pct == null && row.model_prob != null && row.odds_american != null) {
       row.kelly_stake_pct = quarterKellyCap2(row.model_prob, row.odds_american);
     }
+    applyTierAndSummary(row, raw);
     return row;
   }
 
@@ -307,6 +364,11 @@
 
   global.PropsEV = {
     MARKET_LABELS: MARKET_LABELS,
+    TIER_THRESHOLDS: TIER_THRESHOLDS,
+    normalizeTierName: normalizeTierName,
+    fallbackTier: fallbackTier,
+    fallbackSummary: fallbackSummary,
+    applyTierAndSummary: applyTierAndSummary,
     pick: pick,
     num: num,
     americanToImplied: americanToImplied,

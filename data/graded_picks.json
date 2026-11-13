@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T09:18:05-05:00",
+  "generated_at": "2026-11-13T09:20:54-05:00",
   "sample": true,
   "picks": [
     {
@@ -281,6 +281,25 @@
       "actual": 54.0,
       "result": "hit",
       "source": "live"
+    },
+    {
+      "season": 2026,
+      "week": 9,
+      "game": "NYJ @ KC",
+      "kickoff": "2026-11-08T13:00:00-05:00",
+      "player": "Sample WR Unverified",
+      "position": "WR",
+      "market": "receptions",
+      "side": "over",
+      "line": 4.5,
+      "odds": -110,
+      "book": "FanDuel",
+      "model_prob": 0.59,
+      "edge_pct": 5.2,
+      "model_name": "ml_market",
+      "actual": 6.0,
+      "result": "hit",
+      "source": "backtest"
     }
   ]
 }

@@ -574,3 +574,28 @@ tr.invalid td, .card.invalid { opacity: 0.85; }
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
+
+.howto {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin: 0 0 16px;
+}
+.howto h2 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+.howto ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.howto li { margin: 0 0 6px; }
+.howto li:last-child { margin-bottom: 0; }
+.badge.unverified { color: #f8e7b0; background: var(--warn-bg); border-color: var(--warn-line); }
+.badge.tier-strong { color: var(--accent); background: var(--accent-dim); border-color: #245c45; }
+.badge.tier-lean { color: #f0c14b; background: var(--warn-dim); border-color: var(--warn-line); }
+.badge.tier-pass { color: var(--muted); background: var(--bg); border-color: var(--line-strong); }

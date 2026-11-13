@@ -49,7 +49,7 @@ Primary names below are the ones the site writes in its sample file and prefers 
 | `market` | string | yes | Preferred slugs: `pass_yds`, `pass_tds`, `completions`, `interceptions`, `rush_yds`, `carries`, `rush_tds`, `rec_yds`, `receptions`, `rec_tds`, `anytime_td`. Human-readable labels are also displayed if sent. |
 | `side` | string | yes | `over` / `under`. |
 | `line` | number | yes | Posted line. |
-| `odds_american` | number | yes | American odds (e.g. `-110`, `+145`). |
+| `odds_american` (`odds`) | number | yes | American odds (e.g. `-110`, `+145`). `odds` is accepted as an alias. |
 | `book` | string | preferred | Sportsbook or source (e.g. `kalshi`). |
 | `model_prob` | number | yes | Model probability of the side, 0–1. |
 | `fair_odds_american` | int | optional | Fair American odds from `model_prob`. Computed if missing. |
@@ -69,6 +69,15 @@ Primary names below are the ones the site writes in its sample file and prefers 
 | `temp_f` | number | optional | Temperature in °F. Chip when present. |
 | `precip_pct` | number | optional | Precipitation chance, 0–100. Chip when present. |
 | `coaching_flag` | string | optional | Short coaching-context tag, e.g. `new OC`. Chip when present. |
+| `tier` | string | optional | `Strong`, `Lean`, or `Pass`. Used as-is when the modeler supplies it. |
+| `summary` | string | optional | One plain-English line. Used as-is when the modeler supplies it. |
+
+If `tier` or `summary` is omitted, the site computes a fallback (thresholds are also listed in the How-to box and in `TIER_THRESHOLDS` in `js/common.js`):
+
+- **Strong** when `ev_per_100 >= 5`, `edge_pct >= 4`, and `confidence` is not `low`
+- **Lean** when `ev_per_100 > 0` and `edge_pct >= 2`
+- **Pass** otherwise
+
 
 These five context fields are optional and lightweight. The site never requires them for v1; rows without them render normally.
 
@@ -117,7 +126,7 @@ Copied at publish time from `models/track_record.json` when that file exists. If
 
 | Field | Notes |
 |---|---|
-| `overall`, `by_market`, `by_season` | Accept `n` or `sample_size`; `roi` / `roi_pct`; `clv` / `clv_pct`; `passed` / `model_passed`. |
+| `overall`, `by_market`, `by_season` | Accept `n` or `sample_size`; `roi` / `roi_pct`; `clv` / `clv_pct`; `passed` / `model_passed`; optional `crps` (yardage markets). |
 | `calibration` | Bins for the reliability diagram. Accept `predicted` / `pred` / `mean_predicted`; `actual` / `observed` / `mean_actual` / `hit_rate`; `bin_lo`/`bin_hi` or `lo`/`hi` or a `bin` label; `n` / `sample_size`. |
 | `sample` | Same meaning as in `props_ev.json`. |
 
@@ -152,6 +161,7 @@ Canonical `models[].name` values (use these; the site still **tolerates arbitrar
 | `models[].uses_market_inputs` | Optional boolean. The label **“Stats-only = no betting-market inputs”** (and the per-model “no betting-market inputs” tag) is shown when `uses_market_inputs === false`. If the flag is **missing**, the site falls back to a name ending in `_stats_only`. |
 | `models[].overall` | Same metric fields as top-level `overall`. |
 | `models[].by_market` | Same row shape as top-level `by_market`. Side-by-side cells use these per-market metrics. |
+| `crps` | Optional continuous ranked probability score, typically on yardage markets (`pass_yds`, `rush_yds`, `rec_yds`). Shown in the model comparison panel when present (overall or per-market). Lower is better. |
 | `models[].calibration` | Optional; ignored by the v1 comparison grid (top-level `calibration` is used for the reliability chart). |
 
 A stats-only model is defined as one with **no betting-market inputs** such as spread, implied total, or moneyline.
@@ -200,11 +210,11 @@ Copied at publish time from `models/graded_picks.json` when that file exists. If
 | `season`, `week` | Integers. |
 | `game` | Matchup string, e.g. `"WAS @ NYG"`. Alias: `matchup`. |
 | `kickoff` | ISO-8601 kickoff. |
-| `player`, `position`, `market`, `side`, `line`, `odds_american`, `book` | Same meaning as in `props_ev.json`. |
+| `player`, `position`, `market`, `side`, `line`, `odds_american` (alias `odds`), `book` | Same meaning as in `props_ev.json`. |
 | `model_prob` | Pregame side probability only (0–1), frozen at `snapshot_at`. |
 | `edge_pct` | Optional pregame edge. |
 | `model_name` | Optional, e.g. `ml_market`. |
-| `snapshot_at` | ISO-8601. **Must be before `kickoff`.** If `snapshot_at` is on or after kickoff, the site flags the row as invalid and **drops it from bucket stats**. |
+| `snapshot_at` | ISO-8601. **Must be before `kickoff`.** If `snapshot_at` is on or after kickoff, the site flags the row as invalid and **drops it from bucket stats**. If `snapshot_at` is missing, the row is shown as **unverified** (not marked invalid) and is still eligible for bucket stats. |
 | `actual` | Realized stat value (number; may be null for voids). |
 | `result` | `"hit"` \| `"miss"` \| `"push"` \| `"void"`. Hits **and** misses are listed. |
 | `source` | `"backtest"` \| `"live"` \| `"user_slip"`. |

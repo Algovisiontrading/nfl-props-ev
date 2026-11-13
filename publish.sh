@@ -39,7 +39,9 @@ mkdir -p "$SITE/data"
 
 copy_if_present "$ROOT/out/props_ev.json" "$SITE/data/props_ev.json" || true
 copy_if_present "$ROOT/models/track_record.json" "$SITE/data/track_record.json" || true
-copy_if_present "$ROOT/models/graded_picks.json" "$SITE/data/graded_picks.json" || true
+if ! copy_if_present "$ROOT/out/graded_picks.json" "$SITE/data/graded_picks.json"; then
+  copy_if_present "$ROOT/models/graded_picks.json" "$SITE/data/graded_picks.json" || true
+fi
 
 if [[ ! -d "$SITE/.git" ]]; then
   log "error: $SITE is not a git repository; initialize it and add the $REPO_SLUG remote first."
