@@ -71,12 +71,21 @@ Primary names below are the ones the site writes in its sample file and prefers 
 | `coaching_flag` | string | optional | Short coaching-context tag, e.g. `new OC`. Chip when present. |
 | `tier` | string | optional | `Strong`, `Lean`, or `Pass`. Used as-is when the modeler supplies it. |
 | `summary` | string | optional | One plain-English line. Used as-is when the modeler supplies it. |
+| `flag` / `check` | string, boolean, or array | optional | If supplied, honored like the site-side guards: `check`/`true` → Check badge (never Strong); a value containing `thin` → Thin market badge (never Strong or Lean). |
 
 If `tier` or `summary` is omitted, the site computes a fallback (thresholds are also listed in the How-to box and in `TIER_THRESHOLDS` in `js/common.js`):
 
 - **Strong** when `ev_per_100 >= 5`, `edge_pct >= 4`, and `confidence` is not `low`
 - **Lean** when `ev_per_100 > 0` and `edge_pct >= 2`
 - **Pass** otherwise
+
+Site-side safety guards are applied **even when the JSON supplies a `tier`**. They can only hold a row back; they never upgrade a tier.
+
+- If `model_passed === false`, the row **never gets a tier** (the `tier` field is ignored) and stays **hidden by default** (a toggle reveals these rows).
+- If `edge_pct > 15`, the row gets a **Check** badge and is **never shown as Strong** (Strong is downgraded to Lean, unless a Thin-market guard also applies).
+- If `book` contains `"kalshi"` (case-insensitive) and the row has **no volume and no open interest** (`volume` / `kalshi_volume` and `kalshi_open_interest` / `open_interest` / `oi` are missing or 0), or the ask-minus-bid spread is **over 5 cents** (`kalshi_spread_cents`, or `kalshi_ask` − `kalshi_bid`; dollar-denominated bid/ask are multiplied by 100), the row gets a **Thin market** badge and **never gets Strong or Lean** (tier becomes Pass).
+- If the JSON supplies a `flag` or `check` field, it is honored the same way: values of `check` / `true` apply the Check guard; values containing `thin` (e.g. `"Thin market"`, `thin_market`) apply the Thin-market guard. Arrays of flags are accepted.
+
 
 
 These five context fields are optional and lightweight. The site never requires them for v1; rows without them render normally.

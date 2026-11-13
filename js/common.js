@@ -194,12 +194,99 @@
     return "Pass: does not meet the Lean threshold (EV / $100 > 0 and edge ≥ 2%).";
   }
 
+  // Site-side safety guards. Applied even when the JSON already supplies a tier.
+  // Keep in sync with SCHEMA.md and the How-to box.
+  var SAFETY_GUARDS = {
+    checkEdgePct: 15,            // edge_pct > 15 → "Check", never Strong
+    kalshiThinSpreadCents: 5,    // Kalshi ask−bid > 5 cents → "Thin market"
+  };
+
+  function isKalshiBook(book) {
+    return String(book || "").toLowerCase().indexOf("kalshi") !== -1;
+  }
+
+  function hasListedLiquidity(row) {
+    var vol = row.volume;
+    var oi = row.kalshi_open_interest;
+    var hasVol = Number.isFinite(vol) && vol > 0;
+    var hasOi = Number.isFinite(oi) && oi > 0;
+    return hasVol || hasOi;
+  }
+
+  function kalshiSpreadCents(row, raw) {
+    raw = raw || {};
+    var spr = row.kalshi_spread_cents;
+    if (spr == null) spr = num(pick(raw, ["kalshi_spread_cents", "spread_cents"]));
+    if (spr != null) return spr;
+    var ask = row.kalshi_ask != null ? row.kalshi_ask : num(pick(raw, ["kalshi_ask", "ask"]));
+    var bid = row.kalshi_bid != null ? row.kalshi_bid : num(pick(raw, ["kalshi_bid", "bid"]));
+    if (ask == null || bid == null) return null;
+    var diff = ask - bid;
+    // Values in [0, 1] are treated as dollars per $1 contract; otherwise as cents.
+    if (Math.abs(ask) <= 1 && Math.abs(bid) <= 1) return diff * 100;
+    return diff;
+  }
+
+  function parseSuppliedFlags(raw) {
+    var out = { check: false, thin: false };
+    function eat(v) {
+      if (v == null || v === "") return;
+      if (Array.isArray(v)) { v.forEach(eat); return; }
+      if (v === true || v === 1) { out.check = true; return; }
+      var s = String(v).trim().toLowerCase().replace(/[_-]+/g, " ");
+      if (!s || s === "false" || s === "0" || s === "none" || s === "pass") return;
+      if (s === "true" || s === "check" || s === "flag") out.check = true;
+      else if (s.indexOf("thin") !== -1) out.thin = true;
+      else if (s === "check badge" || s.indexOf("check") !== -1) out.check = true;
+    }
+    raw = raw || {};
+    eat(raw.flag);
+    eat(raw.flags);
+    eat(raw.check);
+    return out;
+  }
+
+  function applySafetyGuards(row, raw) {
+    raw = raw || {};
+    row.badges = [];
+    // (1) Failed calibration: never assign a tier. Hidden by default on the board.
+    if (isFailed(row)) {
+      row.tier = null;
+      return row;
+    }
+    var supplied = parseSuppliedFlags(raw);
+    var check = Number.isFinite(row.edge_pct) && row.edge_pct > SAFETY_GUARDS.checkEdgePct;
+    var thin = false;
+    if (isKalshiBook(row.book)) {
+      var spread = kalshiSpreadCents(row, raw);
+      if (spread != null) row.kalshi_spread_cents = spread;
+      if (!hasListedLiquidity(row) || (spread != null && spread > SAFETY_GUARDS.kalshiThinSpreadCents)) {
+        thin = true;
+      }
+    }
+    if (supplied.check) check = true;
+    if (supplied.thin) thin = true;
+
+    if (thin) {
+      row.badges.push("Thin market");
+      if (row.tier === "Strong" || row.tier === "Lean") row.tier = "Pass";
+    }
+    if (check) {
+      row.badges.push("Check");
+      if (row.tier === "Strong") row.tier = "Lean";
+      if (thin) row.tier = "Pass";
+    }
+    return row;
+  }
+
   function applyTierAndSummary(row, raw) {
-    var suppliedTier = normalizeTierName(pick(raw || {}, ["tier"]));
-    var suppliedSummary = pick(raw || {}, ["summary"]);
+    raw = raw || {};
+    var suppliedTier = normalizeTierName(pick(raw, ["tier"]));
+    var suppliedSummary = pick(raw, ["summary"]);
     row.tier_source = suppliedTier ? "modeler" : "fallback";
     row.summary_source = suppliedSummary ? "modeler" : "fallback";
     row.tier = suppliedTier || fallbackTier(row);
+    applySafetyGuards(row, raw);
     row.summary = suppliedSummary || fallbackSummary(row);
     return row;
   }
@@ -256,6 +343,11 @@
     row.updated_at = pick(raw, ["updated_at", "generated_at"]) || meta.generated_at || meta.updated_at;
     row.volume = num(pick(raw, ["volume", "kalshi_volume"]));
     row.kalshi_open_interest = num(pick(raw, ["kalshi_open_interest", "open_interest", "oi"]));
+    row.kalshi_bid = num(pick(raw, ["kalshi_bid", "bid"]));
+    row.kalshi_ask = num(pick(raw, ["kalshi_ask", "ask"]));
+    row.kalshi_spread_cents = num(pick(raw, ["kalshi_spread_cents", "spread_cents"]));
+    row.flag = pick(raw, ["flag", "flags"]);
+    row.check = pick(raw, ["check"]);
     row.roof = pick(raw, ["roof"]);
     row.wind_mph = num(pick(raw, ["wind_mph", "wind"]));
     row.temp_f = num(pick(raw, ["temp_f", "temp"]));
@@ -365,6 +457,8 @@
   global.PropsEV = {
     MARKET_LABELS: MARKET_LABELS,
     TIER_THRESHOLDS: TIER_THRESHOLDS,
+    SAFETY_GUARDS: SAFETY_GUARDS,
+    applySafetyGuards: applySafetyGuards,
     normalizeTierName: normalizeTierName,
     fallbackTier: fallbackTier,
     fallbackSummary: fallbackSummary,

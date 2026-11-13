@@ -127,9 +127,16 @@
 
 
   function tierBadge(row) {
-    var tier = row.tier || "Pass";
-    var cls = "badge tier-" + String(tier).toLowerCase();
-    return '<span class="' + cls + '">' + P.escapeHtml(tier) + "</span>";
+    var html = "";
+    if (row.tier) {
+      var cls = "badge tier-" + String(row.tier).toLowerCase();
+      html += '<span class="' + cls + '">' + P.escapeHtml(row.tier) + "</span>";
+    }
+    (row.badges || []).forEach(function (b) {
+      var extra = b === "Check" ? " check" : b === "Thin market" ? " thin" : "";
+      html += ' <span class="badge' + extra + '">' + P.escapeHtml(b) + "</span>";
+    });
+    return html || "—";
   }
 
   function confCell(row) {

@@ -599,3 +599,6 @@ tr.invalid td, .card.invalid { opacity: 0.85; }
 .badge.tier-strong { color: var(--accent); background: var(--accent-dim); border-color: #245c45; }
 .badge.tier-lean { color: #f0c14b; background: var(--warn-dim); border-color: var(--warn-line); }
 .badge.tier-pass { color: var(--muted); background: var(--bg); border-color: var(--line-strong); }
+
+.badge.check { color: #f8e7b0; background: var(--warn-bg); border-color: var(--warn-line); }
+.badge.thin { color: #9db7ff; background: rgba(122, 182, 255, 0.12); border-color: #2a3a5c; }

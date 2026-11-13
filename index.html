@@ -38,6 +38,7 @@
         <li>Best bets are listed first (highest EV per $100). Click a column header to re-sort. Filter by game, position, market, book, or minimum edge, and search for a player.</li>
         <li>Suggested stake is <strong>quarter-Kelly, capped at 2%</strong> of bankroll, and is not betting advice. Rows whose model did not pass calibration are hidden unless you turn that toggle on.</li>
         <li>If the modeler does not supply a <strong>tier</strong> or <strong>summary</strong>, the site falls back with these thresholds: <strong>Strong</strong> when EV per $100 is ≥ 5, edge is ≥ 4%, and confidence is not low; <strong>Lean</strong> when EV per $100 is &gt; 0 and edge is ≥ 2%; <strong>Pass</strong> otherwise.</li>
+        <li>Site-side safety guards still apply when a tier is supplied: rows with edge over 15% get a <strong>Check</strong> badge and are never shown as Strong; Kalshi rows with no volume and no open interest, or an ask−bid spread over 5 cents, get a <strong>Thin market</strong> badge and are never Strong or Lean. Rows that did not pass calibration have no tier and stay hidden by default.</li>
       </ul>
     </aside>
 
