@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-11-13T14:27:13+00:00",
+  "current_season": 2026,
+  "current_week": 10,
+  "weeks": [
+    {
+      "season": 2026,
+      "week": 10,
+      "file": "2026-wk10.json",
+      "generated_at": "2026-11-13T14:27:13+00:00",
+      "rows": 2111,
+      "games": 13,
+      "sample": false
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Game · NFL Player Props EV</title>
+  <meta name="description" content="Model-estimated expected value for one NFL game's player props. Estimates only, not guarantees. No bets are placed.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%230c0e12'/%3E%3Cpath d='M3 11 L7 5 L10 9 L13 4' fill='none' stroke='%233ecf8e' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="brand-title">NFL Player Props EV</span>
+        <span class="brand-sub">Model estimates · not bets</span>
+      </a>
+      <div class="header-right">
+        <label class="week-select">Week
+          <select id="week-select" aria-label="Select week"></select>
+        </label>
+        <nav class="primary" aria-label="Primary">
+          <a href="index.html">Best bets</a>
+          <a href="track-record.html">Track record</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="back-row"><a id="back-link" href="index.html#games">← Back to games</a></p>
+    <div class="page-meta" id="page-meta"></div>
+    <div class="banner sample" id="sample-banner" hidden></div>
+    <h1 class="game-title" id="game-title">Loading…</h1>
+    <p class="game-kickoff" id="game-kickoff"></p>
+    <p class="disclaimer">
+      Every probability and edge on this page is a <strong>model estimate</strong>, not a guarantee.
+      This project does not place bets. Informational use only.
+    </p>
+
+    <aside class="howto" id="howto">
+      <h2>How to read this board</h2>
+      <ul>
+        <li>Picks are shown in one flat list: <strong>Strong</strong>, then <strong>Lean</strong>, then <strong>Pass</strong>, and by EV per $100 within each tier. Rows with a <strong>Check</strong> or <strong>Thin market</strong> badge are always at the bottom.</li>
+        <li>The player name is on every row. Use the player chips to narrow the list.</li>
+        <li>If the modeler does not supply a <strong>tier</strong> or <strong>summary</strong>, the site falls back with these thresholds: <strong>Strong</strong> when EV per $100 is ≥ 5, edge is ≥ 4%, and confidence is not low; <strong>Lean</strong> when EV per $100 is &gt; 0 and edge is ≥ 2%; <strong>Pass</strong> otherwise.</li>
+        <li>Site-side safety guards still apply when a tier is supplied: edge over 15% gets a <strong>Check</strong> badge and is never Strong; Kalshi rows with no volume and no open interest, or an ask−bid spread over 5 cents, get a <strong>Thin market</strong> badge and are never Strong or Lean. Rows that did not pass calibration have no tier and stay hidden by default.</li>
+      </ul>
+    </aside>
+
+    <div class="banner empty" id="game-missing" hidden></div>
+
+    <div id="game-board">
+      <div class="player-chips" id="player-chips" aria-label="Filter by player"></div>
+      <div class="results-bar">
+        <span id="results-count"></span>
+        <label class="toggle inline">
+          <input type="checkbox" id="more-details">
+          More details
+        </label>
+        <label class="toggle inline">
+          <input type="checkbox" id="filter-failed">
+          Show models that did not pass calibration
+        </label>
+      </div>
+      <div class="table-wrap">
+        <table class="props" aria-label="Player prop expected value for this game">
+          <thead id="props-thead"></thead>
+          <tbody id="props-tbody"></tbody>
+        </table>
+      </div>
+      <div class="cards" id="props-cards"></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    Model estimates, not guarantees. No bets are placed by this project. Hypothetical or sample figures do not predict future results.
+    Stake suggestions are quarter-Kelly, capped at 2% of bankroll, and are not betting advice.
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

@@ -229,3 +229,22 @@ Copied at publish time from `models/graded_picks.json` when that file exists. If
 | `source` | `"backtest"` \| `"live"` \| `"user_slip"`. |
 
 Probability-bucket summary uses side `model_prob` in bins **50–55, 55–60, 60–65, 65–70, 70–80, and 80+**. Columns: bucket, picks, hits, hit rate, average model prob, gap (hit rate minus average prob). **Pushes, voids, and invalid snapshots are excluded from the rates.**
+
+## Week archive (`data/weeks/`)
+
+`publish.sh` automatically archives the current `data/props_ev.json` to `data/weeks/<season>-wk<NN>.json` whenever it publishes (for example `2026-wk10.json`). Prior weeks are kept. The manifest `data/weeks/index.json` lists available weeks and names the current (latest) week:
+
+```json
+{
+  "generated_at": "ISO-8601",
+  "current_season": 2026,
+  "current_week": 10,
+  "weeks": [
+    {"season": 2026, "week": 10, "file": "2026-wk10.json", "generated_at": "ISO-8601", "rows": 3141, "games": 13, "sample": false}
+  ]
+}
+```
+
+The dashboard and game pages read this manifest, default to `current_season` / `current_week`, and let you browse past weeks. If the manifest is missing, they fall back to `data/props_ev.json`.
+
+Game pages use `game.html?week=N&game=<game_id>` (optional `season`). Picks are a flat list sorted Strong, then Lean, then Pass, and by `ev_per_100` descending within each tier. Rows with a Check or Thin market badge always sort to the bottom.

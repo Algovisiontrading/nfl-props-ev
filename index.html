@@ -15,10 +15,15 @@
         <span class="brand-title">NFL Player Props EV</span>
         <span class="brand-sub">Model estimates · not bets</span>
       </a>
-      <nav class="primary" aria-label="Primary">
-        <a href="index.html" aria-current="page">Best bets</a>
-        <a href="track-record.html">Track record</a>
-      </nav>
+      <div class="header-right">
+        <label class="week-select">Week
+          <select id="week-select" aria-label="Select week"></select>
+        </label>
+        <nav class="primary" aria-label="Primary">
+          <a href="index.html" aria-current="page">Best bets</a>
+          <a href="track-record.html">Track record</a>
+        </nav>
+      </div>
     </div>
   </header>
 
@@ -32,7 +37,7 @@
 
 
     <aside class="howto" id="howto">
-      <h2>How to use this board</h2>
+      <h2>How to read this board</h2>
       <ul>
         <li>Every number is a <strong>model estimate</strong>, not a guarantee. This project does not place bets.</li>
         <li>Best bets are listed first (highest EV per $100). Click a column header to re-sort. Filter by game, position, market, book, or minimum edge, and search for a player.</li>
@@ -41,6 +46,15 @@
         <li>Site-side safety guards still apply when a tier is supplied: rows with edge over 15% get a <strong>Check</strong> badge and are never shown as Strong; Kalshi rows with no volume and no open interest, or an ask−bid spread over 5 cents, get a <strong>Thin market</strong> badge and are never Strong or Lean. Rows that did not pass calibration have no tier and stay hidden by default.</li>
       </ul>
     </aside>
+
+    
+    <section class="games-section" id="games">
+      <div class="section-head">
+        <h2>Games</h2>
+        <span class="muted" id="games-count"></span>
+      </div>
+      <div class="games-grid" id="games-grid"></div>
+    </section>
 
     <form class="filters" id="filters" onsubmit="return false;">
       <label class="span-2">Search player
@@ -68,6 +82,10 @@
         <input type="checkbox" id="filter-failed">
         Show rows where the model did not pass calibration
       </label>
+      <label class="toggle">
+        <input type="checkbox" id="more-details">
+        More details
+      </label>
     </form>
 
     <div class="results-bar">
@@ -90,6 +108,7 @@
   </footer>
 
   <script src="js/common.js"></script>
+  <script src="js/board.js"></script>
   <script src="js/dashboard.js"></script>
 </body>
 </html>

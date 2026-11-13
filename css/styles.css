@@ -602,3 +602,170 @@ tr.invalid td, .card.invalid { opacity: 0.85; }
 
 .badge.check { color: #f8e7b0; background: var(--warn-bg); border-color: var(--warn-line); }
 .badge.thin { color: #9db7ff; background: rgba(122, 182, 255, 0.12); border-color: #2a3a5c; }
+
+/* Header week selector */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.week-select {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.week-select select {
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg-elev);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+  padding: 0 8px;
+  min-width: 140px;
+}
+
+/* Games section */
+.games-section { margin: 0 0 22px; }
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 10px;
+}
+.section-head h2 { margin: 0; font-size: 16px; letter-spacing: -0.02em; }
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+a.game-card {
+  display: block;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+a.game-card:hover {
+  border-color: var(--line-strong);
+  text-decoration: none;
+  background: var(--bg-elev-2);
+}
+.game-card-matchup {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+}
+.game-card-counts {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Column tooltips */
+th { white-space: nowrap; }
+.tip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-left: 4px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  cursor: help;
+  position: relative;
+  vertical-align: middle;
+}
+.tip-bubble {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 6px);
+  transform: translateX(-50%);
+  z-index: 30;
+  width: 240px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line-strong);
+  background: #1b2029;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.4;
+  text-align: left;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  white-space: normal;
+}
+.tip[aria-expanded="true"] .tip-bubble { display: block; }
+
+/* More details: hide .detail columns unless enabled (desktop table). */
+body:not(.more-details) table.props th.detail,
+body:not(.more-details) table.props td.detail,
+body:not(.more-details) .detail-only { display: none; }
+
+.toggle.inline {
+  flex-direction: row !important;
+  grid-column: auto;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Game page */
+.back-row { margin: 16px 0 0; font-size: 14px; }
+.game-title { margin: 8px 0 0; font-size: 28px; letter-spacing: -0.03em; }
+.game-kickoff { margin: 4px 0 16px; color: var(--muted); }
+.player-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 12px;
+}
+.chip-btn {
+  border: 1px solid var(--line);
+  background: var(--bg-elev);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.chip-btn.on, .chip-btn:hover {
+  border-color: var(--line-strong);
+  background: var(--bg-elev-2);
+}
+
+@media (max-width: 760px) {
+  .header-right { width: 100%; justify-content: space-between; }
+  .game-title { font-size: 22px; }
+  .tip-bubble { width: 200px; left: auto; right: 0; transform: none; }
+}
