@@ -1,0 +1,338 @@
+/* Shared helpers for the NFL Props EV static dashboard. No dependencies. */
+(function (global) {
+  "use strict";
+
+  var MARKET_LABELS = {
+    pass_yds: "Pass Yards",
+    pass_tds: "Pass TDs",
+    completions: "Completions",
+    interceptions: "Interceptions",
+    ints: "Interceptions",
+    rush_yds: "Rush Yards",
+    carries: "Carries",
+    rush_tds: "Rush TDs",
+    rec_yds: "Rec Yards",
+    receptions: "Receptions",
+    rec_tds: "Rec TDs",
+    anytime_td: "Anytime TD",
+  };
+
+  function pick(obj, keys) {
+    for (var i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      if (obj[k] != null && obj[k] !== "") return obj[k];
+    }
+    return undefined;
+  }
+
+  function num(v) {
+    if (v == null || v === "") return null;
+    var n = Number(v);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function americanToImplied(odds) {
+    var o = Number(odds);
+    if (!Number.isFinite(o) || o === 0) return null;
+    return o > 0 ? 100 / (o + 100) : Math.abs(o) / (Math.abs(o) + 100);
+  }
+
+  function americanToDecimal(odds) {
+    var o = Number(odds);
+    if (!Number.isFinite(o) || o === 0) return null;
+    return o > 0 ? o / 100 + 1 : 100 / Math.abs(o) + 1;
+  }
+
+  function probToAmerican(p) {
+    if (!(p > 0 && p < 1)) return null;
+    if (p >= 0.5) return Math.round((-100 * p) / (1 - p));
+    return Math.round((100 * (1 - p)) / p);
+  }
+
+  function evPer100(p, odds) {
+    var dec = americanToDecimal(odds);
+    if (dec == null || !Number.isFinite(p)) return null;
+    return (p * dec - 1) * 100;
+  }
+
+  function quarterKellyCap2(p, odds) {
+    var dec = americanToDecimal(odds);
+    if (dec == null || !(dec > 1) || !Number.isFinite(p)) return null;
+    var b = dec - 1;
+    var f = (p * dec - 1) / b;
+    if (!(f > 0)) return 0;
+    return Math.min((f / 4) * 100, 2);
+  }
+
+  function formatAmerican(odds) {
+    var n = num(odds);
+    if (n == null) return "—";
+    var r = Math.round(n);
+    return r > 0 ? "+" + r : String(r);
+  }
+
+  function formatPct(v, digits) {
+    if (!Number.isFinite(v)) return "—";
+    var d = digits == null ? 1 : digits;
+    return (v >= 0 ? "" : "") + v.toFixed(d) + "%";
+  }
+
+  function formatSignedPct(v, digits) {
+    if (!Number.isFinite(v)) return "—";
+    var d = digits == null ? 1 : digits;
+    var s = v > 0 ? "+" : "";
+    return s + v.toFixed(d) + "%";
+  }
+
+  function formatProb(p) {
+    if (!Number.isFinite(p)) return "—";
+    return (p * 100).toFixed(1) + "%";
+  }
+
+  function formatMoney(v) {
+    if (!Number.isFinite(v)) return "—";
+    var s = v > 0 ? "+" : "";
+    return s + "$" + v.toFixed(2);
+  }
+
+  function formatInt(v) {
+    if (!Number.isFinite(v)) return "—";
+    return Math.round(v).toLocaleString("en-US");
+  }
+
+  function formatET(iso) {
+    if (!iso) return "—";
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return String(iso);
+    var fmt = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/New_York",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+    return fmt.format(d) + " ET";
+  }
+
+  function formatKickoff(iso) {
+    if (!iso) return "";
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return String(iso);
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/New_York",
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    }).format(d) + " ET";
+  }
+
+  function marketLabel(m) {
+    if (!m) return "—";
+    if (MARKET_LABELS[m]) return MARKET_LABELS[m];
+    return String(m)
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+  }
+
+  function isSample(payload) {
+    return !!(payload && payload.sample === true);
+  }
+
+  function isFailed(row) {
+    var v = row && row.model_passed;
+    return v === false || v === "false" || v === 0 || v === "0";
+  }
+
+  function normalizePayload(raw) {
+    if (Array.isArray(raw)) {
+      return { generated_at: null, updated_at: null, season: null, week: null, sample: false, rows: raw };
+    }
+    var rows = raw && (raw.rows || raw.data || raw.props) ? (raw.rows || raw.data || raw.props) : [];
+    if (!Array.isArray(rows)) rows = [];
+    return {
+      generated_at: raw.generated_at || raw.updated_at || null,
+      updated_at: raw.updated_at || raw.generated_at || null,
+      season: raw.season != null ? raw.season : null,
+      week: raw.week != null ? raw.week : null,
+      sample: raw.sample === true,
+      rows: rows,
+    };
+  }
+
+  function normalizeRow(raw, meta) {
+    meta = meta || {};
+    var row = {};
+    row.player = pick(raw, ["player", "player_name"]) || "";
+    row.player_id = pick(raw, ["player_id"]);
+    row.position = pick(raw, ["position", "pos"]) || "";
+    row.team = pick(raw, ["team"]) || "";
+    row.opponent = pick(raw, ["opponent", "opp"]) || "";
+    row.game_id = pick(raw, ["game_id"]);
+    row.matchup =
+      pick(raw, ["matchup", "game"]) ||
+      (row.team && row.opponent ? row.team + " vs " + row.opponent : "") ||
+      "";
+    row.game = row.matchup;
+    row.kickoff = pick(raw, ["kickoff", "kickoff_at", "start_time"]);
+    row.market = pick(raw, ["market"]) || "";
+    var side = pick(raw, ["side"]);
+    row.side = side != null ? String(side).toLowerCase() : "";
+    row.line = num(pick(raw, ["line"]));
+    row.odds_american = num(pick(raw, ["odds_american", "odds", "price"]));
+    row.book = pick(raw, ["book"]) || "";
+    row.model_prob = num(pick(raw, ["model_prob", "prob", "p_model"]));
+    row.implied_prob_novig = num(pick(raw, ["implied_prob_novig", "implied_novig", "implied_prob"]));
+    row.fair_odds_american = num(pick(raw, ["fair_odds_american", "fair_odds"]));
+    row.edge_pct = num(pick(raw, ["edge_pct", "edge"]));
+    row.ev_per_100 = num(pick(raw, ["ev_per_100", "ev"]));
+    row.kelly_stake_pct = num(pick(raw, ["kelly_stake_pct", "kelly", "stake_pct"]));
+    row.drivers = pick(raw, ["drivers", "reason", "why"]) || "";
+    row.reason = row.drivers;
+    row.confidence = pick(raw, ["confidence"]);
+    row.sample_size = num(pick(raw, ["sample_size", "n", "n_games"]));
+    row.model_passed = raw.model_passed;
+    if (row.model_passed == null) row.model_passed = raw.passed;
+    row.updated_at = pick(raw, ["updated_at", "generated_at"]) || meta.generated_at || meta.updated_at;
+    row.volume = num(pick(raw, ["volume", "kalshi_volume"]));
+    row.kalshi_open_interest = num(pick(raw, ["kalshi_open_interest", "open_interest", "oi"]));
+    row.roof = pick(raw, ["roof"]);
+    row.wind_mph = num(pick(raw, ["wind_mph", "wind"]));
+    row.temp_f = num(pick(raw, ["temp_f", "temp"]));
+    row.precip_pct = num(pick(raw, ["precip_pct", "precip"]));
+    row.coaching_flag = pick(raw, ["coaching_flag"]);
+
+    var impliedRaw = americanToImplied(row.odds_american);
+    var implied = row.implied_prob_novig != null ? row.implied_prob_novig : impliedRaw;
+    if (row.fair_odds_american == null && row.model_prob != null) {
+      row.fair_odds_american = probToAmerican(row.model_prob);
+    }
+    if (row.edge_pct == null && row.model_prob != null && implied != null) {
+      row.edge_pct = (row.model_prob - implied) * 100;
+    }
+    if (row.ev_per_100 == null && row.model_prob != null && row.odds_american != null) {
+      row.ev_per_100 = evPer100(row.model_prob, row.odds_american);
+    }
+    if (row.kelly_stake_pct == null && row.model_prob != null && row.odds_american != null) {
+      row.kelly_stake_pct = quarterKellyCap2(row.model_prob, row.odds_american);
+    }
+    return row;
+  }
+
+  function lastUpdated(payload, rows) {
+    if (payload && (payload.generated_at || payload.updated_at)) {
+      return payload.generated_at || payload.updated_at;
+    }
+    var best = null;
+    (rows || []).forEach(function (r) {
+      if (r.updated_at && (!best || String(r.updated_at) > String(best))) best = r.updated_at;
+    });
+    return best;
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function contextChips(row) {
+    var chips = [];
+    if (row.roof) {
+      var roofLabel = String(row.roof);
+      if (roofLabel === "outdoors") roofLabel = "Outdoors";
+      else if (roofLabel === "dome") roofLabel = "Dome";
+      else if (roofLabel === "retractable") roofLabel = "Retractable";
+      chips.push(roofLabel);
+    }
+    if (row.temp_f != null) chips.push(Math.round(row.temp_f) + "°F");
+    if (row.wind_mph != null) chips.push("Wind " + Math.round(row.wind_mph) + " mph");
+    if (row.precip_pct != null) chips.push("Precip " + Math.round(row.precip_pct) + "%");
+    if (row.coaching_flag) chips.push(String(row.coaching_flag));
+    if (!chips.length) return "";
+    return (
+      '<span class="chips">' +
+      chips
+        .map(function (c) {
+          return '<span class="chip">' + escapeHtml(c) + "</span>";
+        })
+        .join("") +
+      "</span>"
+    );
+  }
+
+  function liquidityLine(row) {
+    var parts = [];
+    if (row.volume != null) parts.push("Vol " + formatInt(row.volume));
+    if (row.kalshi_open_interest != null) parts.push("OI " + formatInt(row.kalshi_open_interest));
+    return parts.join(" · ");
+  }
+
+  function evClass(v) {
+    if (!Number.isFinite(v)) return "muted";
+    if (v > 0) return "pos-ev";
+    if (v < 0) return "neg-ev";
+    return "muted";
+  }
+
+  function edgeClass(v) {
+    if (!Number.isFinite(v)) return "muted";
+    if (v > 0) return "pos-edge";
+    if (v < 0) return "neg-edge";
+    return "muted";
+  }
+
+  function fetchJson(url) {
+    return fetch(url, { cache: "no-store" }).then(function (res) {
+      if (res.status === 404) {
+        var err = new Error("not_found");
+        err.status = 404;
+        throw err;
+      }
+      if (!res.ok) {
+        var err2 = new Error("http_" + res.status);
+        err2.status = res.status;
+        throw err2;
+      }
+      return res.json();
+    });
+  }
+
+  global.PropsEV = {
+    MARKET_LABELS: MARKET_LABELS,
+    pick: pick,
+    num: num,
+    americanToImplied: americanToImplied,
+    americanToDecimal: americanToDecimal,
+    probToAmerican: probToAmerican,
+    evPer100: evPer100,
+    quarterKellyCap2: quarterKellyCap2,
+    formatAmerican: formatAmerican,
+    formatPct: formatPct,
+    formatSignedPct: formatSignedPct,
+    formatProb: formatProb,
+    formatMoney: formatMoney,
+    formatInt: formatInt,
+    formatET: formatET,
+    formatKickoff: formatKickoff,
+    marketLabel: marketLabel,
+    isSample: isSample,
+    isFailed: isFailed,
+    normalizePayload: normalizePayload,
+    normalizeRow: normalizeRow,
+    lastUpdated: lastUpdated,
+    escapeHtml: escapeHtml,
+    contextChips: contextChips,
+    liquidityLine: liquidityLine,
+    evClass: evClass,
+    edgeClass: edgeClass,
+    fetchJson: fetchJson,
+  };
+})(window);

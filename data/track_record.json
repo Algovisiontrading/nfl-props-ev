@@ -1,0 +1,665 @@
+{
+  "generated_at": "2026-11-13T09:00:00-05:00",
+  "updated_at": "2026-11-13T09:00:00-05:00",
+  "sample": true,
+  "train_seasons": [
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023
+  ],
+  "validation_seasons": [
+    2024
+  ],
+  "test_seasons": [
+    2025,
+    2026
+  ],
+  "overall": {
+    "log_loss": 0.681,
+    "brier": 0.241,
+    "n": 700,
+    "roi_pct": 1.4,
+    "clv_pct": 0.6
+  },
+  "by_market": [
+    {
+      "market": "pass_yds",
+      "log_loss": 0.672,
+      "brier": 0.236,
+      "n": 88,
+      "roi_pct": 2.1,
+      "clv_pct": 0.9,
+      "passed": true
+    },
+    {
+      "market": "pass_tds",
+      "log_loss": 0.701,
+      "brier": 0.252,
+      "n": 64,
+      "roi_pct": -1.8,
+      "clv_pct": -0.4,
+      "passed": false
+    },
+    {
+      "market": "completions",
+      "log_loss": 0.668,
+      "brier": 0.233,
+      "n": 52,
+      "roi_pct": 1.1,
+      "clv_pct": 0.3,
+      "passed": true
+    },
+    {
+      "market": "interceptions",
+      "log_loss": 0.695,
+      "brier": 0.248,
+      "n": 40,
+      "roi_pct": -0.6,
+      "clv_pct": 0.1,
+      "passed": true
+    },
+    {
+      "market": "rush_yds",
+      "log_loss": 0.674,
+      "brier": 0.237,
+      "n": 80,
+      "roi_pct": 2.6,
+      "clv_pct": 1.1,
+      "passed": true
+    },
+    {
+      "market": "carries",
+      "log_loss": 0.686,
+      "brier": 0.244,
+      "n": 47,
+      "roi_pct": 0.4,
+      "clv_pct": 0.2,
+      "passed": true
+    },
+    {
+      "market": "rush_tds",
+      "log_loss": 0.698,
+      "brier": 0.25,
+      "n": 38,
+      "roi_pct": -0.9,
+      "clv_pct": -0.2,
+      "passed": true
+    },
+    {
+      "market": "rec_yds",
+      "log_loss": 0.669,
+      "brier": 0.234,
+      "n": 102,
+      "roi_pct": 3.0,
+      "clv_pct": 1.2,
+      "passed": true
+    },
+    {
+      "market": "receptions",
+      "log_loss": 0.677,
+      "brier": 0.239,
+      "n": 74,
+      "roi_pct": 1.6,
+      "clv_pct": 0.7,
+      "passed": true
+    },
+    {
+      "market": "rec_tds",
+      "log_loss": 0.692,
+      "brier": 0.247,
+      "n": 55,
+      "roi_pct": 0.8,
+      "clv_pct": 0.3,
+      "passed": true
+    },
+    {
+      "market": "anytime_td",
+      "log_loss": 0.688,
+      "brier": 0.245,
+      "n": 60,
+      "roi_pct": 1.2,
+      "clv_pct": 0.5,
+      "passed": true
+    }
+  ],
+  "by_season": [
+    {
+      "season": 2024,
+      "split": "validation",
+      "log_loss": 0.684,
+      "brier": 0.243,
+      "n": 310,
+      "roi_pct": 0.9,
+      "clv_pct": 0.4
+    },
+    {
+      "season": 2025,
+      "split": "test",
+      "log_loss": 0.679,
+      "brier": 0.24,
+      "n": 280,
+      "roi_pct": 1.8,
+      "clv_pct": 0.8
+    },
+    {
+      "season": 2026,
+      "split": "test",
+      "log_loss": 0.676,
+      "brier": 0.238,
+      "n": 110,
+      "roi_pct": 1.7,
+      "clv_pct": 0.7
+    }
+  ],
+  "calibration": [
+    {
+      "bin_lo": 0.35,
+      "bin_hi": 0.4,
+      "predicted": 0.375,
+      "actual": 0.392,
+      "n": 48
+    },
+    {
+      "bin_lo": 0.4,
+      "bin_hi": 0.45,
+      "predicted": 0.425,
+      "actual": 0.431,
+      "n": 77
+    },
+    {
+      "bin_lo": 0.45,
+      "bin_hi": 0.5,
+      "predicted": 0.475,
+      "actual": 0.468,
+      "n": 112
+    },
+    {
+      "bin_lo": 0.5,
+      "bin_hi": 0.55,
+      "predicted": 0.525,
+      "actual": 0.519,
+      "n": 141
+    },
+    {
+      "bin_lo": 0.55,
+      "bin_hi": 0.6,
+      "predicted": 0.575,
+      "actual": 0.561,
+      "n": 128
+    },
+    {
+      "bin_lo": 0.6,
+      "bin_hi": 0.65,
+      "predicted": 0.625,
+      "actual": 0.602,
+      "n": 94
+    },
+    {
+      "bin_lo": 0.65,
+      "bin_hi": 0.7,
+      "predicted": 0.675,
+      "actual": 0.644,
+      "n": 61
+    },
+    {
+      "bin_lo": 0.7,
+      "bin_hi": 0.75,
+      "predicted": 0.725,
+      "actual": 0.688,
+      "n": 39
+    }
+  ],
+  "models": [
+    {
+      "name": "baseline_stats_only",
+      "uses_market_inputs": false,
+      "overall": {
+        "log_loss": 0.699,
+        "brier": 0.253,
+        "n": 700,
+        "roi_pct": -0.2,
+        "clv_pct": 0.0
+      },
+      "by_market": [
+        {
+          "market": "pass_yds",
+          "log_loss": 0.69,
+          "brier": 0.248,
+          "n": 88,
+          "roi_pct": 0.5,
+          "clv_pct": 0.3,
+          "passed": true
+        },
+        {
+          "market": "pass_tds",
+          "log_loss": 0.719,
+          "brier": 0.264,
+          "n": 64,
+          "roi_pct": -3.4,
+          "clv_pct": -1.0,
+          "passed": false
+        },
+        {
+          "market": "completions",
+          "log_loss": 0.686,
+          "brier": 0.245,
+          "n": 52,
+          "roi_pct": -0.5,
+          "clv_pct": -0.3,
+          "passed": true
+        },
+        {
+          "market": "interceptions",
+          "log_loss": 0.713,
+          "brier": 0.26,
+          "n": 40,
+          "roi_pct": -2.2,
+          "clv_pct": -0.5,
+          "passed": false
+        },
+        {
+          "market": "rush_yds",
+          "log_loss": 0.692,
+          "brier": 0.249,
+          "n": 80,
+          "roi_pct": 1.0,
+          "clv_pct": 0.5,
+          "passed": true
+        },
+        {
+          "market": "carries",
+          "log_loss": 0.704,
+          "brier": 0.256,
+          "n": 47,
+          "roi_pct": -1.2,
+          "clv_pct": -0.4,
+          "passed": true
+        },
+        {
+          "market": "rush_tds",
+          "log_loss": 0.716,
+          "brier": 0.262,
+          "n": 38,
+          "roi_pct": -2.5,
+          "clv_pct": -0.8,
+          "passed": false
+        },
+        {
+          "market": "rec_yds",
+          "log_loss": 0.687,
+          "brier": 0.246,
+          "n": 102,
+          "roi_pct": 1.4,
+          "clv_pct": 0.6,
+          "passed": true
+        },
+        {
+          "market": "receptions",
+          "log_loss": 0.695,
+          "brier": 0.251,
+          "n": 74,
+          "roi_pct": 0.0,
+          "clv_pct": 0.1,
+          "passed": true
+        },
+        {
+          "market": "rec_tds",
+          "log_loss": 0.71,
+          "brier": 0.259,
+          "n": 55,
+          "roi_pct": -0.8,
+          "clv_pct": -0.3,
+          "passed": true
+        },
+        {
+          "market": "anytime_td",
+          "log_loss": 0.706,
+          "brier": 0.257,
+          "n": 60,
+          "roi_pct": -0.4,
+          "clv_pct": -0.1,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "baseline_market",
+      "uses_market_inputs": true,
+      "overall": {
+        "log_loss": 0.689,
+        "brier": 0.247,
+        "n": 700,
+        "roi_pct": 0.8,
+        "clv_pct": 0.3
+      },
+      "by_market": [
+        {
+          "market": "pass_yds",
+          "log_loss": 0.68,
+          "brier": 0.242,
+          "n": 88,
+          "roi_pct": 1.5,
+          "clv_pct": 0.6,
+          "passed": true
+        },
+        {
+          "market": "pass_tds",
+          "log_loss": 0.709,
+          "brier": 0.258,
+          "n": 64,
+          "roi_pct": -2.4,
+          "clv_pct": -0.7,
+          "passed": false
+        },
+        {
+          "market": "completions",
+          "log_loss": 0.676,
+          "brier": 0.239,
+          "n": 52,
+          "roi_pct": 0.5,
+          "clv_pct": 0.0,
+          "passed": true
+        },
+        {
+          "market": "interceptions",
+          "log_loss": 0.703,
+          "brier": 0.254,
+          "n": 40,
+          "roi_pct": -1.2,
+          "clv_pct": -0.2,
+          "passed": true
+        },
+        {
+          "market": "rush_yds",
+          "log_loss": 0.682,
+          "brier": 0.243,
+          "n": 80,
+          "roi_pct": 2.0,
+          "clv_pct": 0.8,
+          "passed": true
+        },
+        {
+          "market": "carries",
+          "log_loss": 0.694,
+          "brier": 0.25,
+          "n": 47,
+          "roi_pct": -0.2,
+          "clv_pct": -0.1,
+          "passed": true
+        },
+        {
+          "market": "rush_tds",
+          "log_loss": 0.706,
+          "brier": 0.256,
+          "n": 38,
+          "roi_pct": -1.5,
+          "clv_pct": -0.5,
+          "passed": true
+        },
+        {
+          "market": "rec_yds",
+          "log_loss": 0.677,
+          "brier": 0.24,
+          "n": 102,
+          "roi_pct": 2.4,
+          "clv_pct": 0.9,
+          "passed": true
+        },
+        {
+          "market": "receptions",
+          "log_loss": 0.685,
+          "brier": 0.245,
+          "n": 74,
+          "roi_pct": 1.0,
+          "clv_pct": 0.4,
+          "passed": true
+        },
+        {
+          "market": "rec_tds",
+          "log_loss": 0.7,
+          "brier": 0.253,
+          "n": 55,
+          "roi_pct": 0.2,
+          "clv_pct": 0.0,
+          "passed": true
+        },
+        {
+          "market": "anytime_td",
+          "log_loss": 0.696,
+          "brier": 0.251,
+          "n": 60,
+          "roi_pct": 0.6,
+          "clv_pct": 0.2,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "ml_stats_only",
+      "uses_market_inputs": false,
+      "overall": {
+        "log_loss": 0.691,
+        "brier": 0.248,
+        "n": 700,
+        "roi_pct": 0.6,
+        "clv_pct": 0.3
+      },
+      "by_market": [
+        {
+          "market": "pass_yds",
+          "log_loss": 0.682,
+          "brier": 0.243,
+          "n": 88,
+          "roi_pct": 1.3,
+          "clv_pct": 0.6,
+          "passed": true
+        },
+        {
+          "market": "pass_tds",
+          "log_loss": 0.711,
+          "brier": 0.259,
+          "n": 64,
+          "roi_pct": -2.6,
+          "clv_pct": -0.7,
+          "passed": false
+        },
+        {
+          "market": "completions",
+          "log_loss": 0.678,
+          "brier": 0.24,
+          "n": 52,
+          "roi_pct": 0.3,
+          "clv_pct": 0.0,
+          "passed": true
+        },
+        {
+          "market": "interceptions",
+          "log_loss": 0.705,
+          "brier": 0.255,
+          "n": 40,
+          "roi_pct": -1.4,
+          "clv_pct": -0.2,
+          "passed": true
+        },
+        {
+          "market": "rush_yds",
+          "log_loss": 0.684,
+          "brier": 0.244,
+          "n": 80,
+          "roi_pct": 1.8,
+          "clv_pct": 0.8,
+          "passed": true
+        },
+        {
+          "market": "carries",
+          "log_loss": 0.696,
+          "brier": 0.251,
+          "n": 47,
+          "roi_pct": -0.4,
+          "clv_pct": -0.1,
+          "passed": true
+        },
+        {
+          "market": "rush_tds",
+          "log_loss": 0.708,
+          "brier": 0.257,
+          "n": 38,
+          "roi_pct": -1.7,
+          "clv_pct": -0.5,
+          "passed": true
+        },
+        {
+          "market": "rec_yds",
+          "log_loss": 0.679,
+          "brier": 0.241,
+          "n": 102,
+          "roi_pct": 2.2,
+          "clv_pct": 0.9,
+          "passed": true
+        },
+        {
+          "market": "receptions",
+          "log_loss": 0.687,
+          "brier": 0.246,
+          "n": 74,
+          "roi_pct": 0.8,
+          "clv_pct": 0.4,
+          "passed": true
+        },
+        {
+          "market": "rec_tds",
+          "log_loss": 0.702,
+          "brier": 0.254,
+          "n": 55,
+          "roi_pct": 0.0,
+          "clv_pct": 0.0,
+          "passed": true
+        },
+        {
+          "market": "anytime_td",
+          "log_loss": 0.698,
+          "brier": 0.252,
+          "n": 60,
+          "roi_pct": 0.4,
+          "clv_pct": 0.2,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "ml_market",
+      "uses_market_inputs": true,
+      "overall": {
+        "log_loss": 0.681,
+        "brier": 0.241,
+        "n": 700,
+        "roi_pct": 1.4,
+        "clv_pct": 0.6
+      },
+      "by_market": [
+        {
+          "market": "pass_yds",
+          "log_loss": 0.672,
+          "brier": 0.236,
+          "n": 88,
+          "roi_pct": 2.1,
+          "clv_pct": 0.9,
+          "passed": true
+        },
+        {
+          "market": "pass_tds",
+          "log_loss": 0.701,
+          "brier": 0.252,
+          "n": 64,
+          "roi_pct": -1.8,
+          "clv_pct": -0.4,
+          "passed": false
+        },
+        {
+          "market": "completions",
+          "log_loss": 0.668,
+          "brier": 0.233,
+          "n": 52,
+          "roi_pct": 1.1,
+          "clv_pct": 0.3,
+          "passed": true
+        },
+        {
+          "market": "interceptions",
+          "log_loss": 0.695,
+          "brier": 0.248,
+          "n": 40,
+          "roi_pct": -0.6,
+          "clv_pct": 0.1,
+          "passed": true
+        },
+        {
+          "market": "rush_yds",
+          "log_loss": 0.674,
+          "brier": 0.237,
+          "n": 80,
+          "roi_pct": 2.6,
+          "clv_pct": 1.1,
+          "passed": true
+        },
+        {
+          "market": "carries",
+          "log_loss": 0.686,
+          "brier": 0.244,
+          "n": 47,
+          "roi_pct": 0.4,
+          "clv_pct": 0.2,
+          "passed": true
+        },
+        {
+          "market": "rush_tds",
+          "log_loss": 0.698,
+          "brier": 0.25,
+          "n": 38,
+          "roi_pct": -0.9,
+          "clv_pct": -0.2,
+          "passed": true
+        },
+        {
+          "market": "rec_yds",
+          "log_loss": 0.669,
+          "brier": 0.234,
+          "n": 102,
+          "roi_pct": 3.0,
+          "clv_pct": 1.2,
+          "passed": true
+        },
+        {
+          "market": "receptions",
+          "log_loss": 0.677,
+          "brier": 0.239,
+          "n": 74,
+          "roi_pct": 1.6,
+          "clv_pct": 0.7,
+          "passed": true
+        },
+        {
+          "market": "rec_tds",
+          "log_loss": 0.692,
+          "brier": 0.247,
+          "n": 55,
+          "roi_pct": 0.8,
+          "clv_pct": 0.3,
+          "passed": true
+        },
+        {
+          "market": "anytime_td",
+          "log_loss": 0.688,
+          "brier": 0.245,
+          "n": 60,
+          "roi_pct": 1.2,
+          "clv_pct": 0.5,
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

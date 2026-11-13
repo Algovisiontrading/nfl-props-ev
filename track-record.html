@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Track record · NFL Player Props EV</title>
+  <meta name="description" content="Model calibration, log loss, Brier score, and hypothetical ROI / CLV for NFL player-prop models. Estimates only, not betting results.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%230c0e12'/%3E%3Cpath d='M3 11 L7 5 L10 9 L13 4' fill='none' stroke='%233ecf8e' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="brand-title">NFL Player Props EV</span>
+        <span class="brand-sub">Model estimates · not bets</span>
+      </a>
+      <nav class="primary" aria-label="Primary">
+        <a href="index.html">Best bets</a>
+        <a href="track-record.html" aria-current="page">Track record</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="page-meta" id="page-meta"></div>
+    <div class="banner empty" id="sample-banner" hidden></div>
+    <p class="disclaimer">
+      Calibration, log loss, Brier, ROI, and CLV are <strong>hypothetical model backtests</strong>, not live betting results.
+      This project does not place bets.
+    </p>
+
+    <div id="track-content" hidden>
+      <div class="metrics" id="metrics"></div>
+
+      <section class="panel">
+        <h2>Calibration</h2>
+        <div class="chart-wrap" id="calibration-chart"></div>
+        <div class="table-wrap" style="border:0;background:transparent;margin-top:12px;">
+          <table class="plain" aria-label="Calibration bins">
+            <thead>
+              <tr>
+                <th>Bin</th>
+                <th class="num">Predicted</th>
+                <th class="num">Actual</th>
+                <th class="num">Gap</th>
+                <th class="num">N</th>
+              </tr>
+            </thead>
+            <tbody id="cal-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+
+      <section class="panel" id="model-compare-panel" hidden>
+        <h2>Model comparison</h2>
+        <p class="compare-legend" id="compare-legend"></p>
+        <div class="model-compare" id="model-compare"></div>
+      </section>
+
+      <section class="panel">
+        <h2>By market</h2>
+        <div class="table-wrap" style="border:0;background:transparent;">
+          <table class="plain" aria-label="Track record by market">
+            <thead>
+              <tr>
+                <th>Market</th>
+                <th class="num">Log loss</th>
+                <th class="num">Brier</th>
+                <th class="num">Hyp. ROI</th>
+                <th class="num">CLV</th>
+                <th class="num">N</th>
+              </tr>
+            </thead>
+            <tbody id="by-market-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>By season</h2>
+        <div class="table-wrap" style="border:0;background:transparent;">
+          <table class="plain" aria-label="Track record by season">
+            <thead>
+              <tr>
+                <th>Season</th>
+                <th class="num">Log loss</th>
+                <th class="num">Brier</th>
+                <th class="num">Hyp. ROI</th>
+                <th class="num">CLV</th>
+                <th class="num">N</th>
+              </tr>
+            </thead>
+            <tbody id="by-season-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    Model estimates, not guarantees. No bets are placed by this project. Hypothetical or sample figures do not predict future results.
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/track-record.js"></script>
+</body>
+</html>

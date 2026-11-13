@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>NFL Player Props EV</title>
+  <meta name="description" content="Model-estimated expected value for NFL player props. Estimates only, not guarantees. No bets are placed.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%230c0e12'/%3E%3Cpath d='M3 11 L7 5 L10 9 L13 4' fill='none' stroke='%233ecf8e' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="brand-title">NFL Player Props EV</span>
+        <span class="brand-sub">Model estimates · not bets</span>
+      </a>
+      <nav class="primary" aria-label="Primary">
+        <a href="index.html" aria-current="page">Best bets</a>
+        <a href="track-record.html">Track record</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="page-meta" id="page-meta">Loading…</div>
+    <div class="banner sample" id="sample-banner" hidden></div>
+    <p class="disclaimer">
+      Every probability and edge on this page is a <strong>model estimate</strong>, not a guarantee.
+      This project does not place bets. Informational use only.
+    </p>
+
+    <form class="filters" id="filters" onsubmit="return false;">
+      <label class="span-2">Search player
+        <input type="search" id="filter-q" placeholder="Player name" autocomplete="off" spellcheck="false">
+      </label>
+      <label>Game
+        <select id="filter-game"><option value="">All games</option></select>
+      </label>
+      <label>Position
+        <select id="filter-position"><option value="">All positions</option></select>
+      </label>
+      <label>Market
+        <select id="filter-market"><option value="">All markets</option></select>
+      </label>
+      <label>Book
+        <select id="filter-book"><option value="">All books</option></select>
+      </label>
+      <label class="span-2">Minimum edge %
+        <div class="edge-row">
+          <input type="range" id="filter-edge" min="-15" max="25" step="0.5" value="-15" aria-label="Minimum edge percent, slider">
+          <input type="number" id="filter-edge-num" min="-15" max="25" step="0.5" placeholder="Any" aria-label="Minimum edge percent">
+        </div>
+      </label>
+      <label class="toggle">
+        <input type="checkbox" id="filter-failed">
+        Show rows where the model did not pass calibration
+      </label>
+    </form>
+
+    <div class="results-bar">
+      <span id="results-count"></span>
+      <span class="muted">Sorted by EV (click a column to change)</span>
+    </div>
+
+    <div class="table-wrap">
+      <table class="props" aria-label="Player prop expected value">
+        <thead id="props-thead"></thead>
+        <tbody id="props-tbody"></tbody>
+      </table>
+    </div>
+    <div class="cards" id="props-cards"></div>
+  </main>
+
+  <footer class="footer">
+    Model estimates, not guarantees. No bets are placed by this project. Hypothetical or sample figures do not predict future results.
+    Stake suggestions are quarter-Kelly, capped at 2% of bankroll, and are not betting advice.
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
