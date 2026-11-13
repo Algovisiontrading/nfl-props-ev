@@ -3,6 +3,7 @@
   "use strict";
   var P = window.PropsEV;
   var B = window.PropsBoard;
+  var PAGE = B.PAGE_SIZE || 100;
   var state = {
     payload: null,
     rows: [],
@@ -13,6 +14,7 @@
     gameId: null,
     moreDetails: false,
     player: "",
+    page: 0,
   };
 
   function $(id) { return document.getElementById(id); }
@@ -42,11 +44,34 @@
     root.innerHTML = html;
   }
 
+  function updatePager(visible) {
+    if (state.page * PAGE >= visible.length && visible.length) state.page = 0;
+    var start = visible.length ? state.page * PAGE : 0;
+    var end = Math.min(start + PAGE, visible.length);
+    var prev = $("show-prev");
+    var more = $("show-more");
+    if (prev) prev.hidden = state.page <= 0;
+    if (more) {
+      var left = visible.length - end;
+      if (left > 0) {
+        more.hidden = false;
+        more.textContent = "Show more (" + left + " remaining)";
+      } else {
+        more.hidden = true;
+      }
+    }
+    return visible.slice(start, end);
+  }
+
   function render() {
     var visible = B.sortGamePicks(applyFilters(state.allGameRows));
+    var pageRows = updatePager(visible);
     if ($("results-count")) {
+      var start = visible.length ? state.page * PAGE + 1 : 0;
+      var end = Math.min((state.page + 1) * PAGE, visible.length);
+      var range = visible.length ? ("Showing " + start + "–" + end + " of " + visible.length) : "0";
       $("results-count").textContent =
-        visible.length + " of " + state.allGameRows.length + " pick" + (state.allGameRows.length === 1 ? "" : "s") +
+        range + " of " + state.allGameRows.length + " pick" + (state.allGameRows.length === 1 ? "" : "s") +
         ", Strong then Lean then Pass, EV within each tier. Check and Thin market rows are at the bottom.";
     }
     var opts = {
@@ -55,13 +80,16 @@
       sortKey: null,
       sortDir: null,
     };
-    B.renderTable($("props-thead"), $("props-tbody"), visible, opts);
-    B.renderCards($("props-cards"), visible, opts);
+    B.renderTable($("props-thead"), $("props-tbody"), pageRows, opts);
+    B.renderCards($("props-cards"), pageRows, opts);
     renderPlayerChips(state.allGameRows);
   }
 
   function bind() {
-    if ($("filter-failed")) $("filter-failed").addEventListener("change", render);
+    if ($("filter-failed")) $("filter-failed").addEventListener("change", function () {
+      state.page = 0;
+      render();
+    });
     if ($("more-details")) {
       $("more-details").addEventListener("change", function () {
         state.moreDetails = $("more-details").checked;
@@ -74,7 +102,24 @@
         var btn = e.target.closest("[data-player]");
         if (!btn) return;
         state.player = btn.getAttribute("data-player") || "";
+        state.page = 0;
         render();
+      });
+    }
+    if ($("show-more")) {
+      $("show-more").addEventListener("click", function () {
+        state.page += 1;
+        render();
+        var board = $("game-board");
+        if (board && board.scrollIntoView) board.scrollIntoView({ block: "start" });
+      });
+    }
+    if ($("show-prev")) {
+      $("show-prev").addEventListener("click", function () {
+        if (state.page > 0) state.page -= 1;
+        render();
+        var board = $("game-board");
+        if (board && board.scrollIntoView) board.scrollIntoView({ block: "start" });
       });
     }
     B.bindTooltips(document);
@@ -85,7 +130,7 @@
     bind();
     var params = B.queryParams();
     state.gameId = params.game;
-    B.loadBoardData()
+    B.loadGameData()
       .then(function (data) {
         state.payload = data.payload;
         state.rows = data.rows;
@@ -101,14 +146,9 @@
           back.href = "index.html?season=" + encodeURIComponent(data.season) + "&week=" + encodeURIComponent(data.week) + "#games";
         }
 
-        var gameRows = data.rows.filter(function (r) {
-          return String(r.game_id || "") === String(params.game) ||
-            String(r.matchup || "") === String(params.game) ||
-            String(r.game || "") === String(params.game);
-        });
-        state.allGameRows = gameRows;
+        state.allGameRows = data.rows || [];
 
-        if (!params.game || !gameRows.length) {
+        if (!params.game || !state.allGameRows.length) {
           if ($("game-title")) $("game-title").textContent = "Game not found";
           if ($("game-kickoff")) $("game-kickoff").textContent = "";
           if ($("game-missing")) {
@@ -121,7 +161,7 @@
           return;
         }
 
-        var g = gameRows[0];
+        var g = state.allGameRows[0];
         if ($("game-title")) $("game-title").textContent = g.matchup || params.game;
         if ($("game-kickoff")) $("game-kickoff").textContent = g.kickoff ? P.formatKickoff(g.kickoff) : "";
         document.title = (g.matchup || "Game") + " · NFL Player Props EV";

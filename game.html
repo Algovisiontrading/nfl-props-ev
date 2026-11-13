@@ -42,7 +42,7 @@
       <h2>How to read this board</h2>
       <ul>
         <li>Picks are shown in one flat list: <strong>Strong</strong>, then <strong>Lean</strong>, then <strong>Pass</strong>, and by EV per $100 within each tier. Rows with a <strong>Check</strong> or <strong>Thin market</strong> badge are always at the bottom.</li>
-        <li>The player name is on every row. Use the player chips to narrow the list.</li>
+        <li>The player name is on every row. Use the player chips to narrow the list. The list shows 100 picks at a time; use Show more to page through the rest.</li>
         <li>If the modeler does not supply a <strong>tier</strong> or <strong>summary</strong>, the site falls back with these thresholds: <strong>Strong</strong> when EV per $100 is ≥ 5, edge is ≥ 4%, and confidence is not low; <strong>Lean</strong> when EV per $100 is &gt; 0 and edge is ≥ 2%; <strong>Pass</strong> otherwise.</li>
         <li>Site-side safety guards still apply when a tier is supplied: edge over 15% gets a <strong>Check</strong> badge and is never Strong; Kalshi rows with no volume and no open interest, or an ask−bid spread over 5 cents, get a <strong>Thin market</strong> badge and are never Strong or Lean. Rows that did not pass calibration have no tier and stay hidden by default.</li>
       </ul>
@@ -70,6 +70,10 @@
         </table>
       </div>
       <div class="cards" id="props-cards"></div>
+      <div class="pager" id="pager">
+        <button type="button" class="pager-btn" id="show-prev" hidden>Previous</button>
+        <button type="button" class="pager-btn" id="show-more" hidden>Show more</button>
+      </div>
     </div>
   </main>
 

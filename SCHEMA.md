@@ -259,4 +259,16 @@ Probability-bucket summary uses side `model_prob` in bins **50–55, 55–60, 60
 
 The dashboard and game pages read this manifest, default to `current_season` / `current_week`, and let you browse past weeks. If the manifest is missing, they fall back to `data/props_ev.json`.
 
+To keep phones from downloading the full week file on first load, `publish.sh` also writes compact files (same `generated_at`, slim row fields only):
+
+- `data/weeks/<season>-wk<NN>/top.json` — Strong and Lean rows after site-side safety guards, plus a `games[]` summary (matchup, kickoff, game_id, strong/lean/pass/check/thin counts) so the Games cards work without the full file. Also copied to `data/props_top.json` for the current week only.
+- `data/weeks/<season>-wk<NN>/all.json` — every passing row, still slimmer than the week file.
+- `data/weeks/<season>-wk<NN>/games/<game_id>.json` — that game's passing rows only.
+
+The dashboard loads `top.json` (or `data/props_top.json` when the selected week is the manifest's current week). Pass rows are fetched from `all.json` only when the visitor turns on **Show Pass** or uses a filter that needs them. Game pages load only their per-game file. If a slim file is missing, the page falls back to the full week JSON, then to `data/props_ev.json`. Do not use `data/props_top.json` for a week that is not the current week.
+
+The list renders 100 rows at a time, with Previous / Show more, so the DOM does not hold thousands of rows.
+
+Manifest week entries may also include `top_file`, `all_file`, `games_dir`, and `top_rows`.
+
 Game pages use `game.html?week=N&game=<game_id>` (optional `season`). Picks are a flat list sorted Strong, then Lean, then Pass, and by `ev_per_100` descending within each tier. Rows with a Check or Thin market badge always sort to the bottom.

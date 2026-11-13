@@ -115,53 +115,173 @@
     return { payload: payload, rows: rows };
   }
 
-  function loadBoardData() {
+  function weekStem(season, week) {
+    return String(season) + "-wk" + padWeek(week);
+  }
+
+  function loadFirstJson(urls) {
+    function next(i) {
+      if (i >= urls.length) {
+        var err = new Error("not_found");
+        err.status = 404;
+        return Promise.reject(err);
+      }
+      return P.fetchJson(urls[i]).then(function (raw) {
+        return { raw: raw, url: urls[i] };
+      }).catch(function () {
+        return next(i + 1);
+      });
+    }
+    return next(0);
+  }
+
+  function topUrlsFor(manifest, season, week) {
+    var entry = manifest ? findWeekEntry(manifest, season, week) : null;
+    var stem = (season != null && week != null) ? weekStem(season, week) : null;
+    var cur = currentFromManifest(manifest);
+    var urls = [];
+    if (entry && entry.top_file) urls.push("data/weeks/" + entry.top_file);
+    if (stem) urls.push("data/weeks/" + stem + "/top.json");
+    if (manifest && Number(cur.season) === Number(season) && Number(cur.week) === Number(week)) {
+      urls.push("data/props_top.json");
+    }
+    return urls;
+  }
+
+  function passUrlsFor(manifest, season, week) {
+    var entry = manifest ? findWeekEntry(manifest, season, week) : null;
+    var stem = (season != null && week != null) ? weekStem(season, week) : null;
+    var urls = [];
+    if (entry && entry.all_file) urls.push("data/weeks/" + entry.all_file);
+    if (stem) urls.push("data/weeks/" + stem + "/all.json");
+    if (entry && entry.file) urls.push("data/weeks/" + entry.file);
+    if (stem) urls.push("data/weeks/" + weekFileName(season, week));
+    urls.push("data/props_ev.json");
+    return urls;
+  }
+
+  function gameUrlsFor(manifest, season, week, gameId) {
+    var entry = manifest ? findWeekEntry(manifest, season, week) : null;
+    var stem = (season != null && week != null) ? weekStem(season, week) : null;
+    var urls = [];
+    if (!gameId) return urls;
+    if (entry && entry.games_dir) urls.push("data/weeks/" + entry.games_dir + gameId + ".json");
+    if (stem) urls.push("data/weeks/" + stem + "/games/" + gameId + ".json");
+    return urls;
+  }
+
+  function packBoard(raw, url, manifest, season, week, passLoaded) {
+    var out = normalizeAndRows(raw);
+    return {
+      payload: out.payload,
+      rows: out.rows,
+      games: (raw && raw.games && raw.games.length) ? raw.games : null,
+      manifest: manifest,
+      season: out.payload.season != null ? out.payload.season : season,
+      week: out.payload.week != null ? out.payload.week : week,
+      source: url,
+      passLoaded: !!passLoaded,
+      passUrls: passUrlsFor(manifest, out.payload.season != null ? out.payload.season : season, out.payload.week != null ? out.payload.week : week),
+      passRowsExpected: raw && raw.pass_rows,
+    };
+  }
+
+  function loadBoardData(opts) {
+    opts = opts || {};
+    var wantAll = !!opts.wantAll;
     var params = queryParams();
     return loadManifest().then(function (manifest) {
       var cur = currentFromManifest(manifest);
       var season = Number.isFinite(params.season) ? params.season : cur.season;
       var week = Number.isFinite(params.week) ? params.week : cur.week;
-      var entry = manifest ? findWeekEntry(manifest, season, week) : null;
-      var url = entry ? "data/weeks/" + entry.file : (season != null && week != null ? "data/weeks/" + weekFileName(season, week) : null);
-
-      function fallbackProps() {
-        return P.fetchJson("data/props_ev.json").then(function (raw) {
-          var out = normalizeAndRows(raw);
-          return {
-            payload: out.payload,
-            rows: out.rows,
-            manifest: manifest,
-            season: out.payload.season != null ? out.payload.season : season,
-            week: out.payload.week != null ? out.payload.week : week,
-            source: "props_ev",
-          };
+      var tops = topUrlsFor(manifest, season, week);
+      var alls = passUrlsFor(manifest, season, week);
+      if (wantAll) {
+        return loadFirstJson(alls).then(function (got) {
+          return packBoard(got.raw, got.url, manifest, season, week, true);
         });
       }
+      return loadFirstJson(tops).then(function (got) {
+        return packBoard(got.raw, got.url, manifest, season, week, false);
+      }).catch(function () {
+        return loadFirstJson(alls).then(function (got) {
+          return packBoard(got.raw, got.url, manifest, season, week, true);
+        });
+      });
+    }).catch(function () {
+      return P.fetchJson("data/props_ev.json").then(function (raw) {
+        return packBoard(raw, "data/props_ev.json", null, raw.season, raw.week, true);
+      });
+    });
+  }
 
-      if (!url) return fallbackProps();
-      return P.fetchJson(url).then(function (raw) {
+  function loadPassRows(board) {
+    if (!board || board.passLoaded) return Promise.resolve(board);
+    var urls = board.passUrls && board.passUrls.length ? board.passUrls : ["data/props_ev.json"];
+    var keepGames = board.games;
+    return loadFirstJson(urls).then(function (got) {
+      var next = packBoard(got.raw, got.url, board.manifest, board.season, board.week, true);
+      if (keepGames && keepGames.length && !(got.raw && got.raw.games && got.raw.games.length)) {
+        next.games = keepGames;
+      }
+      return next;
+    });
+  }
+
+  function loadGameData() {
+    var params = queryParams();
+    var gid = params.game;
+    return loadManifest().then(function (manifest) {
+      var cur = currentFromManifest(manifest);
+      var season = Number.isFinite(params.season) ? params.season : cur.season;
+      var week = Number.isFinite(params.week) ? params.week : cur.week;
+      function fromRaw(raw, url, filtered) {
         var out = normalizeAndRows(raw);
+        var rows = out.rows;
+        if (filtered && gid) {
+          rows = rows.filter(function (r) {
+            return String(r.game_id || "") === String(gid) ||
+              String(r.matchup || "") === String(gid) ||
+              String(r.game || "") === String(gid);
+          });
+        }
         return {
           payload: out.payload,
-          rows: out.rows,
+          rows: rows,
           manifest: manifest,
           season: out.payload.season != null ? out.payload.season : season,
           week: out.payload.week != null ? out.payload.week : week,
-          source: "archive",
+          source: url,
+          gameId: gid,
         };
+      }
+      var slim = gameUrlsFor(manifest, season, week, gid);
+      return loadFirstJson(slim).then(function (got) {
+        return fromRaw(got.raw, got.url, false);
       }).catch(function () {
-        return fallbackProps();
+        return loadFirstJson(passUrlsFor(manifest, season, week)).then(function (got) {
+          return fromRaw(got.raw, got.url, true);
+        });
       });
     }).catch(function () {
       return P.fetchJson("data/props_ev.json").then(function (raw) {
         var out = normalizeAndRows(raw);
+        var rows = out.rows;
+        if (gid) {
+          rows = rows.filter(function (r) {
+            return String(r.game_id || "") === String(gid) ||
+              String(r.matchup || "") === String(gid) ||
+              String(r.game || "") === String(gid);
+          });
+        }
         return {
           payload: out.payload,
-          rows: out.rows,
+          rows: rows,
           manifest: null,
           season: out.payload.season,
           week: out.payload.week,
-          source: "props_ev",
+          source: "data/props_ev.json",
+          gameId: gid,
         };
       });
     });
@@ -250,6 +370,18 @@
       if (ka !== kb) return ka < kb ? -1 : 1;
       return String(a.matchup).localeCompare(String(b.matchup));
     });
+  }
+
+  function gamesForBoard(board) {
+    if (board && board.games && board.games.length) {
+      return board.games.slice().sort(function (a, b) {
+        var ka = a.kickoff || "";
+        var kb = b.kickoff || "";
+        if (ka !== kb) return ka < kb ? -1 : 1;
+        return String(a.matchup || "").localeCompare(String(b.matchup || ""));
+      });
+    }
+    return groupGames(board && board.rows ? board.rows : []);
   }
 
   function hasGuardFlag(row) {
@@ -505,18 +637,24 @@
     }
   }
 
+  var PAGE_SIZE = 100;
+
   global.PropsBoard = {
+    PAGE_SIZE: PAGE_SIZE,
     BOARD_COLUMNS: BOARD_COLUMNS,
     COLUMN_TIPS: COLUMN_TIPS,
     queryParams: queryParams,
     weekFileName: weekFileName,
     weekLabel: weekLabel,
     loadBoardData: loadBoardData,
+    loadPassRows: loadPassRows,
+    loadGameData: loadGameData,
     fillWeekSelector: fillWeekSelector,
     bindWeekSelector: bindWeekSelector,
     gameHref: gameHref,
     passingRows: passingRows,
     groupGames: groupGames,
+    gamesForBoard: gamesForBoard,
     hasGuardFlag: hasGuardFlag,
     sortGamePicks: sortGamePicks,
     unique: unique,

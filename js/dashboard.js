@@ -3,7 +3,9 @@
   "use strict";
   var P = window.PropsEV;
   var B = window.PropsBoard;
+  var PAGE = B.PAGE_SIZE || 100;
   var state = {
+    board: null,
     payload: null,
     rows: [],
     manifest: null,
@@ -12,6 +14,9 @@
     sortKey: "ev_per_100",
     sortDir: "desc",
     moreDetails: false,
+    passLoaded: false,
+    loadingPass: false,
+    page: 0,
   };
 
   function $(id) { return document.getElementById(id); }
@@ -34,7 +39,9 @@
   }
 
   function populateFilters(rows) {
-    fillSelectSimple($("filter-game"), B.unique(rows, "matchup"), "All games");
+    var games = state.board ? B.gamesForBoard(state.board) : [];
+    var matchups = games.length ? games.map(function (g) { return g.matchup; }).filter(Boolean) : B.unique(rows, "matchup");
+    fillSelectSimple($("filter-game"), matchups, "All games");
     fillSelectSimple($("filter-position"), B.unique(rows, "position"), "All positions");
     fillSelectSimple($("filter-market"), B.unique(rows, "market"), "All markets", P.marketLabel);
     fillSelectSimple($("filter-book"), B.unique(rows, "book"), "All books");
@@ -52,13 +59,26 @@
       book: $("filter-book") ? $("filter-book").value : "",
       minEdge: minEdge,
       showFailed: $("filter-failed") ? $("filter-failed").checked : false,
+      showPass: $("filter-show-pass") ? $("filter-show-pass").checked : false,
     };
+  }
+
+  function filtersNeedPass() {
+    var f = filters();
+    if (f.showPass || f.showFailed) return true;
+    if (f.q || f.game || f.position || f.market || f.book) return true;
+    if (f.minEdge != null) return true;
+    return false;
   }
 
   function applyFilters(rows) {
     var f = filters();
     return rows.filter(function (r) {
       if (!f.showFailed && P.isFailed(r)) return false;
+      if (!f.showPass && !state.passLoaded && r.tier === "Pass") return false;
+      if (!f.showPass && state.passLoaded && r.tier === "Pass" && !f.q && !f.game && !f.position && !f.market && !f.book && f.minEdge == null && !f.showFailed) {
+        return false;
+      }
       if (f.game && r.matchup !== f.game) return false;
       if (f.position && r.position !== f.position) return false;
       if (f.market && r.market !== f.market) return false;
@@ -94,42 +114,101 @@
     return copy;
   }
 
+  function updatePager(visible) {
+    if (state.page * PAGE >= visible.length && visible.length) state.page = 0;
+    var start = visible.length ? state.page * PAGE : 0;
+    var end = Math.min(start + PAGE, visible.length);
+    var prev = $("show-prev");
+    var more = $("show-more");
+    if (prev) {
+      prev.hidden = state.page <= 0;
+    }
+    if (more) {
+      var left = visible.length - end;
+      if (left > 0) {
+        more.hidden = false;
+        more.textContent = "Show more (" + left + " remaining)";
+      } else {
+        more.hidden = true;
+      }
+    }
+    return visible.slice(start, end);
+  }
+
+  function countLabel(visible) {
+    var start = visible.length ? state.page * PAGE + 1 : 0;
+    var end = Math.min((state.page + 1) * PAGE, visible.length);
+    if (!visible.length) return "0 props";
+    var range = "Showing " + start + "–" + end + " of " + visible.length;
+    if (state.passLoaded) {
+      return range + " prop" + (visible.length === 1 ? "" : "s");
+    }
+    var passN = state.board && state.board.passRowsExpected;
+    var extra = Number.isFinite(Number(passN))
+      ? " Turn on Show Pass to load " + passN + " Pass row" + (Number(passN) === 1 ? "" : "s") + "."
+      : " Turn on Show Pass to load the rest.";
+    return range + " Strong and Lean pick" + (visible.length === 1 ? "" : "s") + "." + extra;
+  }
+
   function render() {
     var visible = sortRows(applyFilters(state.rows));
-    if ($("results-count")) {
-      $("results-count").textContent =
-        visible.length + " of " + state.rows.length + " prop" + (state.rows.length === 1 ? "" : "s");
-    }
+    var pageRows = updatePager(visible);
+    if ($("results-count")) $("results-count").textContent = countLabel(visible);
     var opts = {
       moreDetails: state.moreDetails,
       sortKey: state.sortKey,
       sortDir: state.sortDir,
     };
-    B.renderTable($("props-thead"), $("props-tbody"), visible, opts);
-    B.renderCards($("props-cards"), visible, opts);
-    B.renderGames($("games-grid"), B.groupGames(state.rows), state.season, state.week);
-    var nGames = B.groupGames(state.rows).length;
+    B.renderTable($("props-thead"), $("props-tbody"), pageRows, opts);
+    B.renderCards($("props-cards"), pageRows, opts);
+    var games = state.board ? B.gamesForBoard(state.board) : B.groupGames(state.rows);
+    B.renderGames($("games-grid"), games, state.season, state.week);
     if ($("games-count")) {
-      $("games-count").textContent = nGames + " game" + (nGames === 1 ? "" : "s") + " this week";
+      $("games-count").textContent = games.length + " game" + (games.length === 1 ? "" : "s") + " this week";
     }
   }
 
+  function requestRender() {
+    state.page = 0;
+    if (state.passLoaded || !filtersNeedPass() || state.loadingPass) {
+      render();
+      return;
+    }
+    state.loadingPass = true;
+    if ($("results-count")) $("results-count").textContent = "Loading all picks…";
+    B.loadPassRows(state.board)
+      .then(function (board) {
+        state.board = board;
+        state.payload = board.payload;
+        state.rows = board.rows;
+        state.passLoaded = !!board.passLoaded;
+        state.loadingPass = false;
+        populateFilters(board.rows);
+        B.showMeta($("page-meta"), board.payload, board.rows);
+        render();
+      })
+      .catch(function () {
+        state.loadingPass = false;
+        render();
+      });
+  }
+
   function bind() {
-    ["filter-q", "filter-game", "filter-position", "filter-market", "filter-book", "filter-failed"].forEach(function (id) {
+    ["filter-q", "filter-game", "filter-position", "filter-market", "filter-book", "filter-failed", "filter-show-pass"].forEach(function (id) {
       if (!$(id)) return;
-      $(id).addEventListener("input", render);
-      $(id).addEventListener("change", render);
+      $(id).addEventListener("input", requestRender);
+      $(id).addEventListener("change", requestRender);
     });
     var slider = $("filter-edge");
     var num = $("filter-edge-num");
     if (slider && num) {
       slider.addEventListener("input", function () {
         num.value = slider.value;
-        render();
+        requestRender();
       });
       num.addEventListener("input", function () {
         if (num.value !== "") slider.value = num.value;
-        render();
+        requestRender();
       });
     }
     if ($("more-details")) {
@@ -151,7 +230,24 @@
           state.sortKey = key;
           state.sortDir = key === "ev_per_100" || key === "edge_pct" || key === "kelly_stake_pct" || key === "model_prob" ? "desc" : "asc";
         }
+        state.page = 0;
         render();
+      });
+    }
+    if ($("show-more")) {
+      $("show-more").addEventListener("click", function () {
+        state.page += 1;
+        render();
+        var board = $("props-board") || $("props-cards") || $("props-tbody");
+        if (board && board.scrollIntoView) board.scrollIntoView({ block: "start" });
+      });
+    }
+    if ($("show-prev")) {
+      $("show-prev").addEventListener("click", function () {
+        if (state.page > 0) state.page -= 1;
+        render();
+        var board = $("props-board") || $("props-cards") || $("props-tbody");
+        if (board && board.scrollIntoView) board.scrollIntoView({ block: "start" });
       });
     }
     B.bindTooltips(document);
@@ -162,11 +258,13 @@
     bind();
     B.loadBoardData()
       .then(function (data) {
+        state.board = data;
         state.payload = data.payload;
         state.rows = data.rows;
         state.manifest = data.manifest;
         state.season = data.season;
         state.week = data.week;
+        state.passLoaded = !!data.passLoaded;
         B.fillWeekSelector($("week-select"), data.manifest, data.season, data.week);
         populateFilters(data.rows);
         B.showMeta($("page-meta"), data.payload, data.rows);

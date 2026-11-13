@@ -769,3 +769,21 @@ body:not(.more-details) .detail-only { display: none; }
   .game-title { font-size: 22px; }
   .tip-bubble { width: 200px; left: auto; right: 0; transform: none; }
 }
+
+.pager {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 16px 0 8px;
+}
+.pager-btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font: inherit;
+  cursor: pointer;
+}
+.pager-btn:hover { border-color: var(--accent); }
