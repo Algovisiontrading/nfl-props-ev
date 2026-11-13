@@ -24,7 +24,7 @@
   function normalizeGroup(row) {
     row = row || {};
     return {
-      market: P.pick(row, ["market"]) || "",
+      market: P.canonicalMarket(P.pick(row, ["market"]) || ""),
       season: P.pick(row, ["season"]),
       split: P.pick(row, ["split"]),
       log_loss: numPick(row, ["log_loss", "logloss"]),
@@ -50,7 +50,7 @@
       predicted: predicted,
       actual: numPick(b, ["actual", "observed", "mean_actual", "hit_rate"]),
       n: numPick(b, ["n", "sample_size"]),
-      market: P.pick(b, ["market"]) || "",
+      market: P.canonicalMarket(P.pick(b, ["market"]) || ""),
     };
   }
 
@@ -478,7 +478,7 @@
       kickoff: P.pick(raw, ["kickoff"]),
       player: P.pick(raw, ["player", "player_name"]) || "",
       position: P.pick(raw, ["position", "pos"]) || "",
-      market: P.pick(raw, ["market"]) || "",
+      market: P.canonicalMarket(P.pick(raw, ["market"]) || ""),
       side: String(P.pick(raw, ["side"]) || "").toLowerCase(),
       line: P.num(P.pick(raw, ["line"])),
       odds_american: P.num(P.pick(raw, ["odds_american", "odds"])),

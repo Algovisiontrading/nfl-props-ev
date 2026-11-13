@@ -2,20 +2,41 @@
 (function (global) {
   "use strict";
 
-  var MARKET_LABELS = {
-    pass_yds: "Pass Yards",
-    pass_tds: "Pass TDs",
-    completions: "Completions",
-    interceptions: "Interceptions",
-    ints: "Interceptions",
-    rush_yds: "Rush Yards",
-    carries: "Carries",
-    rush_tds: "Rush TDs",
-    rec_yds: "Rec Yards",
-    receptions: "Receptions",
-    rec_tds: "Rec TDs",
-    anytime_td: "Anytime TD",
+  // Canonical market keys, plus aliases (Props Data vs older SCHEMA names).
+  // Keep in sync with SCHEMA.md.
+  var MARKET_ALIASES = {
+    completions: "pass_completions",
+    pass_completion: "pass_completions",
+    interceptions: "pass_ints",
+    interception: "pass_ints",
+    ints: "pass_ints",
+    int: "pass_ints",
+    carries: "rush_attempts",
+    carry: "rush_attempts",
   };
+
+  var MARKET_LABELS = {
+    pass_yds: "Pass yards",
+    pass_tds: "Pass TDs",
+    pass_completions: "Pass completions",
+    pass_attempts: "Pass attempts",
+    pass_ints: "Interceptions thrown",
+    rush_yds: "Rush yards",
+    rush_attempts: "Rush attempts",
+    rush_tds: "Rush TDs",
+    rec_yds: "Receiving yards",
+    receptions: "Receptions",
+    rec_tds: "Receiving TDs",
+    anytime_td: "Anytime TD",
+    player_tds: "Player TDs",
+    rush_rec_yds: "Rush + rec yards",
+  };
+
+  function canonicalMarket(m) {
+    if (m == null || m === "") return "";
+    var key = String(m).trim().toLowerCase().replace(/[\s-]+/g, "_");
+    return MARKET_ALIASES[key] || key;
+  }
 
   function pick(obj, keys) {
     for (var i = 0; i < keys.length; i++) {
@@ -132,9 +153,10 @@
   }
 
   function marketLabel(m) {
-    if (!m) return "—";
-    if (MARKET_LABELS[m]) return MARKET_LABELS[m];
-    return String(m)
+    var key = canonicalMarket(m);
+    if (!key) return "—";
+    if (MARKET_LABELS[key]) return MARKET_LABELS[key];
+    return String(key)
       .replace(/_/g, " ")
       .replace(/\b\w/g, function (c) { return c.toUpperCase(); });
   }
@@ -322,7 +344,7 @@
       "";
     row.game = row.matchup;
     row.kickoff = pick(raw, ["kickoff", "kickoff_at", "start_time"]);
-    row.market = pick(raw, ["market"]) || "";
+    row.market = canonicalMarket(pick(raw, ["market"]) || "");
     var side = pick(raw, ["side"]);
     row.side = side != null ? String(side).toLowerCase() : "";
     row.line = num(pick(raw, ["line"]));
@@ -456,6 +478,8 @@
 
   global.PropsEV = {
     MARKET_LABELS: MARKET_LABELS,
+    MARKET_ALIASES: MARKET_ALIASES,
+    canonicalMarket: canonicalMarket,
     TIER_THRESHOLDS: TIER_THRESHOLDS,
     SAFETY_GUARDS: SAFETY_GUARDS,
     applySafetyGuards: applySafetyGuards,

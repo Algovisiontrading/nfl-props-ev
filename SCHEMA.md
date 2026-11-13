@@ -46,7 +46,7 @@ Primary names below are the ones the site writes in its sample file and prefers 
 | `game_id` | string | optional | e.g. `2026_11_IND_HOU`. |
 | `matchup` (`game`) | string | preferred | `"AWAY @ HOME"`, e.g. `"BUF @ KC"`. `matchup` is the primary name on the site; `game` is the name in the modeler schema and is treated as an alias (and vice versa). |
 | `kickoff` | string | preferred | ISO-8601 with offset, America/New_York. |
-| `market` | string | yes | Preferred slugs: `pass_yds`, `pass_tds`, `completions`, `interceptions`, `rush_yds`, `carries`, `rush_tds`, `rec_yds`, `receptions`, `rec_tds`, `anytime_td`. Human-readable labels are also displayed if sent. |
+| `market` | string | yes | Canonical slugs (aliases in parentheses are accepted and normalized by the site): `pass_yds`, `pass_tds`, `pass_completions` (`completions`), `pass_attempts`, `pass_ints` (`interceptions`, `ints`), `rush_yds`, `rush_attempts` (`carries`), `rush_tds`, `rec_yds`, `receptions`, `rec_tds`, `anytime_td`, plus lines-only keys `player_tds` and `rush_rec_yds`. The market filter shows each canonical market once. Labels: Pass yards, Pass TDs, Pass completions, Pass attempts, Interceptions thrown, Rush yards, Rush attempts, Rush TDs, Receiving yards, Receptions, Receiving TDs, Anytime TD, Player TDs, Rush + rec yards. |
 | `side` | string | yes | `over` / `under`. |
 | `line` | number | yes | Posted line. |
 | `odds_american` (`odds`) | number | yes | American odds (e.g. `-110`, `+145`). `odds` is accepted as an alias. |
@@ -90,6 +90,18 @@ Site-side safety guards are applied **even when the JSON supplies a `tier`**. Th
 
 These five context fields are optional and lightweight. The site never requires them for v1; rows without them render normally.
 
+
+### Market key aliases
+
+The site canonicalizes market slugs in `js/common.js` (`canonicalMarket`) so the dashboard filter lists each market once, whichever form arrives:
+
+| Alias (accepted) | Canonical key | Label |
+|---|---|---|
+| `completions` | `pass_completions` | Pass completions |
+| `interceptions`, `ints` | `pass_ints` | Interceptions thrown |
+| `carries` | `rush_attempts` | Rush attempts |
+
+Other labels: `pass_yds` Pass yards; `pass_tds` Pass TDs; `pass_attempts` Pass attempts; `rush_yds` Rush yards; `rush_tds` Rush TDs; `rec_yds` Receiving yards; `receptions` Receptions; `rec_tds` Receiving TDs; `anytime_td` Anytime TD; `player_tds` Player TDs; `rush_rec_yds` Rush + rec yards.
 
 ### Derived-field formulas (used when a field is omitted)
 
