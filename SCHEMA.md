@@ -269,20 +269,22 @@ The dashboard loads `top.json` (or `data/props_top.json` when the selected week 
 
 The list renders 100 rows at a time, with Previous / Show more, so the DOM does not hold thousands of rows.
 
-## Likely winners
+## Betting odds favorite (and optional model line)
 
 At publish time `archive_week.py` runs `build_winners.py`, which writes:
 
-- `data/weeks/<season>-wk<NN>/winners.json` — one entry per game that has a probability, plus the accuracy block
-- `data/winner_accuracy.json` — the same accuracy block, for the Track Record page
-- the `likely_winner` / `likely_winner_prob` fields (and tooltip text) on each Games-card object in `top.json` / `props_top.json` and on each `games/<game_id>.json`
+- `data/weeks/<season>-wk<NN>/winners.json` — one entry per game that has a market (or model) probability, plus the accuracy block
+- `data/winner_accuracy.json` — market-favorite accuracy for the Track Record page (title: **Betting odds favorite accuracy**). If a model file was present, its note is stored under `model_accuracy` and shown separately, never in place of the market figures.
+- the `likely_winner` / `likely_winner_prob` fields (market favorite) and, when present, `model_winner` / `model_winner_prob`, on each Games-card object in `top.json` / `props_top.json` and on each `games/<game_id>.json`
 
-Source is pluggable and never invents a number:
+The dashboard and game page always label the market line **Betting odds favorite: DET (57%)**. Tooltip: *From sportsbook moneylines with the bookmaker's cut removed. This is the market's pick, not our model. Updated &lt;time ET&gt;.*
 
-1. If `/workspace/nfl-props/out/game_win_probs.json` exists, use it. Expected shape: a top-level `model_name` and `accuracy_note` (or `accuracy_text` / `tested_accuracy`), plus per-`game_id` `home_win_prob` (optional `away_win_prob`). `games` may be an object keyed by `game_id` or a list of rows. Games not in that file get no likely-winner line. The Track Record section shows the model's accuracy note (and a structured `accuracy` object if one is supplied).
-2. Otherwise use sportsbook moneylines from `data/raw/game_lines_latest.parquet`: convert each book to implied probabilities, remove the vig so the two sides sum to 1, and average the no-vig probabilities across books. If a game has no sportsbook moneyline, fall back to Kalshi `KXNFLGAME` winner markets in `data/lines/kalshi_games_latest.parquet` (mid of `yes_bid` / `yes_ask`, then normalize). Market accuracy is recomputed each run from closing moneylines in `data/raw/schedules.parquet` (ties excluded). These are closing-line odds, so a pick a few days before kickoff can differ slightly.
+Source rules, and the builder never invents a number:
 
-If the parquet files or pandas/pyarrow are missing, publish still succeeds and the UI simply omits the likely-winner line and the accuracy section. Tooltip copy is data-driven (market vs model) and includes the source's `updated` time in ET.
+1. Sportsbook moneylines from `data/raw/game_lines_latest.parquet` are converted to implied probabilities, the vig is removed so the two sides sum to 1, and no-vig probabilities are averaged across books. If a game has no sportsbook moneyline, fall back to Kalshi `KXNFLGAME` winner markets in `data/lines/kalshi_games_latest.parquet` (mid of `yes_bid` / `yes_ask`, then normalize). Market accuracy is recomputed each run from closing moneylines in `data/raw/schedules.parquet` (ties excluded). The calibration heading uses the same season range as the games in those buckets. These are closing-line odds, so a pick a few days before kickoff can differ slightly.
+2. If `/workspace/nfl-props/out/game_win_probs.json` also exists, it is shown as a **separate** line, **Our model: TEAM (X%)**, and never replaces the betting-odds favorite. Expected shape: a top-level `model_name` and `accuracy_note` (or `accuracy_text` / `tested_accuracy`), plus per-`game_id` `home_win_prob` (optional `away_win_prob`). `games` may be an object keyed by `game_id` or a list of rows. Games not in that file simply have no model line. The model tooltip includes the tested-accuracy note when one is supplied.
+
+If the parquet files or pandas/pyarrow are missing, publish still succeeds and the UI omits the favorite line and the accuracy section.
 
 
 Manifest week entries may also include `top_file`, `all_file`, `games_dir`, and `top_rows`.

@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""Build likely-winner data for the props dashboard (local / publish hook).
+"""Build betting-odds favorite (and optional model) data for the props dashboard.
 
-Source preference:
-  1. out/game_win_probs.json, if present (model home_win_prob + its accuracy text)
-  2. Else no-vig sportsbook moneylines in data/raw/game_lines_latest.parquet,
-     averaged across books, with optional Kalshi KXNFLGAME fallback.
+Always writes no-vig sportsbook moneylines from data/raw/game_lines_latest.parquet
+(averaged across books), with optional Kalshi KXNFLGAME fallback, labeled as the
+market's pick — not our model. If out/game_win_probs.json also exists, its
+home_win_prob values are attached as a separate "Our model" line and never
+replace the market favorite.
 
 Never invents a probability. Missing parquet/pandas or no line for a game
-means that game simply has no likely-winner line. Publishing should still
-succeed if this script exits 0 after a skip.
+means that game simply has no favorite line. Publishing should still succeed
+if this script exits 0 after a skip.
 """
 from __future__ import annotations
 
@@ -35,6 +36,15 @@ WINNER_FIELDS = (
     "winner_tooltip",
     "winner_updated_at",
     "winner_n_books",
+    "market",
+    "model",
+    "model_winner",
+    "model_winner_prob",
+    "model_source_label",
+    "model_tooltip",
+    "model_updated_at",
+    "model_home_win_prob",
+    "model_away_win_prob",
 )
 
 
@@ -284,15 +294,11 @@ def winner_from_probs(
     if not tooltip:
         if source == "model":
             tooltip = (
-                f"From {source_label}, not from our player-props model."
+                f"From {source_label}."
                 + (f" Updated {updated}." if updated else "")
             )
         else:
-            tooltip = (
-                "From betting-market odds with the bookmaker's cut removed, "
-                "not from our player-props model."
-                + (f" Updated {updated}." if updated else "")
-            )
+            tooltip = market_tooltip(updated_at)
     out = {
         "game_id": game.get("game_id"),
         "matchup": game.get("matchup") or f"{away} @ {home}",
@@ -452,8 +458,8 @@ def load_kalshi_probs(root: Path, games: list[dict]) -> tuple[dict[str, dict], O
 def market_tooltip(updated_at: Optional[str]) -> str:
     updated = format_et(updated_at)
     text = (
-        "From betting-market odds with the bookmaker's cut removed, "
-        "not from our player-props model."
+        "From sportsbook moneylines with the bookmaker's cut removed. "
+        "This is the market's pick, not our model."
     )
     if updated:
         text += f" Updated {updated}."
@@ -560,7 +566,8 @@ def compute_market_accuracy(root: Path) -> Optional[dict]:
             intro += ", " + intro_parts[1]
         intro += "."
 
-    cal_label = "Calibration, " + en_years(cal_lo, cal_hi, so_far=cal_so_far)
+    cal_n = int(len(cal))
+    cal_label = "Calibration, " + en_years(cal_lo, cal_hi, so_far=cal_so_far) + f" ({cal_n:,} games)"
     note = (
         "These figures use closing-line moneylines from nflverse schedules, "
         "with the bookmaker's cut removed. Ties are excluded. "
@@ -569,7 +576,7 @@ def compute_market_accuracy(root: Path) -> Optional[dict]:
     return {
         "source": "market",
         "source_label": "betting-market odds",
-        "title": "Likely winner accuracy",
+        "title": "Betting odds favorite accuracy",
         "intro": intro,
         "note": note,
         "headline": [x for x in (hist, y2026, y2025) if x["n"]],
@@ -581,7 +588,7 @@ def accuracy_from_model(model: dict) -> dict:
     acc = {
         "source": "model",
         "source_label": model["model_name"],
-        "title": "Likely winner accuracy",
+        "title": "Betting odds favorite accuracy",
         "intro": model.get("accuracy_note") or "",
         "note": "",
         "headline": [],
@@ -702,15 +709,58 @@ def build(site: Path, season: Optional[int] = None, week: Optional[int] = None) 
         log("build_winners skip: no games listed for this week")
         return 0
 
+    market_map, pulled = load_market_probs(root, season, week, games)
+    kalshi_map, k_pulled = load_kalshi_probs(root, games)
+    updated_at = pulled or k_pulled
+    winners: dict[str, dict] = {}
+
+    for g in games:
+        gid = str(g.get("game_id") or "")
+        rec = market_map.get(gid)
+        src = "market"
+        if not rec:
+            rec = kalshi_map.get(gid)
+            src = "kalshi"
+        if not rec:
+            continue
+        merged = dict(g)
+        for k in ("home_team", "away_team", "matchup"):
+            if rec.get(k) and not merged.get(k):
+                merged[k] = rec[k]
+        ts = rec.get("updated_at") or updated_at
+        label = "Betting odds favorite"
+        w = winner_from_probs(
+            game=merged,
+            home_p=rec["home_win_prob"],
+            away_p=rec["away_win_prob"],
+            source=src,
+            source_label=label,
+            updated_at=ts,
+            n_books=rec.get("n_books"),
+            tooltip=market_tooltip(ts),
+        )
+        if w:
+            w["market"] = {
+                "likely_winner": w["likely_winner"],
+                "likely_winner_prob": w["likely_winner_prob"],
+                "home_win_prob": w["home_win_prob"],
+                "away_win_prob": w["away_win_prob"],
+                "source": src,
+                "source_label": label,
+                "tooltip": w["winner_tooltip"],
+                "updated_at": ts,
+                "n_books": rec.get("n_books"),
+            }
+            winners[gid] = w
+
     model_path = root / "out" / "game_win_probs.json"
     model = parse_model_file(model_path) if model_path.exists() else None
-    source = "model" if model else "market"
-    winners: dict[str, dict] = {}
-    updated_at = None
-
+    model_accuracy = None
+    model_count = 0
     if model:
-        source_label = model["model_name"]
-        updated_at = model.get("generated_at")
+        model_accuracy = accuracy_from_model(model)
+        model_updated = model.get("generated_at")
+        acc_note = (model.get("accuracy_note") or "").strip()
         for g in games:
             gid = str(g.get("game_id") or "")
             rec = model["games"].get(gid)
@@ -721,80 +771,82 @@ def build(site: Path, season: Optional[int] = None, week: Optional[int] = None) 
                 hp = float(hp)
             except (TypeError, ValueError):
                 continue
-            if not math.isfinite(hp) or not (0 < hp < 1):
-                # allow 0/1 as a reported model probability? that's a number, not invented.
-                if not (math.isfinite(hp) and 0 <= hp <= 1):
-                    continue
+            if not (math.isfinite(hp) and 0 <= hp <= 1):
+                continue
             ap = rec.get("away_win_prob")
             try:
                 ap = float(ap) if ap is not None else 1.0 - hp
             except (TypeError, ValueError):
                 ap = 1.0 - hp
-            # If the model file already names a likely winner, still recompute from probs
-            merged_game = dict(g)
+            merged_game = dict(winners.get(gid) or g)
             if rec.get("home_team") and rec.get("away_team"):
                 merged_game["home_team"] = rec["home_team"]
                 merged_game["away_team"] = rec["away_team"]
-            w = winner_from_probs(
+            ts = rec.get("generated_at") or rec.get("updated_at") or model_updated
+            updated = format_et(ts)
+            tooltip_bits = [f"From {model['model_name']}."]
+            if acc_note:
+                note = acc_note if acc_note.endswith(".") else acc_note + "."
+                tooltip_bits.append(note)
+            if updated:
+                tooltip_bits.append(f"Updated {updated}.")
+            mw = winner_from_probs(
                 game=merged_game,
                 home_p=hp,
                 away_p=ap,
                 source="model",
-                source_label=source_label,
-                updated_at=rec.get("generated_at") or rec.get("updated_at") or updated_at,
-            )
-            if w:
-                winners[gid] = w
-        accuracy = accuracy_from_model(model)
-    else:
-        source_label = "betting-market odds"
-        market, pulled = load_market_probs(root, season, week, games)
-        kalshi, k_pulled = load_kalshi_probs(root, games)
-        updated_at = pulled or k_pulled
-        for g in games:
-            gid = str(g.get("game_id") or "")
-            rec = market.get(gid)
-            src = "market"
-            if not rec:
-                rec = kalshi.get(gid)
-                src = "kalshi"
-            if not rec:
-                continue
-            # Fill team names from the line when the game list didn't have them
-            merged = dict(g)
-            for k in ("home_team", "away_team", "matchup"):
-                if rec.get(k) and not merged.get(k):
-                    merged[k] = rec[k]
-            ts = rec.get("updated_at") or updated_at
-            label = "betting-market odds" if src == "market" else "Kalshi winner market"
-            w = winner_from_probs(
-                game=merged,
-                home_p=rec["home_win_prob"],
-                away_p=rec["away_win_prob"],
-                source=src,
-                source_label=label,
+                source_label=model["model_name"],
                 updated_at=ts,
-                n_books=rec.get("n_books"),
-                tooltip=market_tooltip(ts),
+                tooltip=" ".join(tooltip_bits),
             )
-            if w:
-                winners[gid] = w
-        accuracy = compute_market_accuracy(root) or {
-            "source": "market",
-            "source_label": source_label,
-            "title": "Likely winner accuracy",
-            "intro": "",
-            "note": "",
-            "headline": [],
-            "calibration": None,
-        }
+            if not mw:
+                continue
+            model_block = {
+                "likely_winner": mw["likely_winner"],
+                "likely_winner_prob": mw["likely_winner_prob"],
+                "home_win_prob": mw["home_win_prob"],
+                "away_win_prob": mw["away_win_prob"],
+                "source": "model",
+                "source_label": model["model_name"],
+                "tooltip": mw["winner_tooltip"],
+                "updated_at": ts,
+                "accuracy_note": acc_note or None,
+            }
+            base = winners.get(gid) or {
+                "game_id": mw["game_id"],
+                "matchup": mw["matchup"],
+                "home_team": mw["home_team"],
+                "away_team": mw["away_team"],
+            }
+            base["model"] = model_block
+            base["model_winner"] = mw["likely_winner"]
+            base["model_winner_prob"] = mw["likely_winner_prob"]
+            base["model_source_label"] = model["model_name"]
+            base["model_tooltip"] = mw["winner_tooltip"]
+            base["model_updated_at"] = ts
+            base["model_home_win_prob"] = mw["home_win_prob"]
+            base["model_away_win_prob"] = mw["away_win_prob"]
+            winners[gid] = base
+            model_count += 1
+
+    accuracy = compute_market_accuracy(root) or {
+        "source": "market",
+        "source_label": "Betting odds favorite",
+        "title": "Betting odds favorite accuracy",
+        "intro": "",
+        "note": "",
+        "headline": [],
+        "calibration": None,
+    }
+    if model_accuracy:
+        accuracy["model_accuracy"] = model_accuracy
 
     payload = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "season": season,
         "week": week,
-        "source": source,
-        "source_label": source_label if source == "model" else "betting-market odds",
+        "source": "market+model" if model_count else "market",
+        "source_label": "Betting odds favorite",
         "updated_at": updated_at,
         "games": [winners[str(g["game_id"])] for g in games if str(g.get("game_id")) in winners],
         "missing": [
@@ -806,12 +858,14 @@ def build(site: Path, season: Optional[int] = None, week: Optional[int] = None) 
             if str(g.get("game_id")) not in winners
         ],
         "accuracy": accuracy,
+        "model_accuracy": model_accuracy,
     }
     attach_to_week_files(site, season, week, winners, payload)
     log(
         f"build_winners: source={payload['source']} "
-        f"{len(payload['games'])} games with a likely winner, "
-        f"{len(payload['missing'])} without, week {season}-wk{week:02d}"
+        f"{len(payload['games'])} games with a betting-odds favorite, "
+        f"{model_count} with an our-model line, "
+        f"{len(payload['missing'])} without market data, week {season}-wk{week:02d}"
     )
     return 0
 

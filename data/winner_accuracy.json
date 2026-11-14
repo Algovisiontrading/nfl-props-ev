@@ -1,7 +1,7 @@
 {
   "source": "market",
   "source_label": "betting-market odds",
-  "title": "Likely winner accuracy",
+  "title": "Betting odds favorite accuracy",
   "intro": "The betting favorite won 66.3% of 1,420 games in 2021\u20132025, and 67.6% of 136 games so far in 2026 (65.8% in 2025).",
   "note": "These figures use closing-line moneylines from nflverse schedules, with the bookmaker's cut removed. Ties are excluded. The pick a few days before kickoff can differ slightly from the close.",
   "headline": [
@@ -25,7 +25,7 @@
     }
   ],
   "calibration": {
-    "label": "Calibration, 2021\u20132026 so far",
+    "label": "Calibration, 2021\u20132026 so far (1,551 games)",
     "buckets": [
       {
         "range": "50\u201360%",

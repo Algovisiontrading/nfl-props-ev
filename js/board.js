@@ -598,32 +598,68 @@
     if (!from || !to) return to;
     ["likely_winner", "likely_winner_prob", "home_win_prob", "away_win_prob",
      "winner_source", "winner_source_label", "winner_tooltip", "winner_updated_at",
-     "winner_n_books", "home_team", "away_team", "matchup", "kickoff", "game_id"].forEach(function (k) {
+     "winner_n_books", "home_team", "away_team", "matchup", "kickoff", "game_id",
+     "market", "model", "model_winner", "model_winner_prob", "model_source_label",
+     "model_tooltip", "model_updated_at", "model_home_win_prob", "model_away_win_prob"].forEach(function (k) {
       if (from[k] != null && to[k] == null) to[k] = from[k];
     });
     return to;
   }
 
-  function winnerLineHtml(g) {
-    if (!g || !g.likely_winner || g.likely_winner_prob == null) return "";
-    var pct = Math.round(Number(g.likely_winner_prob) * 100);
+  function tipButtonText(text, ariaLabel) {
+    if (!text) return "";
+    return '<button type="button" class="tip" aria-expanded="false" aria-label="' +
+      P.escapeHtml(ariaLabel) + '">?<span class="tip-bubble" role="tooltip">' +
+      P.escapeHtml(text) + "</span></button>";
+  }
+
+  function oneWinnerLine(prefix, team, prob, tip, ariaLabel, cls) {
+    if (!team || prob == null) return "";
+    var pct = Math.round(Number(prob) * 100);
     if (!Number.isFinite(pct) || pct <= 50) return "";
-    var tip = g.winner_tooltip || "";
-    var tipBtn = tip
-      ? '<button type="button" class="tip" aria-expanded="false" aria-label="About the likely winner">?<span class="tip-bubble" role="tooltip">' + P.escapeHtml(tip) + "</span></button>"
-      : "";
     return (
-      '<div class="game-winner">Likely winner: <strong>' +
-      P.escapeHtml(String(g.likely_winner)) +
-      " (" + pct + "%)</strong>" + tipBtn + "</div>"
+      '<div class="' + (cls || "game-winner") + '">' + P.escapeHtml(prefix) +
+      ": <strong>" + P.escapeHtml(String(team)) + " (" + pct + "%)</strong>" +
+      tipButtonText(tip, ariaLabel) + "</div>"
     );
+  }
+
+  function winnerLineHtml(g) {
+    if (!g) return "";
+    var market = g.market || {};
+    var marketTeam = market.likely_winner || g.likely_winner;
+    var marketProb = market.likely_winner_prob != null ? market.likely_winner_prob : g.likely_winner_prob;
+    var marketTip = market.tooltip || market.winner_tooltip || g.winner_tooltip || "";
+    var html = oneWinnerLine(
+      "Betting odds favorite",
+      marketTeam,
+      marketProb,
+      marketTip,
+      "About the betting odds favorite",
+      "game-winner game-winner-market"
+    );
+    var model = g.model || {};
+    var modelTeam = model.likely_winner || g.model_winner;
+    var modelProb = model.likely_winner_prob != null ? model.likely_winner_prob : g.model_winner_prob;
+    var modelTip = model.tooltip || model.winner_tooltip || g.model_tooltip || "";
+    html += oneWinnerLine(
+      "Our model",
+      modelTeam,
+      modelProb,
+      modelTip,
+      "About our win model",
+      "game-winner game-winner-model"
+    );
+    return html;
   }
 
   function mergeWinner(target, rec) {
     if (!target || !rec) return target;
     ["likely_winner", "likely_winner_prob", "home_win_prob", "away_win_prob",
      "winner_source", "winner_source_label", "winner_tooltip", "winner_updated_at",
-     "winner_n_books", "home_team", "away_team"].forEach(function (k) {
+     "winner_n_books", "home_team", "away_team", "market", "model",
+     "model_winner", "model_winner_prob", "model_source_label", "model_tooltip",
+     "model_updated_at", "model_home_win_prob", "model_away_win_prob"].forEach(function (k) {
       if (rec[k] != null) target[k] = rec[k];
     });
     return target;

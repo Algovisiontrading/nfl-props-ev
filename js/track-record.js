@@ -709,10 +709,29 @@
       return;
     }
     panel.hidden = false;
+    var title = $("winner-accuracy-title");
+    if (title) title.textContent = data.title || "Betting odds favorite accuracy";
     var intro = $("winner-accuracy-intro");
     if (intro) intro.textContent = data.intro || "";
     var note = $("winner-accuracy-note");
     if (note) note.textContent = data.note || "";
+    var modelBox = $("winner-model-accuracy");
+    var modelAcc = data.model_accuracy || null;
+    if (modelBox) {
+      var modelText = "";
+      if (modelAcc) {
+        var name = modelAcc.source_label || modelAcc.title || "Our model";
+        var body = modelAcc.intro || modelAcc.note || "";
+        modelText = body ? (name + ": " + body) : "";
+      }
+      if (modelText) {
+        modelBox.hidden = false;
+        modelBox.textContent = modelText;
+      } else {
+        modelBox.hidden = true;
+        modelBox.textContent = "";
+      }
+    }
     var wrap = $("winner-cal-wrap");
     var tbody = $("winner-cal-tbody");
     var cal = data.calibration || {};
