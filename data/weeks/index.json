@@ -14,8 +14,7 @@
       "rows": 5129,
       "top_rows": 279,
       "games": 13,
-      "sample": false,
-      "winners_file": "2026-wk10/winners.json"
+      "sample": false
     }
   ]
 }

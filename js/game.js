@@ -32,7 +32,7 @@
       node.hidden = false;
       node.innerHTML = html;
     }
-    if (payload && payload.likely_winner) {
+    if (payload && (payload.model_winner || (payload.model && payload.model.likely_winner))) {
       paint(payload);
       return Promise.resolve();
     }
