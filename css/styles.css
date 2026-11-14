@@ -817,3 +817,10 @@ body:not(.more-details) .detail-only { display: none; }
 #winner-accuracy-panel .winner-accuracy-note { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
 
 .winner-cal-label { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
+
+.panel-intro { margin: 0 0 10px; }
+.panel-note { margin: 10px 0 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+.tally-heading { margin: 16px 0 8px; font-size: 14px; font-weight: 600; }
+#graded-tally { margin-top: 8px; }
+#moneyline-backtest-extra { margin-top: 8px; }
+#kalshi-backtest-content { margin-top: 8px; }

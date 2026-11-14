@@ -119,11 +119,38 @@
       <p class="winner-accuracy-note" id="winner-model-accuracy" hidden></p>
     </section>
 
+    <section class="panel" id="moneyline-backtest-panel" hidden>
+      <h2>Moneyline replay (2023–25)</h2>
+      <p class="panel-intro" id="moneyline-backtest-intro"></p>
+      <div class="table-wrap" style="border:0;background:transparent;">
+        <table class="plain" aria-label="Moneyline replay 2023–25">
+          <thead>
+            <tr>
+              <th>Rule</th>
+              <th class="num">Bets</th>
+              <th>Record</th>
+              <th class="num">Profit per $100 bet</th>
+            </tr>
+          </thead>
+          <tbody id="moneyline-backtest-tbody"></tbody>
+        </table>
+      </div>
+      <div id="moneyline-backtest-extra"></div>
+      <p class="panel-note" id="moneyline-backtest-note"></p>
+    </section>
+
+    <section class="panel" id="kalshi-backtest-panel">
+      <h2>Kalshi props backtest (weeks 1–9)</h2>
+      <div class="banner empty" id="kalshi-backtest-empty">No Kalshi weeks 1–9 props backtest has been published yet. It will appear here when the modeler results file is available.</div>
+      <div id="kalshi-backtest-content" hidden></div>
+    </section>
+
     <section class="panel" id="graded-panel">
-      <h2>Past picks, graded</h2>
-      <p class="compare-legend">Probabilities are frozen before kickoff; misses are shown too.</p>
+      <h2>Paper bets</h2>
+      <p class="panel-intro">Strong and Lean picks are logged at the posted line and odds, then graded after the games. These are paper bets only; no real money is wagered. Misses are shown too. Probabilities are frozen before kickoff.</p>
       <div class="banner sample" id="graded-banner" hidden></div>
-      <div class="banner empty" id="graded-empty" hidden>No graded picks yet.</div>
+      <div class="banner empty" id="graded-empty">First graded week: Week 10, results Tuesday Nov 17.</div>
+      <div id="graded-tally" hidden></div>
       <div id="graded-content" hidden>
         <h3 style="margin:16px 0 8px;font-size:14px;">Probability buckets</h3>
         <div class="table-wrap" style="border:0;background:transparent;">

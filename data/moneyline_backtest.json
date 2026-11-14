@@ -1,0 +1,125 @@
+{
+  "C": 0.1,
+  "train": "2018-2022",
+  "stake": 100,
+  "settle": "nflverse closing-ish moneyline, vig included",
+  "ties_excluded": true,
+  "blocks": {
+    "test_2023_2025": {
+      "games": 854,
+      "edge_0pt": {
+        "bets": 854,
+        "wins": 324,
+        "losses": 530,
+        "profit": -7784.0,
+        "roi_per_100": -9.11,
+        "roi_ci95": [
+          -17.93,
+          -0.28
+        ],
+        "dogs": 622,
+        "by_season": {
+          "2023": -0.5,
+          "2024": -17.78,
+          "2025": -9.06
+        }
+      },
+      "edge_3pt": {
+        "bets": 721,
+        "wins": 265,
+        "losses": 456,
+        "profit": -6261.0,
+        "roi_per_100": -8.68,
+        "roi_ci95": [
+          -18.63,
+          1.24
+        ],
+        "dogs": 548,
+        "by_season": {
+          "2023": 1.2,
+          "2024": -17.56,
+          "2025": -9.72
+        }
+      },
+      "edge_5pt": {
+        "bets": 616,
+        "wins": 214,
+        "losses": 402,
+        "profit": -6253.0,
+        "roi_per_100": -10.15,
+        "roi_ci95": [
+          -20.94,
+          1.03
+        ],
+        "dogs": 484,
+        "by_season": {
+          "2023": 3.4,
+          "2024": -21.73,
+          "2025": -11.55
+        }
+      },
+      "bet_every_favorite": {
+        "bets": 854,
+        "wins": 582,
+        "losses": 272,
+        "profit": -301.0,
+        "roi_per_100": -0.35
+      }
+    },
+    "2026_through_wk9": {
+      "games": 135,
+      "edge_0pt": {
+        "bets": 135,
+        "wins": 57,
+        "losses": 78,
+        "profit": 581.0,
+        "roi_per_100": 4.31,
+        "roi_ci95": [
+          -19.21,
+          28.04
+        ],
+        "dogs": 101,
+        "by_season": {
+          "2026": 4.31
+        }
+      },
+      "edge_3pt": {
+        "bets": 115,
+        "wins": 45,
+        "losses": 70,
+        "profit": 182.0,
+        "roi_per_100": 1.59,
+        "roi_ci95": [
+          -23.62,
+          28.6
+        ],
+        "dogs": 93,
+        "by_season": {
+          "2026": 1.59
+        }
+      },
+      "edge_5pt": {
+        "bets": 103,
+        "wins": 41,
+        "losses": 62,
+        "profit": 643.0,
+        "roi_per_100": 6.24,
+        "roi_ci95": [
+          -21.44,
+          35.86
+        ],
+        "dogs": 86,
+        "by_season": {
+          "2026": 6.24
+        }
+      },
+      "bet_every_favorite": {
+        "bets": 135,
+        "wins": 92,
+        "losses": 43,
+        "profit": 108.0,
+        "roi_per_100": 0.8
+      }
+    }
+  }
+}

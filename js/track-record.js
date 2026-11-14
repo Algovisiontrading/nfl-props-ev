@@ -490,6 +490,21 @@
       actual: P.num(P.pick(raw, ["actual", "actual_value", "stat"])),
       result: String(P.pick(raw, ["result"]) || "").toLowerCase(),
       source: String(P.pick(raw, ["source"]) || "").toLowerCase(),
+      tier: normalizeTier(P.pick(raw, ["tier", "ev_tier", "signal", "recommendation"]) || ""),
+      pick_type: (function () {
+        var rawType = P.pick(raw, ["pick_type", "type", "bet_type"]);
+        if (rawType) return pickTypeLabel(rawType) ? String(rawType) : String(rawType);
+        return "prop";
+      })(),
+      profit_per_100: numPick(raw, ["profit_per_100", "profit", "pnl_per_100", "pnl"]),
+      beat_close: (function () {
+        var v = P.pick(raw, ["beat_close", "beat_closing_line", "clv_flag", "beat_cl", "clv_positive"]);
+        var f = flag01(v);
+        if (f != null) return f;
+        var clv = numPick(raw, ["clv", "clv_pct", "closing_line_value"]);
+        if (clv == null) return null;
+        return clv > 0;
+      })(),
     };
     row.invalid = isInvalidSnapshot(row);
     row.unverified = !row.invalid && isUnverifiedSnapshot(row);
@@ -771,7 +786,7 @@
   function initGraded() {
     P.fetchJson("data/graded_picks.json")
       .then(function (raw) {
-        var payload = raw;
+        var payload = raw || {};
         var picks = [];
         if (Array.isArray(raw)) {
           payload = { sample: false, picks: raw };
@@ -779,40 +794,573 @@
         } else {
           picks = (raw && (raw.picks || raw.rows || raw.data)) || [];
         }
-        if (!Array.isArray(picks) || !picks.length) {
-          $("graded-content").hidden = true;
-          $("graded-banner").hidden = true;
-          $("graded-empty").hidden = false;
-          $("graded-empty").textContent = "No graded picks yet.";
+        if (!isRealGraded(payload, picks)) {
+          showGradedEmpty();
           return;
         }
-        var rows = picks.map(normalizePick);
+        var rows = Array.isArray(picks) ? picks.map(normalizePick) : [];
         gradedState.rows = rows;
         $("graded-empty").hidden = true;
-        $("graded-content").hidden = false;
-        var banner = $("graded-banner");
-        if (payload.sample === true) {
-          banner.hidden = false;
-          banner.className = "banner sample";
-          banner.innerHTML = "<strong>Sample data, model outputs not published yet.</strong> These graded picks are placeholders — not real results.";
+        $("graded-banner").hidden = true;
+        $("graded-banner").textContent = "";
+        renderPaperTally(payload, rows);
+        if (rows.length) {
+          $("graded-content").hidden = false;
+          populateGradedFilters(rows);
+          renderBuckets(rows);
+          bindGraded();
+          renderGraded();
         } else {
-          banner.hidden = true;
-          banner.textContent = "";
+          $("graded-content").hidden = true;
         }
-        populateGradedFilters(rows);
-        renderBuckets(rows);
-        bindGraded();
-        renderGraded();
       })
       .catch(function (err) {
-        $("graded-content").hidden = true;
-        $("graded-banner").hidden = true;
-        $("graded-empty").hidden = false;
         if (err && err.status === 404) {
-          $("graded-empty").textContent = "No graded picks yet.";
+          showGradedEmpty();
         } else {
+          $("graded-content").hidden = true;
+          $("graded-banner").hidden = true;
+          if ($("graded-tally")) {
+            $("graded-tally").hidden = true;
+            $("graded-tally").innerHTML = "";
+          }
+          $("graded-empty").hidden = false;
           $("graded-empty").className = "banner err";
           $("graded-empty").textContent = "Could not load data/graded_picks.json.";
+        }
+      });
+  }
+
+
+  function formatProfit(v) {
+    if (v == null || !Number.isFinite(Number(v))) return "—";
+    var n = Number(v);
+    var abs = Math.abs(n).toFixed(2);
+    if (n > 0) return "+$" + abs;
+    if (n < 0) return "−$" + abs;
+    return "$" + abs;
+  }
+
+  function formatRecord(row) {
+    if (!row) return "—";
+    if (row.record != null && String(row.record) !== "") return String(row.record);
+    var w = row.wins;
+    var l = row.losses;
+    var p = row.pushes != null ? row.pushes : row.push;
+    if (!Number.isFinite(Number(w)) || !Number.isFinite(Number(l))) return "—";
+    var s = String(w) + "–" + String(l);
+    if (Number.isFinite(Number(p)) && Number(p) > 0) s += "–" + String(p);
+    return s;
+  }
+
+  function formatRate01(v) {
+    if (v == null || !Number.isFinite(Number(v))) return "—";
+    var n = Number(v);
+    if (Math.abs(n) <= 1) return P.formatPct(n * 100);
+    return P.formatPct(n);
+  }
+
+  function profitFromAmerican(result, odds) {
+    var res = String(result || "").toLowerCase();
+    if (res === "push" || res === "void") return 0;
+    if (res === "miss" || res === "loss") return -100;
+    if (res === "hit" || res === "win") {
+      if (!Number.isFinite(odds) || odds === 0) return null;
+      if (odds > 0) return odds;
+      return 100 * 100 / Math.abs(odds);
+    }
+    return null;
+  }
+
+  function flag01(v) {
+    if (v === true || v === 1 || v === "1") return true;
+    if (v === false || v === 0 || v === "0") return false;
+    if (v == null || v === "") return null;
+    var s = String(v).toLowerCase();
+    if (s === "true" || s === "yes" || s === "y" || s === "beat") return true;
+    if (s === "false" || s === "no" || s === "n") return false;
+    return null;
+  }
+
+  var ML_RULE_LABELS = {
+    edge_0pt: "Any edge (one side every game)",
+    edge_3pt: "Model 3+ points over the vig-free odds",
+    edge_5pt: "Model 5+ points over",
+    bet_every_favorite: "Bet every favorite (reference)"
+  };
+  var ML_RULE_ORDER = ["edge_0pt", "edge_3pt", "edge_5pt", "bet_every_favorite"];
+  var ML_BLOCK_LABELS = {
+    test_2023_2025: "2023–25",
+    "2026_through_wk9": "2026 through week 9"
+  };
+
+  function mlRuleLabel(key) {
+    return ML_RULE_LABELS[key] || String(key).replace(/_/g, " ");
+  }
+
+  function mlBlockEntries(block) {
+    if (!block || typeof block !== "object") return [];
+    var keys = Object.keys(block).filter(function (k) {
+      var r = block[k];
+      return k !== "games" && r && typeof r === "object" &&
+        (r.bets != null || r.wins != null || r.roi_per_100 != null || r.profit_per_100 != null);
+    });
+    keys.sort(function (a, b) {
+      var ia = ML_RULE_ORDER.indexOf(a);
+      var ib = ML_RULE_ORDER.indexOf(b);
+      if (ia === -1 && ib === -1) return a.localeCompare(b);
+      if (ia === -1) return 1;
+      if (ib === -1) return -1;
+      return ia - ib;
+    });
+    return keys.map(function (k) { return { key: k, row: block[k] }; });
+  }
+
+  function mlTableBody(entries) {
+    return entries.map(function (e) {
+      var r = e.row || {};
+      var roi = r.roi_per_100 != null ? r.roi_per_100 : r.profit_per_100;
+      return "<tr>" +
+        "<td>" + P.escapeHtml(mlRuleLabel(e.key)) + "</td>" +
+        '<td class="num">' + (r.bets != null ? P.formatInt(r.bets) : "—") + "</td>" +
+        "<td>" + P.escapeHtml(formatRecord(r)) + "</td>" +
+        '<td class="num ' + P.evClass(Number(roi)) + '">' + formatProfit(roi) + "</td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  function mlSeasonNote(entries) {
+    var src = null;
+    entries.forEach(function (e) {
+      if (e.row && e.row.by_season && typeof e.row.by_season === "object") {
+        if (!src || e.key === "edge_0pt") src = e;
+      }
+    });
+    if (!src) return "";
+    var years = Object.keys(src.row.by_season).sort();
+    if (!years.length) return "";
+    var parts = years.map(function (yr) {
+      return yr + " " + formatProfit(src.row.by_season[yr]);
+    });
+    var rule = mlRuleLabel(src.key).replace(/ \(one side every game\)/, "").toLowerCase();
+    return "By season (" + rule + "): " + parts.join(", ") + ".";
+  }
+
+  function mlModelLostMoney(entries) {
+    var model = entries.filter(function (e) { return e.key !== "bet_every_favorite"; });
+    if (!model.length) return false;
+    return model.every(function (e) {
+      var roi = e.row.roi_per_100 != null ? e.row.roi_per_100 : e.row.profit_per_100;
+      return Number.isFinite(Number(roi)) && Number(roi) < 0;
+    });
+  }
+
+  function renderMoneylineBacktest(data) {
+    var panel = $("moneyline-backtest-panel");
+    if (!panel) return;
+    var blocks = data && data.blocks;
+    if (!blocks || typeof blocks !== "object") {
+      panel.hidden = true;
+      return;
+    }
+    var mainKey = blocks.test_2023_2025 ? "test_2023_2025" : Object.keys(blocks)[0];
+    var main = mainKey ? blocks[mainKey] : null;
+    var entries = mlBlockEntries(main);
+    if (!entries.length) {
+      panel.hidden = true;
+      return;
+    }
+    panel.hidden = false;
+    var intro = $("moneyline-backtest-intro");
+    if (intro) {
+      var games = main.games;
+      intro.textContent = games != null
+        ? ("Replay of " + P.formatInt(games) + " games at closing moneylines.")
+        : "";
+    }
+    $("moneyline-backtest-tbody").innerHTML = mlTableBody(entries);
+
+    var notes = [];
+    var stake = data.stake != null ? data.stake : 100;
+    notes.push("Flat $" + stake + " paper bets at closing moneylines, vig included" +
+      (data.ties_excluded !== false ? ", ties excluded" : "") + ".");
+    if (mlModelLostMoney(entries)) {
+      notes.push("The stats model lost money, so the winner pick is a stats opinion, not a bet.");
+    }
+    var seasonNote = mlSeasonNote(entries);
+    if (seasonNote) notes.push(seasonNote);
+    var dogsRow = null;
+    entries.forEach(function (e) {
+      if (e.key === "edge_0pt" && e.row && e.row.dogs != null && e.row.bets) dogsRow = e.row;
+    });
+    if (dogsRow) {
+      notes.push(P.formatInt(dogsRow.dogs) + " of " + P.formatInt(dogsRow.bets) + " any-edge bets were underdogs.");
+    }
+    $("moneyline-backtest-note").textContent = notes.join(" ");
+
+    var extra = $("moneyline-backtest-extra");
+    var html = "";
+    Object.keys(blocks).forEach(function (bk) {
+      if (bk === mainKey) return;
+      var block = blocks[bk];
+      var ents = mlBlockEntries(block);
+      if (!ents.length) return;
+      var title = ML_BLOCK_LABELS[bk] || String(bk).replace(/_/g, " ");
+      var g = block.games;
+      html += '<h3 class="tally-heading">' + P.escapeHtml(title) +
+        (g != null ? " (" + P.formatInt(g) + " games)" : "") + "</h3>";
+      html += '<div class="table-wrap" style="border:0;background:transparent;">' +
+        '<table class="plain" aria-label="' + P.escapeHtml(title) + '">' +
+        "<thead><tr><th>Rule</th><th class=\"num\">Bets</th><th>Record</th><th class=\"num\">Profit per $100 bet</th></tr></thead>" +
+        "<tbody>" + mlTableBody(ents) + "</tbody></table></div>";
+      var ciBits = [];
+      ents.forEach(function (e) {
+        var ci = e.row && e.row.roi_ci95;
+        if (Array.isArray(ci) && ci.length >= 2 && Number.isFinite(Number(ci[0])) && Number.isFinite(Number(ci[1]))) {
+          ciBits.push(mlRuleLabel(e.key) + " " + formatProfit(ci[0]) + " to " + formatProfit(ci[1]));
+        }
+      });
+      var caveat = "This is a small sample" + (g != null ? " (" + P.formatInt(g) + " games)" : "") + ".";
+      if (ciBits.length) {
+        caveat += " The 95% range on profit per $100 is about " + ciBits.join("; ") +
+          ", so this stretch does not change the 2023–25 result.";
+      }
+      html += '<p class="panel-note">' + P.escapeHtml(caveat) + "</p>";
+    });
+    if (extra) extra.innerHTML = html;
+  }
+
+  function initMoneylineBacktest() {
+    P.fetchJson("data/moneyline_backtest.json")
+      .then(renderMoneylineBacktest)
+      .catch(function () {
+        if ($("moneyline-backtest-panel")) $("moneyline-backtest-panel").hidden = true;
+      });
+  }
+
+  var PICK_TYPE_LABELS = {
+    prop: "Props",
+    props: "Props",
+    player_prop: "Props",
+    player_props: "Props",
+    winner_favorite: "Winner: betting favorite",
+    favorite: "Winner: betting favorite",
+    betting_favorite: "Winner: betting favorite",
+    "winner: betting favorite": "Winner: betting favorite",
+    winner_model: "Winner: our stats model",
+    model: "Winner: our stats model",
+    stats_model: "Winner: our stats model",
+    "winner: our stats model": "Winner: our stats model"
+  };
+  var TIER_ORDER = ["Strong", "Lean", "Pass", "Check"];
+
+  function pickTypeLabel(v) {
+    if (v == null || v === "") return "";
+    var key = String(v).toLowerCase();
+    return PICK_TYPE_LABELS[key] || String(v);
+  }
+
+  function normalizeTier(v) {
+    if (v == null || v === "") return "";
+    var s = String(v);
+    var lower = s.toLowerCase();
+    if (lower === "strong") return "Strong";
+    if (lower === "lean") return "Lean";
+    if (lower === "pass") return "Pass";
+    if (lower === "check") return "Check";
+    return s;
+  }
+
+  function normalizeTally(raw) {
+    raw = raw || {};
+    var profit = numPick(raw, ["profit_per_100", "roi_per_100", "profit", "pnl_per_100", "pnl"]);
+    var rate = raw.beat_close_rate != null ? raw.beat_close_rate : (
+      raw.beat_closing_line_rate != null ? raw.beat_closing_line_rate : (
+        raw.clv_rate != null ? raw.clv_rate : raw.clv_hit_rate
+      )
+    );
+    return {
+      bets: numPick(raw, ["bets", "n", "count"]),
+      wins: numPick(raw, ["wins", "hits"]),
+      losses: numPick(raw, ["losses", "misses"]),
+      pushes: numPick(raw, ["pushes", "push"]),
+      profit_per_100: profit,
+      beat_close_rate: (rate == null ? null : Number(rate)),
+      record: raw.record || null,
+      label: raw.label || raw.name || raw.week_label || ""
+    };
+  }
+
+  function aggregatePicks(rows) {
+    var bets = 0, wins = 0, losses = 0, pushes = 0;
+    var profitSum = 0, profitN = 0, beatN = 0, beatYes = 0;
+    (rows || []).forEach(function (r) {
+      var res = String(r.result || "").toLowerCase();
+      if (res === "void" || !res) return;
+      if (res === "push") pushes++;
+      else if (res === "hit" || res === "win") wins++;
+      else if (res === "miss" || res === "loss") losses++;
+      else return;
+      bets++;
+      var pr = r.profit_per_100;
+      if (!Number.isFinite(pr)) pr = profitFromAmerican(res, r.odds_american);
+      if (Number.isFinite(pr)) {
+        profitSum += pr;
+        profitN++;
+      }
+      if (r.beat_close != null) {
+        beatN++;
+        if (r.beat_close) beatYes++;
+      }
+    });
+    return {
+      bets: bets,
+      wins: wins,
+      losses: losses,
+      pushes: pushes,
+      profit_per_100: profitN ? profitSum / profitN : null,
+      beat_close_rate: beatN ? beatYes / beatN : null,
+      record: formatRecord({ wins: wins, losses: losses, pushes: pushes })
+    };
+  }
+
+  function tallyTable(title, firstHeader, items, aria) {
+    if (!items || !items.length) return "";
+    var body = items.map(function (it) {
+      var row = it.row || it;
+      return "<tr>" +
+        "<td>" + P.escapeHtml(it.label || row.label || "—") + "</td>" +
+        '<td class="num">' + (row.bets != null ? P.formatInt(row.bets) : "—") + "</td>" +
+        "<td>" + P.escapeHtml(formatRecord(row)) + "</td>" +
+        '<td class="num ' + P.evClass(Number(row.profit_per_100)) + '">' + formatProfit(row.profit_per_100) + "</td>" +
+        '<td class="num">' + formatRate01(row.beat_close_rate) + "</td>" +
+        "</tr>";
+    }).join("");
+    return '<h3 class="tally-heading">' + P.escapeHtml(title) + "</h3>" +
+      '<div class="table-wrap" style="border:0;background:transparent;">' +
+      '<table class="plain" aria-label="' + P.escapeHtml(aria || title) + '">' +
+      "<thead><tr><th>" + P.escapeHtml(firstHeader) + "</th>" +
+      '<th class="num">Bets</th><th>Record</th>' +
+      '<th class="num">Profit per $100</th>' +
+      '<th class="num">Beat the closing line</th></tr></thead>' +
+      "<tbody>" + body + "</tbody></table></div>";
+  }
+
+  function listFromRaw(raw, labelFn) {
+    if (!raw) return [];
+    if (Array.isArray(raw)) {
+      return raw.map(function (r) {
+        var row = normalizeTally(r);
+        return { label: labelFn ? labelFn(r, row) : (row.label || "—"), row: row };
+      });
+    }
+    if (typeof raw === "object") {
+      return Object.keys(raw).map(function (k) {
+        var v = raw[k];
+        var rec = v && typeof v === "object" ? v : { profit_per_100: v };
+        var row = normalizeTally(rec);
+        return { label: labelFn ? labelFn(Object.assign({ key: k }, rec), row) : (row.label || k), row: row };
+      });
+    }
+    return [];
+  }
+
+  function weekLabelFrom(r) {
+    if (r.week_label) return r.week_label;
+    if (r.label) return r.label;
+    var season = r.season;
+    var week = r.week;
+    if (season != null && week != null) return String(season) + " W" + String(week);
+    if (week != null) return "Week " + String(week);
+    if (r.key) return String(r.key);
+    return "—";
+  }
+
+  function groupPicks(rows, keyFn, labelFn, sortFn) {
+    var groups = {};
+    var order = [];
+    rows.forEach(function (r) {
+      var key = keyFn(r);
+      if (!key) return;
+      if (!groups[key]) {
+        groups[key] = [];
+        order.push(key);
+      }
+      groups[key].push(r);
+    });
+    var items = order.map(function (k) {
+      var set = groups[k];
+      return { label: labelFn(k, set), row: aggregatePicks(set), _key: k, _rows: set };
+    });
+    if (sortFn) items.sort(sortFn);
+    return items;
+  }
+
+  function renderPaperTally(payload, rows) {
+    var wrap = $("graded-tally");
+    if (!wrap) return;
+    payload = payload || {};
+    rows = rows || [];
+
+    var overall = payload.summary ? normalizeTally(payload.summary) : (rows.length ? aggregatePicks(rows) : null);
+    var byWeek = listFromRaw(payload.by_week || payload.weeks, function (r, row) { return weekLabelFrom(r); });
+    var byTier = listFromRaw(payload.by_tier || payload.tiers, function (r, row) {
+      return normalizeTier(r.tier || r.label || r.key || row.label);
+    });
+    var byMarket = listFromRaw(payload.by_market || payload.markets, function (r, row) {
+      var m = r.market || r.label || r.key || row.label;
+      return P.marketLabel(m) || m || "—";
+    });
+    var byType = listFromRaw(payload.by_pick_type || payload.pick_types || payload.by_type, function (r, row) {
+      return pickTypeLabel(r.pick_type || r.type || r.label || r.key || row.label) || "—";
+    });
+
+    if (!byWeek.length && rows.length) {
+      byWeek = groupPicks(rows, function (r) { return r.week_key || r.week_label || ""; }, function (k, set) {
+        return set[0].week_label || k;
+      }, function (a, b) {
+        var sa = (a._rows[0] && a._rows[0].season) || 0;
+        var sb = (b._rows[0] && b._rows[0].season) || 0;
+        if (sa !== sb) return sb - sa;
+        return ((b._rows[0] && b._rows[0].week) || 0) - ((a._rows[0] && a._rows[0].week) || 0);
+      });
+    }
+    if (!byTier.length && rows.some(function (r) { return r.tier; })) {
+      byTier = groupPicks(rows, function (r) { return r.tier || ""; }, function (k) { return k; }, function (a, b) {
+        var ia = TIER_ORDER.indexOf(a._key);
+        var ib = TIER_ORDER.indexOf(b._key);
+        if (ia === -1 && ib === -1) return a._key.localeCompare(b._key);
+        if (ia === -1) return 1;
+        if (ib === -1) return -1;
+        return ia - ib;
+      });
+    }
+    if (!byMarket.length && rows.some(function (r) { return r.market; })) {
+      byMarket = groupPicks(rows, function (r) { return r.market || ""; }, function (k) {
+        return P.marketLabel(k) || k;
+      }, function (a, b) { return a.label.localeCompare(b.label); });
+    }
+    if (!byType.length && rows.some(function (r) { return r.pick_type; })) {
+      byType = groupPicks(rows, function (r) { return r.pick_type || ""; }, function (k) {
+        return pickTypeLabel(k) || k;
+      });
+    }
+
+    if (!overall || (overall.bets == null && overall.wins == null && overall.profit_per_100 == null && !rows.length && !byWeek.length && !byTier.length && !byMarket.length && !byType.length)) {
+      wrap.hidden = true;
+      wrap.innerHTML = "";
+      return;
+    }
+
+    var html = "";
+    if (overall && (overall.bets != null || overall.wins != null || overall.profit_per_100 != null || overall.record)) {
+      html += tallyTable("Season to date", "Group", [{ label: "All paper bets", row: overall }], "Paper bets season to date");
+    }
+    html += tallyTable("By week", "Week", byWeek, "Paper bets by week");
+    html += tallyTable("By tier", "Tier", byTier, "Paper bets by tier");
+    html += tallyTable("By market", "Market", byMarket, "Paper bets by market");
+    html += tallyTable("By pick type", "Pick type", byType, "Paper bets by pick type");
+    if (!byTier.length || !byType.length || overall.beat_close_rate == null) {
+      var missing = [];
+      if (!byTier.length) missing.push("tier (Strong / Lean / Pass)");
+      if (!byType.length) missing.push("pick type");
+      if (overall && overall.beat_close_rate == null) missing.push("beat-the-closing-line");
+      if (missing.length) {
+        html += '<p class="panel-note">Breakouts for ' + P.escapeHtml(missing.join(", ")) +
+          " will appear when those fields are in the graded file.</p>";
+      }
+    }
+    wrap.innerHTML = html;
+    wrap.hidden = !html;
+  }
+
+  var GRADED_EMPTY_TEXT = "First graded week: Week 10, results Tuesday Nov 17.";
+
+  function showGradedEmpty(realEmpty) {
+    $("graded-content").hidden = true;
+    $("graded-banner").hidden = true;
+    if ($("graded-tally")) {
+      $("graded-tally").hidden = true;
+      $("graded-tally").innerHTML = "";
+    }
+    $("graded-empty").hidden = false;
+    $("graded-empty").className = "banner empty";
+    $("graded-empty").textContent = GRADED_EMPTY_TEXT;
+  }
+
+  function isRealGraded(payload, picks) {
+    if (!payload || payload.sample === true) return false;
+    if (Array.isArray(picks) && picks.length) return true;
+    if (payload.summary) return true;
+    if (payload.by_week || payload.by_tier || payload.by_market || payload.by_pick_type) return true;
+    return false;
+  }
+
+  function renderGenericResultTable(title, rows, labelKey) {
+    if (!rows || !rows.length) return "";
+    var items = rows.map(function (r) {
+      return {
+        label: r[labelKey] || r.label || r.name || r.rule || r.market || "—",
+        row: normalizeTally(r)
+      };
+    });
+    return tallyTable(title, "Group", items, title);
+  }
+
+  function renderKalshiBacktest(data) {
+    var empty = $("kalshi-backtest-empty");
+    var content = $("kalshi-backtest-content");
+    if (!empty || !content) return;
+    if (!data || data.sample === true) {
+      empty.hidden = false;
+      content.hidden = true;
+      content.innerHTML = "";
+      return;
+    }
+    var html = "";
+    if (data.note || data.intro) {
+      html += '<p class="panel-intro">' + P.escapeHtml(data.note || data.intro) + "</p>";
+    }
+    if (data.summary) {
+      html += tallyTable("Summary", "Group", [{ label: data.summary.label || "Kalshi weeks 1–9", row: normalizeTally(data.summary) }], "Kalshi backtest summary");
+    }
+    var blocks = data.blocks;
+    if (blocks && typeof blocks === "object") {
+      Object.keys(blocks).forEach(function (bk) {
+        var ents = mlBlockEntries(blocks[bk]);
+        if (!ents.length) return;
+        var title = blocks[bk].title || blocks[bk].label || ML_BLOCK_LABELS[bk] || String(bk).replace(/_/g, " ");
+        html += '<h3 class="tally-heading">' + P.escapeHtml(title) + "</h3>";
+        html += '<div class="table-wrap" style="border:0;background:transparent;"><table class="plain" aria-label="' +
+          P.escapeHtml(title) + '"><thead><tr><th>Rule</th><th class="num">Bets</th><th>Record</th><th class="num">Profit per $100 bet</th></tr></thead><tbody>' +
+          mlTableBody(ents) + "</tbody></table></div>";
+      });
+    }
+    html += renderGenericResultTable("By market", data.by_market || data.markets, "market");
+    html += renderGenericResultTable("By tier", data.by_tier || data.tiers, "tier");
+    html += renderGenericResultTable("Results", data.rows || data.rules || data.results, "label");
+    if (data.caveat) {
+      html += '<p class="panel-note">' + P.escapeHtml(data.caveat) + "</p>";
+    }
+    if (!html) {
+      empty.hidden = false;
+      content.hidden = true;
+      content.innerHTML = "";
+      return;
+    }
+    empty.hidden = true;
+    content.hidden = false;
+    content.innerHTML = html;
+  }
+
+  function initKalshiBacktest() {
+    P.fetchJson("data/kalshi_props_backtest.json")
+      .then(renderKalshiBacktest)
+      .catch(function () {
+        if ($("kalshi-backtest-empty")) $("kalshi-backtest-empty").hidden = false;
+        if ($("kalshi-backtest-content")) {
+          $("kalshi-backtest-content").hidden = true;
+          $("kalshi-backtest-content").innerHTML = "";
         }
       });
   }
@@ -821,6 +1369,8 @@
     init();
     initGraded();
     initWinnerAccuracy();
+    initMoneylineBacktest();
+    initKalshiBacktest();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
   else start();

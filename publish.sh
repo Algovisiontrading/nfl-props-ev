@@ -42,6 +42,24 @@ copy_if_present "$ROOT/models/track_record.json" "$SITE/data/track_record.json" 
 if ! copy_if_present "$ROOT/out/graded_picks.json" "$SITE/data/graded_picks.json"; then
   copy_if_present "$ROOT/models/graded_picks.json" "$SITE/data/graded_picks.json" || true
 fi
+copy_if_present "$ROOT/models/moneyline_roi_backtest_results.json" "$SITE/data/moneyline_backtest.json" || true
+
+# Optional Kalshi weeks 1–9 props backtest (skip gracefully if missing).
+kalshi_src=""
+for cand in \
+  "$ROOT/out/kalshi_props_backtest.json" \
+  "$ROOT/out/kalshi_props_backtest_results.json" \
+  "$ROOT/models/kalshi_props_backtest.json" \
+  "$ROOT/models/kalshi_props_backtest_results.json"
+do
+  if [[ -f "$cand" ]]; then
+    kalshi_src="$cand"
+    break
+  fi
+done
+if [[ -n "$kalshi_src" ]]; then
+  copy_if_present "$kalshi_src" "$SITE/data/kalshi_props_backtest.json" || true
+fi
 
 # Archive this week's file automatically (keeps prior weeks in the manifest).
 python3 "$SITE/archive_week.py"
@@ -112,10 +130,18 @@ while (( $(date +%s) < deadline )); do
   if [[ -f "$SITE/data/graded_picks.json" ]]; then
     graded_code="$(curl -sS -o /tmp/nfl-props-graded.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/graded_picks.json" || echo "000")"
   fi
+  ml_code="skip"
+  if [[ -f "$SITE/data/moneyline_backtest.json" ]]; then
+    ml_code="$(curl -sS -o /tmp/nfl-props-ml-backtest.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/moneyline_backtest.json" || echo "000")"
+  fi
+  kalshi_code="skip"
+  if [[ -f "$SITE/data/kalshi_props_backtest.json" ]]; then
+    kalshi_code="$(curl -sS -o /tmp/nfl-props-kalshi-backtest.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/kalshi_props_backtest.json" || echo "000")"
+  fi
   weeks_code="$(curl -sS -o /tmp/nfl-props-weeks.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/weeks/index.json" || echo "000")"
   top_code="$(curl -sS -o /tmp/nfl-props-top.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/props_top.json" || echo "000")"
   game_code="$(curl -sS -o /tmp/nfl-props-game.html -w '%{http_code}' --max-time 20 "$LIVE_BASE/game.html" || echo "000")"
-  last_info="index=$idx_code track=$tr_code data=$json_code graded=$graded_code weeks=$weeks_code top=$top_code game=$game_code"
+  last_info="index=$idx_code track=$tr_code data=$json_code graded=$graded_code weeks=$weeks_code top=$top_code game=$game_code ml=$ml_code kalshi=$kalshi_code"
   live_gen=""
   if [[ "$json_code" == "200" ]]; then
     live_gen="$(python3 - <<'PY'
@@ -133,7 +159,7 @@ PY
 )"
     last_info="$last_info generated_at=$live_gen"
   fi
-  if [[ "$idx_code" == "200" && "$tr_code" == "200" && "$json_code" == "200" && ( "$graded_code" == "skip" || "$graded_code" == "200" ) && "$weeks_code" == "200" && "$top_code" == "200" && "$game_code" == "200" ]]; then
+  if [[ "$idx_code" == "200" && "$tr_code" == "200" && "$json_code" == "200" && ( "$graded_code" == "skip" || "$graded_code" == "200" ) && "$weeks_code" == "200" && "$top_code" == "200" && "$game_code" == "200" && ( "$ml_code" == "skip" || "$ml_code" == "200" ) && ( "$kalshi_code" == "skip" || "$kalshi_code" == "200" ) ]]; then
     if [[ -z "$generated_at" || "$live_gen" == "$generated_at" ]]; then
       ok=1
       break

@@ -192,7 +192,7 @@ Hypothetical ROI and CLV are model backtest figures only — not live betting re
 
 ## `data/graded_picks.json`
 
-Copied at publish time from `models/graded_picks.json` when that file exists. If the file is missing, the Track Record page shows **No graded picks yet.** If `"sample": true`, a sample banner is shown and the figures are not presented as real graded results.
+Copied at publish time from `models/graded_picks.json` when that file exists. If the file is missing, is empty, or has `"sample": true`, the Track Record page shows **First graded week: Week 10, results Tuesday Nov 17.** and does not present sample rows as real results. If `"sample": true`, a sample banner is shown and the figures are not presented as real graded results.
 
 ```json
 {
@@ -241,6 +241,49 @@ Copied at publish time from `models/graded_picks.json` when that file exists. If
 | `source` | `"backtest"` \| `"live"` \| `"user_slip"`. |
 
 Probability-bucket summary uses side `model_prob` in bins **50–55, 55–60, 60–65, 65–70, 70–80, and 80+**. Columns: bucket, picks, hits, hit rate, average model prob, gap (hit rate minus average prob). **Pushes, voids, and invalid snapshots are excluded from the rates.**
+
+Optional fields used by the **Paper bets** running tally on the Track Record page (record, profit per $100, beat-the-closing-line rate, broken out by week, tier, market, and pick type). All of these are optional; the page renders only the breakouts the file actually contains and never invents numbers.
+
+| Field | Notes |
+|---|---|
+| `tier` | `"Strong"` \| `"Lean"` \| `"Pass"` (aliases: `ev_tier`, `signal`, `recommendation`). |
+| `pick_type` | `"prop"` / `"props"`, `"winner_favorite"`, or `"winner_model"` (aliases: `type`, `bet_type`). Labels on the page: **Props**, **Winner: betting favorite**, **Winner: our stats model**. Player-prop rows default to `"prop"` when this field is omitted. |
+| `profit_per_100` | Profit on a flat $100 paper bet (aliases: `profit`, `pnl_per_100`, `pnl`). If omitted, the page computes it from `result` + `odds_american` when both are present. |
+| `beat_close` | Boolean, whether the pick beat the closing line (aliases: `beat_closing_line`, `clv_flag`, `beat_cl`, `clv_positive`). A numeric `clv` / `clv_pct` greater than 0 is also accepted. The rate is shown only when at least one row (or a summary block) has this field. |
+| `summary`, `by_week`, `by_tier`, `by_market`, `by_pick_type` | Optional pre-aggregated blocks. Each row may include `bets`, `wins`, `losses`, `pushes`, `record`, `profit_per_100` (or `roi_per_100`), and `beat_close_rate`. If these blocks are present they are used as written; otherwise the page aggregates from `picks`. |
+
+## `data/moneyline_backtest.json`
+
+Copied at publish time from `models/moneyline_roi_backtest_results.json` when that file exists. If it is missing, the **Moneyline replay (2023–25)** section is hidden (the page does not error). Numbers are rendered from the file, not hardcoded.
+
+Expected shape (field names from Props Modeler's results file):
+
+```json
+{
+  "stake": 100,
+  "settle": "nflverse closing-ish moneyline, vig included",
+  "ties_excluded": true,
+  "blocks": {
+    "test_2023_2025": {
+      "games": 854,
+      "edge_0pt": {"bets": 854, "wins": 324, "losses": 530, "profit": -7784.0, "roi_per_100": -9.11, "dogs": 622, "by_season": {"2023": -0.5, "2024": -17.78, "2025": -9.06}},
+      "edge_3pt": {"bets": 721, "wins": 265, "losses": 456, "roi_per_100": -8.68},
+      "edge_5pt": {"bets": 616, "wins": 214, "losses": 402, "roi_per_100": -10.15},
+      "bet_every_favorite": {"bets": 854, "wins": 582, "losses": 272, "roi_per_100": -0.35}
+    },
+    "2026_through_wk9": {
+      "games": 135,
+      "edge_0pt": {"bets": 135, "wins": 57, "losses": 78, "roi_per_100": 4.31, "roi_ci95": [-19.21, 28.04]}
+    }
+  }
+}
+```
+
+The 2023–25 block is the main table (Rule, Bets, Record, Profit per $100 bet). Other blocks, such as 2026-to-date, are shown below it with a small-sample caveat that uses `games` and `roi_ci95` from the file when present.
+
+## `data/kalshi_props_backtest.json`
+
+Copied at publish time from the first file found among `out/kalshi_props_backtest.json`, `out/kalshi_props_backtest_results.json`, `models/kalshi_props_backtest.json`, and `models/kalshi_props_backtest_results.json`. If none of those exist, the Track Record page keeps the empty state **No Kalshi weeks 1–9 props backtest has been published yet.** The page renders only from the file (optional `summary`, `blocks`, `by_market`, `by_tier`, `rows` / `rules` / `results`, plus `note` / `caveat`) and never invents numbers.
 
 ## Week archive (`data/weeks/`)
 
