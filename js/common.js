@@ -509,6 +509,28 @@
     });
   }
 
+
+  var SITE_BACKTEST_BANNER = "Backtested on 2026 weeks 1–9 at Kalshi prices: break-even. Picks are a paper test, not proven profit.";
+  var SITE_BACKTEST_HREF = "track-record.html#kalshi-backtest";
+
+  function ensureSiteBacktestBanner() {
+    if (typeof document === "undefined") return;
+    if (document.getElementById("site-backtest-banner")) return;
+    var main = document.querySelector("main.wrap") || document.querySelector("main");
+    if (!main) return;
+    var a = document.createElement("a");
+    a.className = "site-backtest-banner";
+    a.id = "site-backtest-banner";
+    var path = (typeof location !== "undefined" && location.pathname) ? location.pathname : "";
+    a.href = /track-record\.html$/i.test(path) ? "#kalshi-backtest" : SITE_BACKTEST_HREF;
+    a.textContent = SITE_BACKTEST_BANNER;
+    main.insertBefore(a, main.firstChild);
+  }
+  if (typeof document !== "undefined") {
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", ensureSiteBacktestBanner);
+    else ensureSiteBacktestBanner();
+  }
+
   global.PropsEV = {
     MARKET_LABELS: MARKET_LABELS,
     MARKET_ALIASES: MARKET_ALIASES,
@@ -549,5 +571,8 @@
     evClass: evClass,
     edgeClass: edgeClass,
     fetchJson: fetchJson,
+    SITE_BACKTEST_BANNER: SITE_BACKTEST_BANNER,
+    SITE_BACKTEST_HREF: SITE_BACKTEST_HREF,
+    ensureSiteBacktestBanner: ensureSiteBacktestBanner,
   };
 })(window);

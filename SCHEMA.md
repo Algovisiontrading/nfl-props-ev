@@ -281,9 +281,9 @@ Expected shape (field names from Props Modeler's results file):
 
 The 2023–25 block is the main table (Rule, Bets, Record, Profit per $100 bet). Other blocks, such as 2026-to-date, are shown below it with a small-sample caveat that uses `games` and `roi_ci95` from the file when present.
 
-## `data/kalshi_props_backtest.json`
+## `data/kalshi_backtest_2026.json`
 
-Copied at publish time from the first file found among `out/kalshi_props_backtest.json`, `out/kalshi_props_backtest_results.json`, `models/kalshi_props_backtest.json`, and `models/kalshi_props_backtest_results.json`. If none of those exist, the Track Record page keeps the empty state **No Kalshi weeks 1–9 props backtest has been published yet.** The page renders only from the file (optional `summary`, `blocks`, `by_market`, `by_tier`, `rows` / `rules` / `results`, plus `note` / `caveat`) and never invents numbers.
+Copied at publish time from `models/kalshi_backtest_2026_results.json`. The Track Record section **Kalshi backtest, 2026 weeks 1–9** renders **only** `variants.oos` (models refit on data through 2025). The `live_as_published` / in-sample figures are never shown. Headline rows come from `headline_one_bet_per_player_market` (`all`, `by_tier`, `by_market`) with `bets`, `wins` / `losses` / `record`, `roi_per_100`, and `roi_ci95_game_cluster`. Naive baselines come from `naive_market_baseline`. The optional `projection_vs_market.by_market` table shows our miss vs the market implied-median miss and head-to-head `% closer`. If the file is missing or has no out-of-sample block, the section stays in its empty state. Numbers are rendered from the file only.
 
 ## Week archive (`data/weeks/`)
 

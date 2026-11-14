@@ -211,9 +211,9 @@
         '<div class="parlay-top">' +
           '<h3>' + P.escapeHtml(p.type_label) + "</h3>" +
           '<div class="parlay-metrics">' +
-            '<div><span class="label">Joint hit chance</span><span>' + formatJoint(p.joint_hit_chance) + "</span></div>" +
+            '<div><span class="label">Hit chance</span><span>' + formatJoint(p.joint_hit_chance) + "</span></div>" +
             '<div><span class="label">Payout</span><span>' + P.escapeHtml(String(formatPayout(p.payout))) + "</span></div>" +
-            '<div><span class="label">EV / $100</span><span class="' + P.evClass(p.ev_per_100) + '">' + formatEv(p.ev_per_100) + "</span></div>" +
+            '<div><span class="label">EV / $100</span><span class="sublabel">model estimate, unproven</span><span class="' + P.evClass(p.ev_per_100) + '">' + formatEv(p.ev_per_100) + "</span></div>" +
           "</div>" +
         "</div>" +
         (legs ? '<ul class="parlay-legs">' + legs + "</ul>" : "") +
@@ -231,8 +231,11 @@
       return eb - ea;
     });
     if (!list.length) return "";
+    var banner = (P && P.SITE_BACKTEST_BANNER) || "Backtested on 2026 weeks 1–9 at Kalshi prices: break-even. Picks are a paper test, not proven profit.";
+    var href = (P && P.SITE_BACKTEST_HREF) || "track-record.html#kalshi-backtest";
     return '<section class="panel parlay-panel" id="' + P.escapeHtml(opts.id || "parlays-panel") + '">' +
       "<h2>" + P.escapeHtml(title) + "</h2>" +
+      '<a class="site-backtest-banner" href="' + P.escapeHtml(href) + '">' + P.escapeHtml(banner) + "</a>" +
       '<div class="parlay-list">' + list.map(parlayCard).join("") + "</div>" +
       '<p class="panel-note">' + P.escapeHtml(CAVEAT) + "</p>" +
     "</section>";

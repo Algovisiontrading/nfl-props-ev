@@ -24,12 +24,19 @@
   </header>
 
   <main class="wrap">
+    <a class="site-backtest-banner" id="site-backtest-banner" href="#kalshi-backtest">Backtested on 2026 weeks 1–9 at Kalshi prices: break-even. Picks are a paper test, not proven profit.</a>
     <div class="page-meta" id="page-meta"></div>
     <div class="banner empty" id="sample-banner" hidden></div>
     <p class="disclaimer">
       Calibration, log loss, Brier, ROI, and CLV are <strong>hypothetical model backtests</strong>, not live betting results.
       This project does not place bets.
     </p>
+
+    <section class="panel" id="kalshi-backtest">
+      <h2>Kalshi backtest, 2026 weeks 1–9</h2>
+      <div class="banner empty" id="kalshi-backtest-empty" hidden>No Kalshi weeks 1–9 props backtest has been published yet. It will appear here when the modeler results file is available.</div>
+      <div id="kalshi-backtest-content"></div>
+    </section>
 
     <div id="track-content" hidden>
       <div class="metrics" id="metrics"></div>
@@ -161,11 +168,6 @@
       <p class="panel-note" id="projection-accuracy-note"></p>
     </section>
 
-    <section class="panel" id="kalshi-backtest-panel">
-      <h2>Kalshi props backtest (weeks 1–9)</h2>
-      <div class="banner empty" id="kalshi-backtest-empty">No Kalshi weeks 1–9 props backtest has been published yet. It will appear here when the modeler results file is available.</div>
-      <div id="kalshi-backtest-content" hidden></div>
-    </section>
 
     <section class="panel" id="graded-panel">
       <h2>Paper bets</h2>
@@ -226,6 +228,7 @@
 
   <script src="js/common.js"></script>
   <script src="js/projection-accuracy.js"></script>
+  <script src="js/kalshi-backtest.js"></script>
   <script src="js/track-record.js"></script>
 </body>
 </html>

@@ -1,0 +1,7246 @@
+{
+ "variants": {
+  "oos": {
+   "accounting": {
+    "graded_rungs": 31214,
+    "graded_by_market": {
+     "rec_yds": 10336,
+     "receptions": 8146,
+     "rush_yds": 3916,
+     "pass_yds": 2348,
+     "anytime_td": 1360,
+     "player_tds": 1183,
+     "rush_attempts": 1096,
+     "pass_tds": 1088,
+     "pass_completions": 999,
+     "pass_ints": 742
+    },
+    "not_matched_to_eligible_player": 11154,
+    "not_matched_note": "every Kalshi player was on that week's ACT roster stub; unmatched rungs fail our market eligibility (position not modeled for that market, e.g. QB/WR rush_yds, <3 prior games, or usage EWMA below the minimum) - live skips these too"
+   },
+   "level_factors": {
+    "anytime_td|wk1": 1.0178539671921552,
+    "anytime_td|wk2": 1.0375239047702218,
+    "anytime_td|wk3": 1.0298157372827923,
+    "anytime_td|wk4": 1.0260274863574348,
+    "anytime_td|wk5": 1.026546072657438,
+    "anytime_td|wk6": 1.0348325301143022,
+    "anytime_td|wk7": 1.018566657087836,
+    "anytime_td|wk8": 1.0137206473931852,
+    "anytime_td|wk9": 1.023735976124636,
+    "pass_ints|wk1": 0.9754364365362392,
+    "pass_ints|wk2": 0.981910014106111,
+    "pass_ints|wk3": 0.974235811513635,
+    "pass_ints|wk4": 0.975395719192482,
+    "pass_ints|wk5": 0.9806528897510256,
+    "pass_ints|wk6": 0.9834205507432604,
+    "pass_ints|wk7": 0.9852702724846577,
+    "pass_ints|wk8": 0.973557607276286,
+    "pass_ints|wk9": 0.9786882941242137,
+    "pass_tds|wk1": 0.9902488198315713,
+    "pass_tds|wk2": 0.9911518560792649,
+    "pass_tds|wk3": 0.9914989324601027,
+    "pass_tds|wk4": 1.0024902938164346,
+    "pass_tds|wk5": 0.9902748064332186,
+    "pass_tds|wk6": 0.9924911568998713,
+    "pass_tds|wk7": 0.9941490797954969,
+    "pass_tds|wk8": 0.9858532716929055,
+    "pass_tds|wk9": 0.9818483636989737,
+    "receptions|wk1": 0.9656689072413718,
+    "receptions|wk2": 0.9705042540847708,
+    "receptions|wk3": 0.9705895852694222,
+    "receptions|wk4": 0.9790476050069347,
+    "receptions|wk5": 0.9816903552896771,
+    "receptions|wk6": 0.9829251100524852,
+    "receptions|wk7": 0.9858208048713026,
+    "receptions|wk8": 0.9863178089947618,
+    "receptions|wk9": 0.9860683099487775,
+    "rec_yds|wk1": [
+     0.9547067279483404,
+     0.9650222105966755
+    ],
+    "rec_yds|wk2": [
+     0.9556896063641409,
+     0.9710818187765727
+    ],
+    "rec_yds|wk3": [
+     0.9559948329856728,
+     0.9810049381654004
+    ],
+    "rec_yds|wk4": [
+     0.9664542301189845,
+     0.9945187232595414
+    ],
+    "rec_yds|wk5": [
+     0.971528464418884,
+     0.9969384208566678
+    ],
+    "rec_yds|wk6": [
+     0.9754861511491815,
+     0.9952759254670219
+    ],
+    "rec_yds|wk7": [
+     0.9795042843165779,
+     0.9943627486774881
+    ],
+    "rec_yds|wk8": [
+     0.9812158638871105,
+     0.996170988560422
+    ],
+    "rec_yds|wk9": [
+     0.9817848357484941,
+     0.996307924764737
+    ],
+    "rush_yds|wk1": [
+     0.9760186885391863,
+     1.0107883831476816
+    ],
+    "rush_yds|wk2": [
+     0.9804595194336945,
+     1.0180187291634812
+    ],
+    "rush_yds|wk3": [
+     0.9832045073595491,
+     1.017996356679595
+    ],
+    "rush_yds|wk4": [
+     0.9835429211515255,
+     1.0125124541572608
+    ],
+    "rush_yds|wk5": [
+     0.9902607439342791,
+     1.014715706739755
+    ],
+    "rush_yds|wk6": [
+     0.9925174635213213,
+     1.0159890394085416
+    ],
+    "rush_yds|wk7": [
+     0.9983453018284836,
+     1.014436047592562
+    ],
+    "rush_yds|wk8": [
+     1.0090756344968088,
+     1.0191779294382337
+    ],
+    "rush_yds|wk9": [
+     1.0120802750683824,
+     1.0220391358648044
+    ],
+    "pass_yds|wk1": 0.9576574887819045,
+    "pass_yds|wk2": 0.9593223472157961,
+    "pass_yds|wk3": 0.9629267711332128,
+    "pass_yds|wk4": 0.969659551947181,
+    "pass_yds|wk5": 0.9665396883911773,
+    "pass_yds|wk6": 0.9668557427492945,
+    "pass_yds|wk7": 0.9736219058198932,
+    "pass_yds|wk8": 0.9726902834223669,
+    "pass_yds|wk9": 0.9640158751848971,
+    "pass_completions|wk1": 0.9687452814885956,
+    "pass_completions|wk2": 0.9718616732937715,
+    "pass_completions|wk3": 0.9729576216815082,
+    "pass_completions|wk4": 0.9804237632520325,
+    "pass_completions|wk5": 0.9770358955751165,
+    "pass_completions|wk6": 0.9763597639494529,
+    "pass_completions|wk7": 0.9861067037422051,
+    "pass_completions|wk8": 0.9856079070478506,
+    "pass_completions|wk9": 0.9765187286006848,
+    "rush_attempts|wk1": 0.9787729295767384,
+    "rush_attempts|wk2": 0.9846089123407807,
+    "rush_attempts|wk3": 0.9868009041595427,
+    "rush_attempts|wk4": 0.9858546089214806,
+    "rush_attempts|wk5": 0.9914975095987411,
+    "rush_attempts|wk6": 0.9918457033523147,
+    "rush_attempts|wk7": 0.9966082846030794,
+    "rush_attempts|wk8": 1.0052711236378298,
+    "rush_attempts|wk9": 1.0061421569688804
+   },
+   "headline_one_bet_per_player_market": {
+    "all": {
+     "bets": 2896,
+     "wins": 1030,
+     "losses": 1866,
+     "record": "1030-1866",
+     "profit": -2849.72,
+     "roi_per_100": -0.98,
+     "roi_ci95_game_cluster": [
+      -8.68,
+      7.14
+     ],
+     "avg_edge_pts": 6.06,
+     "avg_ev_per_100": 24.39,
+     "avg_model_prob": 0.4138,
+     "win_rate": 0.3557,
+     "avg_breakeven": 0.3532,
+     "games": 136
+    },
+    "by_tier": {
+     "Strong": {
+      "bets": 739,
+      "wins": 302,
+      "losses": 437,
+      "record": "302-437",
+      "profit": -213.04,
+      "roi_per_100": -0.29,
+      "roi_ci95_game_cluster": [
+       -11.53,
+       11.85
+      ],
+      "avg_edge_pts": 7.49,
+      "avg_ev_per_100": 24.07,
+      "avg_model_prob": 0.4764,
+      "win_rate": 0.4087,
+      "avg_breakeven": 0.4015,
+      "games": 136
+     },
+     "Lean": {
+      "bets": 2157,
+      "wins": 728,
+      "losses": 1429,
+      "record": "728-1429",
+      "profit": -2636.68,
+      "roi_per_100": -1.22,
+      "roi_ci95_game_cluster": [
+       -9.8,
+       7.69
+      ],
+      "avg_edge_pts": 5.57,
+      "avg_ev_per_100": 24.5,
+      "avg_model_prob": 0.3924,
+      "win_rate": 0.3375,
+      "avg_breakeven": 0.3367,
+      "games": 136
+     }
+    },
+    "by_market": {
+     "anytime_td": {
+      "bets": 577,
+      "wins": 243,
+      "losses": 334,
+      "record": "243-334",
+      "profit": 1940.44,
+      "roi_per_100": 3.36,
+      "roi_ci95_game_cluster": [
+       -11.33,
+       19.42
+      ],
+      "avg_edge_pts": 4.81,
+      "avg_ev_per_100": 18.95,
+      "avg_model_prob": 0.4468,
+      "win_rate": 0.4211,
+      "avg_breakeven": 0.3987,
+      "games": 136
+     },
+     "pass_ints": {
+      "bets": 146,
+      "wins": 72,
+      "losses": 74,
+      "record": "72-74",
+      "profit": -1180.01,
+      "roi_per_100": -8.08,
+      "roi_ci95_game_cluster": [
+       -24.16,
+       7.77
+      ],
+      "avg_edge_pts": 5.89,
+      "avg_ev_per_100": 12.95,
+      "avg_model_prob": 0.5714,
+      "win_rate": 0.4932,
+      "avg_breakeven": 0.5125,
+      "games": 108
+     },
+     "pass_tds": {
+      "bets": 214,
+      "wins": 59,
+      "losses": 155,
+      "record": "59-155",
+      "profit": -2656.81,
+      "roi_per_100": -12.42,
+      "roi_ci95_game_cluster": [
+       -37.1,
+       14.61
+      ],
+      "avg_edge_pts": 5.42,
+      "avg_ev_per_100": 26.2,
+      "avg_model_prob": 0.3502,
+      "win_rate": 0.2757,
+      "avg_breakeven": 0.2961,
+      "games": 132
+     },
+     "rec_yds": {
+      "bets": 855,
+      "wins": 274,
+      "losses": 581,
+      "record": "274-581",
+      "profit": 7001.37,
+      "roi_per_100": 8.19,
+      "roi_ci95_game_cluster": [
+       -5.2,
+       22.68
+      ],
+      "avg_edge_pts": 6.15,
+      "avg_ev_per_100": 27.01,
+      "avg_model_prob": 0.3733,
+      "win_rate": 0.3205,
+      "avg_breakeven": 0.3118,
+      "games": 136
+     },
+     "receptions": {
+      "bets": 776,
+      "wins": 288,
+      "losses": 488,
+      "record": "288-488",
+      "profit": -2543.57,
+      "roi_per_100": -3.28,
+      "roi_ci95_game_cluster": [
+       -15.02,
+       8.8
+      ],
+      "avg_edge_pts": 6.47,
+      "avg_ev_per_100": 23.7,
+      "avg_model_prob": 0.4338,
+      "win_rate": 0.3711,
+      "avg_breakeven": 0.3691,
+      "games": 136
+     },
+     "rush_yds": {
+      "bets": 328,
+      "wins": 94,
+      "losses": 234,
+      "record": "94-234",
+      "profit": -5411.14,
+      "roi_per_100": -16.5,
+      "roi_ci95_game_cluster": [
+       -35.18,
+       3.95
+      ],
+      "avg_edge_pts": 7.54,
+      "avg_ev_per_100": 32.67,
+      "avg_model_prob": 0.3857,
+      "win_rate": 0.2866,
+      "avg_breakeven": 0.3103,
+      "games": 134
+     }
+    },
+    "by_week": {
+     "1": {
+      "bets": 341,
+      "wins": 150,
+      "losses": 191,
+      "record": "150-191",
+      "profit": -4216.09,
+      "roi_per_100": -12.36,
+      "roi_ci95_game_cluster": [
+       -29.24,
+       5.04
+      ],
+      "avg_edge_pts": 6.85,
+      "avg_ev_per_100": 20.48,
+      "avg_model_prob": 0.5362,
+      "win_rate": 0.4399,
+      "avg_breakeven": 0.4677,
+      "games": 16
+     },
+     "2": {
+      "bets": 333,
+      "wins": 109,
+      "losses": 224,
+      "record": "109-224",
+      "profit": -2929.56,
+      "roi_per_100": -8.8,
+      "roi_ci95_game_cluster": [
+       -24.35,
+       6.34
+      ],
+      "avg_edge_pts": 6.27,
+      "avg_ev_per_100": 23.92,
+      "avg_model_prob": 0.4165,
+      "win_rate": 0.3273,
+      "avg_breakeven": 0.3538,
+      "games": 16
+     },
+     "3": {
+      "bets": 315,
+      "wins": 106,
+      "losses": 209,
+      "record": "106-209",
+      "profit": 1018.99,
+      "roi_per_100": 3.23,
+      "roi_ci95_game_cluster": [
+       -16.04,
+       22.8
+      ],
+      "avg_edge_pts": 5.95,
+      "avg_ev_per_100": 27.07,
+      "avg_model_prob": 0.3754,
+      "win_rate": 0.3365,
+      "avg_breakeven": 0.316,
+      "games": 16
+     },
+     "4": {
+      "bets": 353,
+      "wins": 116,
+      "losses": 237,
+      "record": "116-237",
+      "profit": 5178.54,
+      "roi_per_100": 14.67,
+      "roi_ci95_game_cluster": [
+       -10.1,
+       38.31
+      ],
+      "avg_edge_pts": 5.99,
+      "avg_ev_per_100": 26.01,
+      "avg_model_prob": 0.3827,
+      "win_rate": 0.3286,
+      "avg_breakeven": 0.3228,
+      "games": 16
+     },
+     "5": {
+      "bets": 342,
+      "wins": 110,
+      "losses": 232,
+      "record": "110-232",
+      "profit": 1428.07,
+      "roi_per_100": 4.18,
+      "roi_ci95_game_cluster": [
+       -21.08,
+       33.61
+      ],
+      "avg_edge_pts": 5.91,
+      "avg_ev_per_100": 27.85,
+      "avg_model_prob": 0.3664,
+      "win_rate": 0.3216,
+      "avg_breakeven": 0.3073,
+      "games": 15
+     },
+     "6": {
+      "bets": 314,
+      "wins": 105,
+      "losses": 209,
+      "record": "105-209",
+      "profit": -952.19,
+      "roi_per_100": -3.03,
+      "roi_ci95_game_cluster": [
+       -30.61,
+       28.07
+      ],
+      "avg_edge_pts": 5.97,
+      "avg_ev_per_100": 25.69,
+      "avg_model_prob": 0.3963,
+      "win_rate": 0.3344,
+      "avg_breakeven": 0.3366,
+      "games": 14
+     },
+     "7": {
+      "bets": 297,
+      "wins": 118,
+      "losses": 179,
+      "record": "118-179",
+      "profit": 1835.86,
+      "roi_per_100": 6.18,
+      "roi_ci95_game_cluster": [
+       -18.5,
+       35.45
+      ],
+      "avg_edge_pts": 5.62,
+      "avg_ev_per_100": 21.86,
+      "avg_model_prob": 0.413,
+      "win_rate": 0.3973,
+      "avg_breakeven": 0.3568,
+      "games": 14
+     },
+     "8": {
+      "bets": 300,
+      "wins": 99,
+      "losses": 201,
+      "record": "99-201",
+      "profit": -2814.61,
+      "roi_per_100": -9.38,
+      "roi_ci95_game_cluster": [
+       -34.35,
+       21.35
+      ],
+      "avg_edge_pts": 5.75,
+      "avg_ev_per_100": 23.3,
+      "avg_model_prob": 0.4053,
+      "win_rate": 0.33,
+      "avg_breakeven": 0.3479,
+      "games": 14
+     },
+     "9": {
+      "bets": 301,
+      "wins": 117,
+      "losses": 184,
+      "record": "117-184",
+      "profit": -1398.73,
+      "roi_per_100": -4.65,
+      "roi_ci95_game_cluster": [
+       -26.96,
+       17.74
+      ],
+      "avg_edge_pts": 6.15,
+      "avg_ev_per_100": 22.91,
+      "avg_model_prob": 0.4304,
+      "win_rate": 0.3887,
+      "avg_breakeven": 0.3689,
+      "games": 15
+     }
+    },
+    "by_side": {
+     "over": {
+      "bets": 1157,
+      "wins": 259,
+      "losses": 898,
+      "record": "259-898",
+      "profit": 1375.41,
+      "roi_per_100": 1.19,
+      "roi_ci95_game_cluster": [
+       -12.93,
+       15.75
+      ],
+      "avg_edge_pts": 5.13,
+      "avg_ev_per_100": 30.91,
+      "avg_model_prob": 0.2698,
+      "win_rate": 0.2239,
+      "avg_breakeven": 0.2185,
+      "games": 136
+     },
+     "under": {
+      "bets": 1739,
+      "wins": 771,
+      "losses": 968,
+      "record": "771-968",
+      "profit": -4225.13,
+      "roi_per_100": -2.43,
+      "roi_ci95_game_cluster": [
+       -10.07,
+       5.66
+      ],
+      "avg_edge_pts": 6.68,
+      "avg_ev_per_100": 20.05,
+      "avg_model_prob": 0.5096,
+      "win_rate": 0.4434,
+      "avg_breakeven": 0.4429,
+      "games": 136
+     }
+    }
+   },
+   "all_qualifying_rungs": {
+    "all": {
+     "bets": 8250,
+     "wins": 4013,
+     "losses": 4237,
+     "record": "4013-4237",
+     "profit": -2368.0,
+     "roi_per_100": -0.29,
+     "roi_ci95_game_cluster": [
+      -6.32,
+      6.07
+     ],
+     "avg_edge_pts": 5.79,
+     "avg_ev_per_100": 17.53,
+     "avg_model_prob": 0.5412,
+     "win_rate": 0.4864,
+     "avg_breakeven": 0.4833,
+     "games": 136
+    },
+    "by_tier": {
+     "Strong": {
+      "bets": 1846,
+      "wins": 838,
+      "losses": 1008,
+      "record": "838-1008",
+      "profit": 838.43,
+      "roi_per_100": 0.45,
+      "roi_ci95_game_cluster": [
+       -8.1,
+       9.22
+      ],
+      "avg_edge_pts": 7.47,
+      "avg_ev_per_100": 20.45,
+      "avg_model_prob": 0.5265,
+      "win_rate": 0.454,
+      "avg_breakeven": 0.4518,
+      "games": 136
+     },
+     "Lean": {
+      "bets": 6404,
+      "wins": 3175,
+      "losses": 3229,
+      "record": "3175-3229",
+      "profit": -3206.43,
+      "roi_per_100": -0.5,
+      "roi_ci95_game_cluster": [
+       -6.76,
+       6.02
+      ],
+      "avg_edge_pts": 5.3,
+      "avg_ev_per_100": 16.69,
+      "avg_model_prob": 0.5454,
+      "win_rate": 0.4958,
+      "avg_breakeven": 0.4923,
+      "games": 136
+     }
+    },
+    "by_market": {
+     "anytime_td": {
+      "bets": 577,
+      "wins": 243,
+      "losses": 334,
+      "record": "243-334",
+      "profit": 1940.44,
+      "roi_per_100": 3.36,
+      "roi_ci95_game_cluster": [
+       -11.33,
+       19.42
+      ],
+      "avg_edge_pts": 4.81,
+      "avg_ev_per_100": 18.95,
+      "avg_model_prob": 0.4468,
+      "win_rate": 0.4211,
+      "avg_breakeven": 0.3987,
+      "games": 136
+     },
+     "pass_ints": {
+      "bets": 214,
+      "wins": 125,
+      "losses": 89,
+      "record": "125-89",
+      "profit": -1237.83,
+      "roi_per_100": -5.78,
+      "roi_ci95_game_cluster": [
+       -17.64,
+       6.2
+      ],
+      "avg_edge_pts": 5.36,
+      "avg_ev_per_100": 10.74,
+      "avg_model_prob": 0.6542,
+      "win_rate": 0.5841,
+      "avg_breakeven": 0.6005,
+      "games": 108
+     },
+     "pass_tds": {
+      "bets": 419,
+      "wins": 184,
+      "losses": 235,
+      "record": "184-235",
+      "profit": -2197.92,
+      "roi_per_100": -5.25,
+      "roi_ci95_game_cluster": [
+       -22.4,
+       12.76
+      ],
+      "avg_edge_pts": 5.3,
+      "avg_ev_per_100": 18.61,
+      "avg_model_prob": 0.5008,
+      "win_rate": 0.4391,
+      "avg_breakeven": 0.4478,
+      "games": 132
+     },
+     "rec_yds": {
+      "bets": 3383,
+      "wins": 1638,
+      "losses": 1745,
+      "record": "1638-1745",
+      "profit": 9268.63,
+      "roi_per_100": 2.74,
+      "roi_ci95_game_cluster": [
+       -5.96,
+       12.03
+      ],
+      "avg_edge_pts": 5.75,
+      "avg_ev_per_100": 17.51,
+      "avg_model_prob": 0.5361,
+      "win_rate": 0.4842,
+      "avg_breakeven": 0.4786,
+      "games": 136
+     },
+     "receptions": {
+      "bets": 2245,
+      "wins": 1197,
+      "losses": 1048,
+      "record": "1197-1048",
+      "profit": 805.23,
+      "roi_per_100": 0.36,
+      "roi_ci95_game_cluster": [
+       -7.66,
+       9.18
+      ],
+      "avg_edge_pts": 5.96,
+      "avg_ev_per_100": 16.37,
+      "avg_model_prob": 0.5839,
+      "win_rate": 0.5332,
+      "avg_breakeven": 0.5243,
+      "games": 136
+     },
+     "rush_yds": {
+      "bets": 1412,
+      "wins": 626,
+      "losses": 786,
+      "record": "626-786",
+      "profit": -10946.55,
+      "roi_per_100": -7.75,
+      "roi_ci95_game_cluster": [
+       -20.07,
+       5.43
+      ],
+      "avg_edge_pts": 6.2,
+      "avg_ev_per_100": 19.56,
+      "avg_model_prob": 0.5186,
+      "win_rate": 0.4433,
+      "avg_breakeven": 0.4566,
+      "games": 134
+     }
+    },
+    "by_week": {
+     "1": {
+      "bets": 760,
+      "wins": 398,
+      "losses": 362,
+      "record": "398-362",
+      "profit": -5663.31,
+      "roi_per_100": -7.45,
+      "roi_ci95_game_cluster": [
+       -25.31,
+       11.56
+      ],
+      "avg_edge_pts": 6.13,
+      "avg_ev_per_100": 16.02,
+      "avg_model_prob": 0.6059,
+      "win_rate": 0.5237,
+      "avg_breakeven": 0.5446,
+      "games": 16
+     },
+     "2": {
+      "bets": 865,
+      "wins": 406,
+      "losses": 459,
+      "record": "406-459",
+      "profit": -4467.16,
+      "roi_per_100": -5.16,
+      "roi_ci95_game_cluster": [
+       -15.24,
+       5.02
+      ],
+      "avg_edge_pts": 5.84,
+      "avg_ev_per_100": 17.24,
+      "avg_model_prob": 0.544,
+      "win_rate": 0.4694,
+      "avg_breakeven": 0.4855,
+      "games": 16
+     },
+     "3": {
+      "bets": 953,
+      "wins": 484,
+      "losses": 469,
+      "record": "484-469",
+      "profit": 3714.86,
+      "roi_per_100": 3.9,
+      "roi_ci95_game_cluster": [
+       -9.8,
+       20.54
+      ],
+      "avg_edge_pts": 5.79,
+      "avg_ev_per_100": 18.15,
+      "avg_model_prob": 0.5468,
+      "win_rate": 0.5079,
+      "avg_breakeven": 0.4889,
+      "games": 16
+     },
+     "4": {
+      "bets": 1005,
+      "wins": 482,
+      "losses": 523,
+      "record": "482-523",
+      "profit": 9548.83,
+      "roi_per_100": 9.5,
+      "roi_ci95_game_cluster": [
+       -4.92,
+       26.08
+      ],
+      "avg_edge_pts": 5.73,
+      "avg_ev_per_100": 18.03,
+      "avg_model_prob": 0.5257,
+      "win_rate": 0.4796,
+      "avg_breakeven": 0.4684,
+      "games": 16
+     },
+     "5": {
+      "bets": 1115,
+      "wins": 510,
+      "losses": 605,
+      "record": "510-605",
+      "profit": 794.45,
+      "roi_per_100": 0.71,
+      "roi_ci95_game_cluster": [
+       -21.88,
+       24.17
+      ],
+      "avg_edge_pts": 5.7,
+      "avg_ev_per_100": 19.47,
+      "avg_model_prob": 0.5142,
+      "win_rate": 0.4574,
+      "avg_breakeven": 0.4572,
+      "games": 15
+     },
+     "6": {
+      "bets": 910,
+      "wins": 426,
+      "losses": 484,
+      "record": "426-484",
+      "profit": -4421.87,
+      "roi_per_100": -4.86,
+      "roi_ci95_game_cluster": [
+       -22.79,
+       14.97
+      ],
+      "avg_edge_pts": 5.74,
+      "avg_ev_per_100": 18.2,
+      "avg_model_prob": 0.5308,
+      "win_rate": 0.4681,
+      "avg_breakeven": 0.4734,
+      "games": 14
+     },
+     "7": {
+      "bets": 844,
+      "wins": 424,
+      "losses": 420,
+      "record": "424-420",
+      "profit": 3798.23,
+      "roi_per_100": 4.5,
+      "roi_ci95_game_cluster": [
+       -14.62,
+       27.53
+      ],
+      "avg_edge_pts": 5.47,
+      "avg_ev_per_100": 15.87,
+      "avg_model_prob": 0.5332,
+      "win_rate": 0.5024,
+      "avg_breakeven": 0.4784,
+      "games": 14
+     },
+     "8": {
+      "bets": 917,
+      "wins": 437,
+      "losses": 480,
+      "record": "437-480",
+      "profit": -3955.11,
+      "roi_per_100": -4.31,
+      "roi_ci95_game_cluster": [
+       -22.43,
+       17.69
+      ],
+      "avg_edge_pts": 5.73,
+      "avg_ev_per_100": 16.7,
+      "avg_model_prob": 0.5409,
+      "win_rate": 0.4766,
+      "avg_breakeven": 0.4836,
+      "games": 14
+     },
+     "9": {
+      "bets": 881,
+      "wins": 446,
+      "losses": 435,
+      "record": "446-435",
+      "profit": -1716.92,
+      "roi_per_100": -1.95,
+      "roi_ci95_game_cluster": [
+       -17.15,
+       16.51
+      ],
+      "avg_edge_pts": 6.02,
+      "avg_ev_per_100": 17.16,
+      "avg_model_prob": 0.5468,
+      "win_rate": 0.5062,
+      "avg_breakeven": 0.4866,
+      "games": 15
+     }
+    },
+    "by_side": {
+     "over": {
+      "bets": 2978,
+      "wins": 949,
+      "losses": 2029,
+      "record": "949-2029",
+      "profit": 1813.03,
+      "roi_per_100": 0.61,
+      "roi_ci95_game_cluster": [
+       -12.21,
+       13.59
+      ],
+      "avg_edge_pts": 5.42,
+      "avg_ev_per_100": 24.0,
+      "avg_model_prob": 0.373,
+      "win_rate": 0.3187,
+      "avg_breakeven": 0.3188,
+      "games": 136
+     },
+     "under": {
+      "bets": 5272,
+      "wins": 3064,
+      "losses": 2208,
+      "record": "3064-2208",
+      "profit": -4181.03,
+      "roi_per_100": -0.79,
+      "roi_ci95_game_cluster": [
+       -5.97,
+       4.67
+      ],
+      "avg_edge_pts": 5.99,
+      "avg_ev_per_100": 13.87,
+      "avg_model_prob": 0.6361,
+      "win_rate": 0.5812,
+      "avg_breakeven": 0.5762,
+      "games": 136
+     }
+    }
+   },
+   "calibration_all_graded_rungs": {
+    "all_published": {
+     "model": {
+      "n": 25588,
+      "ece": 0.012,
+      "log_loss": 0.4764,
+      "brier": 0.1558,
+      "mean_pred": 0.313,
+      "obs_rate": 0.3246,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 6527,
+        "mean_pred": 0.0532,
+        "obs_rate": 0.0617
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 4688,
+        "mean_pred": 0.1467,
+        "obs_rate": 0.148
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 3345,
+        "mean_pred": 0.2479,
+        "obs_rate": 0.255
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 2511,
+        "mean_pred": 0.3487,
+        "obs_rate": 0.374
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 2215,
+        "mean_pred": 0.4497,
+        "obs_rate": 0.465
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 1873,
+        "mean_pred": 0.5487,
+        "obs_rate": 0.5569
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 1751,
+        "mean_pred": 0.6499,
+        "obs_rate": 0.6762
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 1603,
+        "mean_pred": 0.7467,
+        "obs_rate": 0.7754
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 1006,
+        "mean_pred": 0.8413,
+        "obs_rate": 0.8539
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 69,
+        "mean_pred": 0.9183,
+        "obs_rate": 0.8551
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 25588,
+      "ece": 0.0068,
+      "log_loss": 0.4666,
+      "brier": 0.1523,
+      "mean_pred": 0.3279,
+      "obs_rate": 0.3246,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 6718,
+        "mean_pred": 0.057,
+        "obs_rate": 0.0537
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 4437,
+        "mean_pred": 0.1452,
+        "obs_rate": 0.151
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 2954,
+        "mean_pred": 0.2464,
+        "obs_rate": 0.2461
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 2309,
+        "mean_pred": 0.3467,
+        "obs_rate": 0.3426
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 2107,
+        "mean_pred": 0.4485,
+        "obs_rate": 0.4419
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 1905,
+        "mean_pred": 0.5468,
+        "obs_rate": 0.5223
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 1760,
+        "mean_pred": 0.6467,
+        "obs_rate": 0.642
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 1750,
+        "mean_pred": 0.7488,
+        "obs_rate": 0.7371
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 1456,
+        "mean_pred": 0.8398,
+        "obs_rate": 0.8537
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 192,
+        "mean_pred": 0.9171,
+        "obs_rate": 0.8802
+       }
+      ]
+     }
+    },
+    "anytime_td": {
+     "model": {
+      "n": 1360,
+      "ece": 0.0143,
+      "log_loss": 0.5607,
+      "brier": 0.1887,
+      "mean_pred": 0.2862,
+      "obs_rate": 0.2897,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 12,
+        "mean_pred": 0.0948,
+        "obs_rate": 0.1667
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 307,
+        "mean_pred": 0.164,
+        "obs_rate": 0.1401
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 558,
+        "mean_pred": 0.2486,
+        "obs_rate": 0.2599
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 279,
+        "mean_pred": 0.3443,
+        "obs_rate": 0.3477
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 119,
+        "mean_pred": 0.4474,
+        "obs_rate": 0.4538
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 54,
+        "mean_pred": 0.5417,
+        "obs_rate": 0.5556
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 27,
+        "mean_pred": 0.652,
+        "obs_rate": 0.7037
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 4,
+        "mean_pred": 0.7309,
+        "obs_rate": 1.0
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 1360,
+      "ece": 0.0178,
+      "log_loss": 0.5555,
+      "brier": 0.1867,
+      "mean_pred": 0.2818,
+      "obs_rate": 0.2897,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 105,
+        "mean_pred": 0.072,
+        "obs_rate": 0.0952
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 317,
+        "mean_pred": 0.1572,
+        "obs_rate": 0.1609
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 411,
+        "mean_pred": 0.2488,
+        "obs_rate": 0.253
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 270,
+        "mean_pred": 0.3441,
+        "obs_rate": 0.3778
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 138,
+        "mean_pred": 0.4476,
+        "obs_rate": 0.4203
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 83,
+        "mean_pred": 0.5416,
+        "obs_rate": 0.506
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 30,
+        "mean_pred": 0.65,
+        "obs_rate": 0.7333
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 6,
+        "mean_pred": 0.7317,
+        "obs_rate": 0.8333
+       }
+      ]
+     }
+    },
+    "pass_ints": {
+     "model": {
+      "n": 742,
+      "ece": 0.0249,
+      "log_loss": 0.431,
+      "brier": 0.1422,
+      "mean_pred": 0.2191,
+      "obs_rate": 0.2399,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 257,
+        "mean_pred": 0.0423,
+        "obs_rate": 0.0428
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 199,
+        "mean_pred": 0.1462,
+        "obs_rate": 0.1508
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 33,
+        "mean_pred": 0.2395,
+        "obs_rate": 0.2121
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 45,
+        "mean_pred": 0.3594,
+        "obs_rate": 0.4222
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 156,
+        "mean_pred": 0.4545,
+        "obs_rate": 0.5321
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 51,
+        "mean_pred": 0.5302,
+        "obs_rate": 0.549
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 1,
+        "mean_pred": 0.6074,
+        "obs_rate": 0.0
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 742,
+      "ece": 0.0286,
+      "log_loss": 0.4322,
+      "brier": 0.1402,
+      "mean_pred": 0.2475,
+      "obs_rate": 0.2399,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 215,
+        "mean_pred": 0.0545,
+        "obs_rate": 0.0326
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 222,
+        "mean_pred": 0.1505,
+        "obs_rate": 0.1261
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 38,
+        "mean_pred": 0.2201,
+        "obs_rate": 0.2105
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 10,
+        "mean_pred": 0.3845,
+        "obs_rate": 0.3
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 144,
+        "mean_pred": 0.4582,
+        "obs_rate": 0.5
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 108,
+        "mean_pred": 0.53,
+        "obs_rate": 0.5463
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 5,
+        "mean_pred": 0.616,
+        "obs_rate": 0.2
+       }
+      ]
+     }
+    },
+    "pass_tds": {
+     "model": {
+      "n": 1088,
+      "ece": 0.0373,
+      "log_loss": 0.4481,
+      "brier": 0.145,
+      "mean_pred": 0.3361,
+      "obs_rate": 0.3612,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 311,
+        "mean_pred": 0.0514,
+        "obs_rate": 0.0514
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 166,
+        "mean_pred": 0.1472,
+        "obs_rate": 0.1988
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 112,
+        "mean_pred": 0.2468,
+        "obs_rate": 0.1875
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 100,
+        "mean_pred": 0.35,
+        "obs_rate": 0.42
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 82,
+        "mean_pred": 0.449,
+        "obs_rate": 0.4512
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 63,
+        "mean_pred": 0.5525,
+        "obs_rate": 0.619
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 69,
+        "mean_pred": 0.6508,
+        "obs_rate": 0.6812
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 104,
+        "mean_pred": 0.7494,
+        "obs_rate": 0.8269
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 81,
+        "mean_pred": 0.8418,
+        "obs_rate": 0.8889
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 1088,
+      "ece": 0.0285,
+      "log_loss": 0.4399,
+      "brier": 0.1428,
+      "mean_pred": 0.3578,
+      "obs_rate": 0.3612,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 311,
+        "mean_pred": 0.0531,
+        "obs_rate": 0.0418
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 161,
+        "mean_pred": 0.1475,
+        "obs_rate": 0.1988
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 90,
+        "mean_pred": 0.245,
+        "obs_rate": 0.2444
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 87,
+        "mean_pred": 0.3509,
+        "obs_rate": 0.2759
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 87,
+        "mean_pred": 0.4451,
+        "obs_rate": 0.4598
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 64,
+        "mean_pred": 0.5474,
+        "obs_rate": 0.5781
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 62,
+        "mean_pred": 0.6504,
+        "obs_rate": 0.629
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 106,
+        "mean_pred": 0.7573,
+        "obs_rate": 0.7358
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 105,
+        "mean_pred": 0.8422,
+        "obs_rate": 0.8857
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 15,
+        "mean_pred": 0.9153,
+        "obs_rate": 1.0
+       }
+      ]
+     }
+    },
+    "rec_yds": {
+     "model": {
+      "n": 10336,
+      "ece": 0.0098,
+      "log_loss": 0.4889,
+      "brier": 0.1602,
+      "mean_pred": 0.3133,
+      "obs_rate": 0.3211,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 2503,
+        "mean_pred": 0.0597,
+        "obs_rate": 0.0703
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 2040,
+        "mean_pred": 0.1444,
+        "obs_rate": 0.1441
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 1308,
+        "mean_pred": 0.247,
+        "obs_rate": 0.2584
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 1008,
+        "mean_pred": 0.348,
+        "obs_rate": 0.371
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 894,
+        "mean_pred": 0.4484,
+        "obs_rate": 0.4452
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 829,
+        "mean_pred": 0.5485,
+        "obs_rate": 0.544
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 749,
+        "mean_pred": 0.6502,
+        "obs_rate": 0.6662
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 690,
+        "mean_pred": 0.7458,
+        "obs_rate": 0.7667
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 311,
+        "mean_pred": 0.8341,
+        "obs_rate": 0.8328
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 4,
+        "mean_pred": 0.9191,
+        "obs_rate": 0.25
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 10336,
+      "ece": 0.0088,
+      "log_loss": 0.4818,
+      "brier": 0.1579,
+      "mean_pred": 0.3207,
+      "obs_rate": 0.3211,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 2708,
+        "mean_pred": 0.0601,
+        "obs_rate": 0.0635
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 1849,
+        "mean_pred": 0.143,
+        "obs_rate": 0.1568
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 1206,
+        "mean_pred": 0.2462,
+        "obs_rate": 0.2562
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 960,
+        "mean_pred": 0.3464,
+        "obs_rate": 0.3438
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 827,
+        "mean_pred": 0.4488,
+        "obs_rate": 0.4426
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 810,
+        "mean_pred": 0.5465,
+        "obs_rate": 0.516
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 757,
+        "mean_pred": 0.648,
+        "obs_rate": 0.6367
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 735,
+        "mean_pred": 0.7483,
+        "obs_rate": 0.7483
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 478,
+        "mean_pred": 0.8339,
+        "obs_rate": 0.8285
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 6,
+        "mean_pred": 0.9167,
+        "obs_rate": 1.0
+       }
+      ]
+     }
+    },
+    "receptions": {
+     "model": {
+      "n": 8146,
+      "ece": 0.0191,
+      "log_loss": 0.4471,
+      "brier": 0.1446,
+      "mean_pred": 0.3092,
+      "obs_rate": 0.3278,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 2648,
+        "mean_pred": 0.0463,
+        "obs_rate": 0.0559
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 1246,
+        "mean_pred": 0.1472,
+        "obs_rate": 0.1549
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 836,
+        "mean_pred": 0.2493,
+        "obs_rate": 0.2679
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 675,
+        "mean_pred": 0.3505,
+        "obs_rate": 0.3911
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 589,
+        "mean_pred": 0.4502,
+        "obs_rate": 0.4941
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 537,
+        "mean_pred": 0.5496,
+        "obs_rate": 0.5624
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 570,
+        "mean_pred": 0.649,
+        "obs_rate": 0.6895
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 514,
+        "mean_pred": 0.7474,
+        "obs_rate": 0.7665
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 475,
+        "mean_pred": 0.8466,
+        "obs_rate": 0.8674
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 56,
+        "mean_pred": 0.9178,
+        "obs_rate": 0.875
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 8146,
+      "ece": 0.0113,
+      "log_loss": 0.4386,
+      "brier": 0.1418,
+      "mean_pred": 0.3364,
+      "obs_rate": 0.3278,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 2463,
+        "mean_pred": 0.0528,
+        "obs_rate": 0.0455
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 1225,
+        "mean_pred": 0.1448,
+        "obs_rate": 0.1494
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 787,
+        "mean_pred": 0.246,
+        "obs_rate": 0.2338
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 631,
+        "mean_pred": 0.3463,
+        "obs_rate": 0.3296
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 593,
+        "mean_pred": 0.4456,
+        "obs_rate": 0.4317
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 528,
+        "mean_pred": 0.5501,
+        "obs_rate": 0.5303
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 585,
+        "mean_pred": 0.646,
+        "obs_rate": 0.6462
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 540,
+        "mean_pred": 0.7494,
+        "obs_rate": 0.7222
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 631,
+        "mean_pred": 0.8461,
+        "obs_rate": 0.8542
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 163,
+        "mean_pred": 0.9165,
+        "obs_rate": 0.8589
+       }
+      ]
+     }
+    },
+    "rush_yds": {
+     "model": {
+      "n": 3916,
+      "ece": 0.0117,
+      "log_loss": 0.4913,
+      "brier": 0.1615,
+      "mean_pred": 0.3405,
+      "obs_rate": 0.3455,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 796,
+        "mean_pred": 0.0591,
+        "obs_rate": 0.0628
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 730,
+        "mean_pred": 0.1454,
+        "obs_rate": 0.1384
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 498,
+        "mean_pred": 0.2476,
+        "obs_rate": 0.2369
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 404,
+        "mean_pred": 0.3491,
+        "obs_rate": 0.354
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 375,
+        "mean_pred": 0.4508,
+        "obs_rate": 0.4453
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 339,
+        "mean_pred": 0.5508,
+        "obs_rate": 0.5693
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 335,
+        "mean_pred": 0.6503,
+        "obs_rate": 0.6746
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 291,
+        "mean_pred": 0.7468,
+        "obs_rate": 0.7904
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 139,
+        "mean_pred": 0.8391,
+        "obs_rate": 0.8345
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 9,
+        "mean_pred": 0.9208,
+        "obs_rate": 1.0
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 3916,
+      "ece": 0.0149,
+      "log_loss": 0.4675,
+      "brier": 0.1527,
+      "mean_pred": 0.352,
+      "obs_rate": 0.3455,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 916,
+        "mean_pred": 0.0593,
+        "obs_rate": 0.0513
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 663,
+        "mean_pred": 0.1441,
+        "obs_rate": 0.1297
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 422,
+        "mean_pred": 0.2479,
+        "obs_rate": 0.237
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 351,
+        "mean_pred": 0.3484,
+        "obs_rate": 0.3533
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 318,
+        "mean_pred": 0.4499,
+        "obs_rate": 0.4371
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 312,
+        "mean_pred": 0.5489,
+        "obs_rate": 0.5096
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 321,
+        "mean_pred": 0.6447,
+        "obs_rate": 0.648
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 363,
+        "mean_pred": 0.7465,
+        "obs_rate": 0.7355
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 242,
+        "mean_pred": 0.8342,
+        "obs_rate": 0.8884
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 8,
+        "mean_pred": 0.9325,
+        "obs_rate": 1.0
+       }
+      ]
+     }
+    },
+    "player_tds": {
+     "model": {
+      "n": 1183,
+      "ece": 0.0064,
+      "log_loss": 0.2205,
+      "brier": 0.0589,
+      "mean_pred": 0.0621,
+      "obs_rate": 0.0676,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 997,
+        "mean_pred": 0.0418,
+        "obs_rate": 0.0431
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 138,
+        "mean_pred": 0.137,
+        "obs_rate": 0.1739
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 35,
+        "mean_pred": 0.2433,
+        "obs_rate": 0.2286
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 13,
+        "mean_pred": 0.3349,
+        "obs_rate": 0.3846
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 1183,
+      "ece": 0.0071,
+      "log_loss": 0.2207,
+      "brier": 0.0587,
+      "mean_pred": 0.061,
+      "obs_rate": 0.0676,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 975,
+        "mean_pred": 0.0389,
+        "obs_rate": 0.041
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 165,
+        "mean_pred": 0.137,
+        "obs_rate": 0.1515
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 32,
+        "mean_pred": 0.2486,
+        "obs_rate": 0.3438
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 10,
+        "mean_pred": 0.3355,
+        "obs_rate": 0.3
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 1,
+        "mean_pred": 0.415,
+        "obs_rate": 1.0
+       }
+      ]
+     }
+    },
+    "pass_yds": {
+     "model": {
+      "n": 2348,
+      "ece": 0.0414,
+      "log_loss": 0.5162,
+      "brier": 0.1686,
+      "mean_pred": 0.376,
+      "obs_rate": 0.4174,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 494,
+        "mean_pred": 0.0538,
+        "obs_rate": 0.1032
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 352,
+        "mean_pred": 0.1464,
+        "obs_rate": 0.1477
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 256,
+        "mean_pred": 0.247,
+        "obs_rate": 0.2695
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 219,
+        "mean_pred": 0.3469,
+        "obs_rate": 0.4064
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 209,
+        "mean_pred": 0.4486,
+        "obs_rate": 0.5024
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 201,
+        "mean_pred": 0.5508,
+        "obs_rate": 0.602
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 211,
+        "mean_pred": 0.652,
+        "obs_rate": 0.7393
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 222,
+        "mean_pred": 0.753,
+        "obs_rate": 0.8108
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 171,
+        "mean_pred": 0.8447,
+        "obs_rate": 0.848
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 13,
+        "mean_pred": 0.9151,
+        "obs_rate": 0.9231
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 2348,
+      "ece": 0.0155,
+      "log_loss": 0.4884,
+      "brier": 0.1597,
+      "mean_pred": 0.4051,
+      "obs_rate": 0.4174,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 482,
+        "mean_pred": 0.0597,
+        "obs_rate": 0.0685
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 350,
+        "mean_pred": 0.1445,
+        "obs_rate": 0.1429
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 228,
+        "mean_pred": 0.2483,
+        "obs_rate": 0.2719
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 202,
+        "mean_pred": 0.3495,
+        "obs_rate": 0.401
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 166,
+        "mean_pred": 0.4481,
+        "obs_rate": 0.4518
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 181,
+        "mean_pred": 0.5498,
+        "obs_rate": 0.558
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 193,
+        "mean_pred": 0.6534,
+        "obs_rate": 0.6995
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 225,
+        "mean_pred": 0.7528,
+        "obs_rate": 0.76
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 284,
+        "mean_pred": 0.8505,
+        "obs_rate": 0.8451
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 37,
+        "mean_pred": 0.9116,
+        "obs_rate": 0.8649
+       }
+      ]
+     }
+    },
+    "pass_completions": {
+     "model": {
+      "n": 999,
+      "ece": 0.077,
+      "log_loss": 0.5951,
+      "brier": 0.1975,
+      "mean_pred": 0.4449,
+      "obs_rate": 0.5165,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 55,
+        "mean_pred": 0.0757,
+        "obs_rate": 0.2727
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 137,
+        "mean_pred": 0.1456,
+        "obs_rate": 0.1825
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 135,
+        "mean_pred": 0.2494,
+        "obs_rate": 0.2296
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 125,
+        "mean_pred": 0.3496,
+        "obs_rate": 0.464
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 118,
+        "mean_pred": 0.4557,
+        "obs_rate": 0.5
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 116,
+        "mean_pred": 0.5436,
+        "obs_rate": 0.6207
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 144,
+        "mean_pred": 0.657,
+        "obs_rate": 0.7639
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 105,
+        "mean_pred": 0.7377,
+        "obs_rate": 0.8667
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 62,
+        "mean_pred": 0.8418,
+        "obs_rate": 0.8548
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 2,
+        "mean_pred": 0.9263,
+        "obs_rate": 1.0
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 999,
+      "ece": 0.0441,
+      "log_loss": 0.5688,
+      "brier": 0.1922,
+      "mean_pred": 0.4835,
+      "obs_rate": 0.5165,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 11,
+        "mean_pred": 0.0823,
+        "obs_rate": 0.0909
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 231,
+        "mean_pred": 0.1562,
+        "obs_rate": 0.1818
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 73,
+        "mean_pred": 0.2284,
+        "obs_rate": 0.2466
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 27,
+        "mean_pred": 0.3604,
+        "obs_rate": 0.5185
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 174,
+        "mean_pred": 0.4633,
+        "obs_rate": 0.4828
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 198,
+        "mean_pred": 0.535,
+        "obs_rate": 0.6414
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 29,
+        "mean_pred": 0.6395,
+        "obs_rate": 0.7241
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 41,
+        "mean_pred": 0.7666,
+        "obs_rate": 0.7073
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 208,
+        "mean_pred": 0.8499,
+        "obs_rate": 0.8365
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 7,
+        "mean_pred": 0.9071,
+        "obs_rate": 0.8571
+       }
+      ]
+     }
+    },
+    "rush_attempts": {
+     "model": {
+      "n": 1096,
+      "ece": 0.0789,
+      "log_loss": 0.6945,
+      "brier": 0.2426,
+      "mean_pred": 0.4313,
+      "obs_rate": 0.5055,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 55,
+        "mean_pred": 0.0612,
+        "obs_rate": 0.2909
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 125,
+        "mean_pred": 0.1416,
+        "obs_rate": 0.392
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 161,
+        "mean_pred": 0.2591,
+        "obs_rate": 0.3727
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 177,
+        "mean_pred": 0.352,
+        "obs_rate": 0.4294
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 153,
+        "mean_pred": 0.4494,
+        "obs_rate": 0.4575
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 121,
+        "mean_pred": 0.5434,
+        "obs_rate": 0.5702
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 176,
+        "mean_pred": 0.6467,
+        "obs_rate": 0.6648
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 90,
+        "mean_pred": 0.7451,
+        "obs_rate": 0.7333
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 34,
+        "mean_pred": 0.8382,
+        "obs_rate": 0.7941
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 4,
+        "mean_pred": 0.9294,
+        "obs_rate": 1.0
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 1096,
+      "ece": 0.0296,
+      "log_loss": 0.6258,
+      "brier": 0.2178,
+      "mean_pred": 0.4824,
+      "obs_rate": 0.5055,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 4,
+        "mean_pred": 0.085,
+        "obs_rate": 0.0
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 64,
+        "mean_pred": 0.1639,
+        "obs_rate": 0.2656
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 204,
+        "mean_pred": 0.2516,
+        "obs_rate": 0.2794
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 126,
+        "mean_pred": 0.341,
+        "obs_rate": 0.381
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 188,
+        "mean_pred": 0.4552,
+        "obs_rate": 0.4947
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 174,
+        "mean_pred": 0.5348,
+        "obs_rate": 0.5575
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 116,
+        "mean_pred": 0.6582,
+        "obs_rate": 0.6466
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 171,
+        "mean_pred": 0.7442,
+        "obs_rate": 0.7368
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 45,
+        "mean_pred": 0.8362,
+        "obs_rate": 0.8222
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 4,
+        "mean_pred": 0.925,
+        "obs_rate": 1.0
+       }
+      ]
+     }
+    }
+   },
+   "naive_market_baseline": {
+    "buy_over_every_rung": {
+     "bets": 25588,
+     "wins": 8307,
+     "losses": 17281,
+     "record": "8307-17281",
+     "profit": -322194.66,
+     "roi_per_100": -12.59,
+     "roi_ci95_game_cluster": [
+      -18.31,
+      -6.7
+     ],
+     "avg_edge_pts": -3.57,
+     "avg_ev_per_100": -9.73,
+     "avg_model_prob": 0.313,
+     "win_rate": 0.3246,
+     "avg_breakeven": 0.3486,
+     "games": 136
+    },
+    "buy_under_every_rung": {
+     "bets": 25588,
+     "wins": 17281,
+     "losses": 8307,
+     "record": "17281-8307",
+     "profit": -83738.25,
+     "roi_per_100": -3.27,
+     "roi_ci95_game_cluster": [
+      -5.94,
+      -0.5
+     ],
+     "avg_edge_pts": -0.53,
+     "avg_ev_per_100": 1.71,
+     "avg_model_prob": 0.687,
+     "win_rate": 0.6754,
+     "avg_breakeven": 0.6923,
+     "games": 136
+    },
+    "buy_both_sides_every_rung": {
+     "bets": 51176,
+     "wins": 25588,
+     "losses": 25588,
+     "record": "25588-25588",
+     "profit": -405932.91,
+     "roi_per_100": -7.93,
+     "roi_ci95_game_cluster": [
+      -10.16,
+      -5.63
+     ],
+     "avg_edge_pts": -2.05,
+     "avg_ev_per_100": -4.01,
+     "avg_model_prob": 0.5,
+     "win_rate": 0.5,
+     "avg_breakeven": 0.5205,
+     "games": 136
+    }
+   },
+   "not_published_markets": {
+    "one_bet_per_player_market": {
+     "all": {
+      "bets": 746,
+      "wins": 295,
+      "losses": 451,
+      "record": "295-451",
+      "profit": -3897.12,
+      "roi_per_100": -5.22,
+      "roi_ci95_game_cluster": [
+       -18.2,
+       8.42
+      ],
+      "avg_edge_pts": 6.28,
+      "avg_ev_per_100": 23.76,
+      "avg_model_prob": 0.477,
+      "win_rate": 0.3954,
+      "avg_breakeven": 0.4142,
+      "games": 136
+     },
+     "by_tier": {
+      "Strong": {
+       "bets": 345,
+       "wins": 126,
+       "losses": 219,
+       "record": "126-219",
+       "profit": -2037.68,
+       "roi_per_100": -5.91,
+       "roi_ci95_game_cluster": [
+        -21.22,
+        10.7
+       ],
+       "avg_edge_pts": 8.26,
+       "avg_ev_per_100": 28.07,
+       "avg_model_prob": 0.4633,
+       "win_rate": 0.3652,
+       "avg_breakeven": 0.3808,
+       "games": 131
+      },
+      "Lean": {
+       "bets": 401,
+       "wins": 169,
+       "losses": 232,
+       "record": "169-232",
+       "profit": -1859.44,
+       "roi_per_100": -4.64,
+       "roi_ci95_game_cluster": [
+        -24.33,
+        16.06
+       ],
+       "avg_edge_pts": 4.57,
+       "avg_ev_per_100": 20.06,
+       "avg_model_prob": 0.4887,
+       "win_rate": 0.4214,
+       "avg_breakeven": 0.443,
+       "games": 131
+      }
+     },
+     "by_market": {
+      "pass_completions": {
+       "bets": 158,
+       "wins": 70,
+       "losses": 88,
+       "record": "70-88",
+       "profit": -786.37,
+       "roi_per_100": -4.98,
+       "roi_ci95_game_cluster": [
+        -22.72,
+        14.15
+       ],
+       "avg_edge_pts": 6.34,
+       "avg_ev_per_100": 18.97,
+       "avg_model_prob": 0.5157,
+       "win_rate": 0.443,
+       "avg_breakeven": 0.4522,
+       "games": 113
+      },
+      "pass_yds": {
+       "bets": 249,
+       "wins": 56,
+       "losses": 193,
+       "record": "56-193",
+       "profit": -4641.23,
+       "roi_per_100": -18.64,
+       "roi_ci95_game_cluster": [
+        -43.91,
+        8.86
+       ],
+       "avg_edge_pts": 6.62,
+       "avg_ev_per_100": 34.67,
+       "avg_model_prob": 0.3281,
+       "win_rate": 0.2249,
+       "avg_breakeven": 0.2619,
+       "games": 135
+      },
+      "player_tds": {
+       "bets": 141,
+       "wins": 83,
+       "losses": 58,
+       "record": "83-58",
+       "profit": 2289.17,
+       "roi_per_100": 16.24,
+       "roi_ci95_game_cluster": [
+        -19.28,
+        56.75
+       ],
+       "avg_edge_pts": 3.96,
+       "avg_ev_per_100": 16.28,
+       "avg_model_prob": 0.6221,
+       "win_rate": 0.5887,
+       "avg_breakeven": 0.5825,
+       "games": 88
+      },
+      "rush_attempts": {
+       "bets": 198,
+       "wins": 86,
+       "losses": 112,
+       "record": "86-112",
+       "profit": -758.69,
+       "roi_per_100": -3.83,
+       "roi_ci95_game_cluster": [
+        -21.19,
+        14.73
+       ],
+       "avg_edge_pts": 7.44,
+       "avg_ev_per_100": 19.21,
+       "avg_model_prob": 0.53,
+       "win_rate": 0.4343,
+       "avg_breakeven": 0.4556,
+       "games": 116
+      }
+     },
+     "by_week": {
+      "1": {
+       "bets": 76,
+       "wins": 35,
+       "losses": 41,
+       "record": "35-41",
+       "profit": 227.07,
+       "roi_per_100": 2.99,
+       "roi_ci95_game_cluster": [
+        -26.36,
+        37.98
+       ],
+       "avg_edge_pts": 6.34,
+       "avg_ev_per_100": 19.61,
+       "avg_model_prob": 0.5504,
+       "win_rate": 0.4605,
+       "avg_breakeven": 0.487,
+       "games": 16
+      },
+      "2": {
+       "bets": 78,
+       "wins": 32,
+       "losses": 46,
+       "record": "32-46",
+       "profit": 1551.98,
+       "roi_per_100": 19.9,
+       "roi_ci95_game_cluster": [
+        -16.05,
+        63.17
+       ],
+       "avg_edge_pts": 6.14,
+       "avg_ev_per_100": 25.25,
+       "avg_model_prob": 0.4268,
+       "win_rate": 0.4103,
+       "avg_breakeven": 0.3653,
+       "games": 16
+      },
+      "3": {
+       "bets": 86,
+       "wins": 38,
+       "losses": 48,
+       "record": "38-48",
+       "profit": 161.09,
+       "roi_per_100": 1.87,
+       "roi_ci95_game_cluster": [
+        -36.28,
+        47.62
+       ],
+       "avg_edge_pts": 6.26,
+       "avg_ev_per_100": 23.26,
+       "avg_model_prob": 0.5008,
+       "win_rate": 0.4419,
+       "avg_breakeven": 0.4383,
+       "games": 16
+      },
+      "4": {
+       "bets": 92,
+       "wins": 33,
+       "losses": 59,
+       "record": "33-59",
+       "profit": -543.27,
+       "roi_per_100": -5.91,
+       "roi_ci95_game_cluster": [
+        -44.07,
+        36.79
+       ],
+       "avg_edge_pts": 6.41,
+       "avg_ev_per_100": 27.29,
+       "avg_model_prob": 0.4345,
+       "win_rate": 0.3587,
+       "avg_breakeven": 0.3705,
+       "games": 16
+      },
+      "5": {
+       "bets": 92,
+       "wins": 39,
+       "losses": 53,
+       "record": "39-53",
+       "profit": 3485.48,
+       "roi_per_100": 37.89,
+       "roi_ci95_game_cluster": [
+        -10.71,
+        91.16
+       ],
+       "avg_edge_pts": 6.2,
+       "avg_ev_per_100": 23.42,
+       "avg_model_prob": 0.4673,
+       "win_rate": 0.4239,
+       "avg_breakeven": 0.4053,
+       "games": 15
+      },
+      "6": {
+       "bets": 90,
+       "wins": 34,
+       "losses": 56,
+       "record": "34-56",
+       "profit": -2771.67,
+       "roi_per_100": -30.8,
+       "roi_ci95_game_cluster": [
+        -52.14,
+        -3.94
+       ],
+       "avg_edge_pts": 6.14,
+       "avg_ev_per_100": 21.53,
+       "avg_model_prob": 0.5142,
+       "win_rate": 0.3778,
+       "avg_breakeven": 0.4528,
+       "games": 14
+      },
+      "7": {
+       "bets": 76,
+       "wins": 28,
+       "losses": 48,
+       "record": "28-48",
+       "profit": -1132.74,
+       "roi_per_100": -14.9,
+       "roi_ci95_game_cluster": [
+        -44.23,
+        15.19
+       ],
+       "avg_edge_pts": 5.95,
+       "avg_ev_per_100": 27.35,
+       "avg_model_prob": 0.4235,
+       "win_rate": 0.3684,
+       "avg_breakeven": 0.3641,
+       "games": 14
+      },
+      "8": {
+       "bets": 76,
+       "wins": 24,
+       "losses": 52,
+       "record": "24-52",
+       "profit": -2852.21,
+       "roi_per_100": -37.53,
+       "roi_ci95_game_cluster": [
+        -65.11,
+        0.97
+       ],
+       "avg_edge_pts": 6.72,
+       "avg_ev_per_100": 26.2,
+       "avg_model_prob": 0.4447,
+       "win_rate": 0.3158,
+       "avg_breakeven": 0.3775,
+       "games": 14
+      },
+      "9": {
+       "bets": 80,
+       "wins": 32,
+       "losses": 48,
+       "record": "32-48",
+       "profit": -2022.86,
+       "roi_per_100": -25.29,
+       "roi_ci95_game_cluster": [
+        -53.22,
+        8.46
+       ],
+       "avg_edge_pts": 6.34,
+       "avg_ev_per_100": 19.92,
+       "avg_model_prob": 0.53,
+       "win_rate": 0.4,
+       "avg_breakeven": 0.4666,
+       "games": 15
+      }
+     },
+     "by_side": {
+      "over": {
+       "bets": 307,
+       "wins": 84,
+       "losses": 223,
+       "record": "84-223",
+       "profit": -822.46,
+       "roi_per_100": -2.68,
+       "roi_ci95_game_cluster": [
+        -28.82,
+        25.95
+       ],
+       "avg_edge_pts": 5.72,
+       "avg_ev_per_100": 28.44,
+       "avg_model_prob": 0.3414,
+       "win_rate": 0.2736,
+       "avg_breakeven": 0.2841,
+       "games": 120
+      },
+      "under": {
+       "bets": 439,
+       "wins": 211,
+       "losses": 228,
+       "record": "211-228",
+       "profit": -3074.66,
+       "roi_per_100": -7.0,
+       "roi_ci95_game_cluster": [
+        -19.64,
+        7.08
+       ],
+       "avg_edge_pts": 6.66,
+       "avg_ev_per_100": 20.5,
+       "avg_model_prob": 0.5718,
+       "win_rate": 0.4806,
+       "avg_breakeven": 0.5052,
+       "games": 129
+      }
+     }
+    },
+    "all_qualifying_rungs": {
+     "all": {
+      "bets": 1588,
+      "wins": 723,
+      "losses": 865,
+      "record": "723-865",
+      "profit": 3408.57,
+      "roi_per_100": 2.15,
+      "roi_ci95_game_cluster": [
+       -10.01,
+       14.85
+      ],
+      "avg_edge_pts": 5.77,
+      "avg_ev_per_100": 18.81,
+      "avg_model_prob": 0.5147,
+      "win_rate": 0.4553,
+      "avg_breakeven": 0.457,
+      "games": 136
+     },
+     "by_tier": {
+      "Strong": {
+       "bets": 794,
+       "wins": 326,
+       "losses": 468,
+       "record": "326-468",
+       "profit": -129.06,
+       "roi_per_100": -0.16,
+       "roi_ci95_game_cluster": [
+        -14.57,
+        14.88
+       ],
+       "avg_edge_pts": 7.51,
+       "avg_ev_per_100": 22.79,
+       "avg_model_prob": 0.4913,
+       "win_rate": 0.4106,
+       "avg_breakeven": 0.4162,
+       "games": 133
+      },
+      "Lean": {
+       "bets": 794,
+       "wins": 397,
+       "losses": 397,
+       "record": "397-397",
+       "profit": 3537.63,
+       "roi_per_100": 4.46,
+       "roi_ci95_game_cluster": [
+        -11.0,
+        20.89
+       ],
+       "avg_edge_pts": 4.03,
+       "avg_ev_per_100": 14.83,
+       "avg_model_prob": 0.5381,
+       "win_rate": 0.5,
+       "avg_breakeven": 0.4979,
+       "games": 136
+      }
+     },
+     "by_market": {
+      "pass_completions": {
+       "bets": 204,
+       "wins": 99,
+       "losses": 105,
+       "record": "99-105",
+       "profit": -728.53,
+       "roi_per_100": -3.57,
+       "roi_ci95_game_cluster": [
+        -19.77,
+        13.28
+       ],
+       "avg_edge_pts": 6.03,
+       "avg_ev_per_100": 16.75,
+       "avg_model_prob": 0.5484,
+       "win_rate": 0.4853,
+       "avg_breakeven": 0.488,
+       "games": 113
+      },
+      "pass_yds": {
+       "bets": 952,
+       "wins": 400,
+       "losses": 552,
+       "record": "400-552",
+       "profit": 2408.55,
+       "roi_per_100": 2.53,
+       "roi_ci95_game_cluster": [
+        -14.99,
+        20.99
+       ],
+       "avg_edge_pts": 5.65,
+       "avg_ev_per_100": 20.37,
+       "avg_model_prob": 0.4763,
+       "win_rate": 0.4202,
+       "avg_breakeven": 0.4198,
+       "games": 135
+      },
+      "player_tds": {
+       "bets": 141,
+       "wins": 83,
+       "losses": 58,
+       "record": "83-58",
+       "profit": 2289.17,
+       "roi_per_100": 16.24,
+       "roi_ci95_game_cluster": [
+        -19.28,
+        56.75
+       ],
+       "avg_edge_pts": 3.96,
+       "avg_ev_per_100": 16.28,
+       "avg_model_prob": 0.6221,
+       "win_rate": 0.5887,
+       "avg_breakeven": 0.5825,
+       "games": 88
+      },
+      "rush_attempts": {
+       "bets": 291,
+       "wins": 141,
+       "losses": 150,
+       "record": "141-150",
+       "profit": -560.62,
+       "roi_per_100": -1.93,
+       "roi_ci95_game_cluster": [
+        -18.66,
+        15.28
+       ],
+       "avg_edge_pts": 6.84,
+       "avg_ev_per_100": 16.38,
+       "avg_model_prob": 0.5648,
+       "win_rate": 0.4845,
+       "avg_breakeven": 0.4964,
+       "games": 116
+      }
+     },
+     "by_week": {
+      "1": {
+       "bets": 148,
+       "wins": 84,
+       "losses": 64,
+       "record": "84-64",
+       "profit": 4525.13,
+       "roi_per_100": 30.58,
+       "roi_ci95_game_cluster": [
+        -16.61,
+        81.93
+       ],
+       "avg_edge_pts": 5.87,
+       "avg_ev_per_100": 16.55,
+       "avg_model_prob": 0.5772,
+       "win_rate": 0.5676,
+       "avg_breakeven": 0.5185,
+       "games": 16
+      },
+      "2": {
+       "bets": 167,
+       "wins": 86,
+       "losses": 81,
+       "record": "86-81",
+       "profit": 6018.96,
+       "roi_per_100": 36.04,
+       "roi_ci95_game_cluster": [
+        11.93,
+        62.63
+       ],
+       "avg_edge_pts": 5.45,
+       "avg_ev_per_100": 19.84,
+       "avg_model_prob": 0.4535,
+       "win_rate": 0.515,
+       "avg_breakeven": 0.3989,
+       "games": 16
+      },
+      "3": {
+       "bets": 186,
+       "wins": 96,
+       "losses": 90,
+       "record": "96-90",
+       "profit": 3465.01,
+       "roi_per_100": 18.63,
+       "roi_ci95_game_cluster": [
+        -18.31,
+        65.46
+       ],
+       "avg_edge_pts": 5.88,
+       "avg_ev_per_100": 18.75,
+       "avg_model_prob": 0.5359,
+       "win_rate": 0.5161,
+       "avg_breakeven": 0.4771,
+       "games": 16
+      },
+      "4": {
+       "bets": 211,
+       "wins": 89,
+       "losses": 122,
+       "record": "89-122",
+       "profit": -1770.79,
+       "roi_per_100": -8.39,
+       "roi_ci95_game_cluster": [
+        -39.7,
+        30.12
+       ],
+       "avg_edge_pts": 5.91,
+       "avg_ev_per_100": 20.57,
+       "avg_model_prob": 0.5001,
+       "win_rate": 0.4218,
+       "avg_breakeven": 0.441,
+       "games": 16
+      },
+      "5": {
+       "bets": 186,
+       "wins": 82,
+       "losses": 104,
+       "record": "82-104",
+       "profit": 3463.57,
+       "roi_per_100": 18.62,
+       "roi_ci95_game_cluster": [
+        -18.99,
+        59.04
+       ],
+       "avg_edge_pts": 5.65,
+       "avg_ev_per_100": 18.53,
+       "avg_model_prob": 0.4905,
+       "win_rate": 0.4409,
+       "avg_breakeven": 0.434,
+       "games": 15
+      },
+      "6": {
+       "bets": 166,
+       "wins": 66,
+       "losses": 100,
+       "record": "66-100",
+       "profit": -4857.44,
+       "roi_per_100": -29.26,
+       "roi_ci95_game_cluster": [
+        -55.42,
+        7.03
+       ],
+       "avg_edge_pts": 5.72,
+       "avg_ev_per_100": 17.63,
+       "avg_model_prob": 0.5432,
+       "win_rate": 0.3976,
+       "avg_breakeven": 0.4859,
+       "games": 14
+      },
+      "7": {
+       "bets": 190,
+       "wins": 84,
+       "losses": 106,
+       "record": "84-106",
+       "profit": -1279.85,
+       "roi_per_100": -6.74,
+       "roi_ci95_game_cluster": [
+        -27.68,
+        18.61
+       ],
+       "avg_edge_pts": 5.8,
+       "avg_ev_per_100": 20.36,
+       "avg_model_prob": 0.5006,
+       "win_rate": 0.4421,
+       "avg_breakeven": 0.4426,
+       "games": 14
+      },
+      "8": {
+       "bets": 162,
+       "wins": 54,
+       "losses": 108,
+       "record": "54-108",
+       "profit": -3095.25,
+       "roi_per_100": -19.11,
+       "roi_ci95_game_cluster": [
+        -50.85,
+        21.6
+       ],
+       "avg_edge_pts": 5.95,
+       "avg_ev_per_100": 20.54,
+       "avg_model_prob": 0.4799,
+       "win_rate": 0.3333,
+       "avg_breakeven": 0.4204,
+       "games": 14
+      },
+      "9": {
+       "bets": 172,
+       "wins": 82,
+       "losses": 90,
+       "record": "82-90",
+       "profit": -3060.77,
+       "roi_per_100": -17.8,
+       "roi_ci95_game_cluster": [
+        -36.3,
+        5.62
+       ],
+       "avg_edge_pts": 5.65,
+       "avg_ev_per_100": 15.76,
+       "avg_model_prob": 0.5624,
+       "win_rate": 0.4767,
+       "avg_breakeven": 0.5059,
+       "games": 15
+      }
+     },
+     "by_side": {
+      "over": {
+       "bets": 646,
+       "wins": 241,
+       "losses": 405,
+       "record": "241-405",
+       "profit": 7228.94,
+       "roi_per_100": 11.19,
+       "roi_ci95_game_cluster": [
+        -13.03,
+        37.82
+       ],
+       "avg_edge_pts": 5.51,
+       "avg_ev_per_100": 22.45,
+       "avg_model_prob": 0.4072,
+       "win_rate": 0.3731,
+       "avg_breakeven": 0.3521,
+       "games": 122
+      },
+      "under": {
+       "bets": 942,
+       "wins": 482,
+       "losses": 460,
+       "record": "482-460",
+       "profit": -3820.37,
+       "roi_per_100": -4.06,
+       "roi_ci95_game_cluster": [
+        -16.6,
+        9.01
+       ],
+       "avg_edge_pts": 5.95,
+       "avg_ev_per_100": 16.32,
+       "avg_model_prob": 0.5884,
+       "win_rate": 0.5117,
+       "avg_breakeven": 0.529,
+       "games": 130
+      }
+     }
+    }
+   },
+   "sensitivity_edge_vs_mid": {
+    "one_bet_per_player_market": {
+     "all": {
+      "bets": 3625,
+      "wins": 1298,
+      "losses": 2327,
+      "record": "1298-2327",
+      "profit": -11773.32,
+      "roi_per_100": -3.25,
+      "roi_ci95_game_cluster": [
+       -10.31,
+       3.97
+      ],
+      "avg_edge_pts": 6.95,
+      "avg_ev_per_100": 20.45,
+      "avg_model_prob": 0.4119,
+      "win_rate": 0.3581,
+      "avg_breakeven": 0.3617,
+      "games": 136
+     },
+     "by_tier": {
+      "Strong": {
+       "bets": 1021,
+       "wins": 400,
+       "losses": 621,
+       "record": "400-621",
+       "profit": -901.06,
+       "roi_per_100": -0.88,
+       "roi_ci95_game_cluster": [
+        -10.63,
+        9.47
+       ],
+       "avg_edge_pts": 8.36,
+       "avg_ev_per_100": 20.54,
+       "avg_model_prob": 0.4474,
+       "win_rate": 0.3918,
+       "avg_breakeven": 0.3846,
+       "games": 136
+      },
+      "Lean": {
+       "bets": 2604,
+       "wins": 898,
+       "losses": 1706,
+       "record": "898-1706",
+       "profit": -10872.27,
+       "roi_per_100": -4.18,
+       "roi_ci95_game_cluster": [
+        -12.56,
+        4.36
+       ],
+       "avg_edge_pts": 6.4,
+       "avg_ev_per_100": 20.42,
+       "avg_model_prob": 0.3979,
+       "win_rate": 0.3449,
+       "avg_breakeven": 0.3527,
+       "games": 136
+      }
+     },
+     "by_market": {
+      "anytime_td": {
+       "bets": 881,
+       "wins": 376,
+       "losses": 505,
+       "record": "376-505",
+       "profit": 1528.09,
+       "roi_per_100": 1.73,
+       "roi_ci95_game_cluster": [
+        -9.35,
+        13.45
+       ],
+       "avg_edge_pts": 5.34,
+       "avg_ev_per_100": 13.57,
+       "avg_model_prob": 0.4565,
+       "win_rate": 0.4268,
+       "avg_breakeven": 0.4214,
+       "games": 136
+      },
+      "pass_ints": {
+       "bets": 204,
+       "wins": 98,
+       "losses": 106,
+       "record": "98-106",
+       "profit": -1807.17,
+       "roi_per_100": -8.86,
+       "roi_ci95_game_cluster": [
+        -22.87,
+        5.38
+       ],
+       "avg_edge_pts": 6.71,
+       "avg_ev_per_100": 10.01,
+       "avg_model_prob": 0.5486,
+       "win_rate": 0.4804,
+       "avg_breakeven": 0.504,
+       "games": 128
+      },
+      "pass_tds": {
+       "bets": 251,
+       "wins": 67,
+       "losses": 184,
+       "record": "67-184",
+       "profit": -3348.89,
+       "roi_per_100": -13.34,
+       "roi_ci95_game_cluster": [
+        -37.29,
+        12.14
+       ],
+       "avg_edge_pts": 6.49,
+       "avg_ev_per_100": 23.6,
+       "avg_model_prob": 0.3323,
+       "win_rate": 0.2669,
+       "avg_breakeven": 0.2852,
+       "games": 136
+      },
+      "rec_yds": {
+       "bets": 1016,
+       "wins": 321,
+       "losses": 695,
+       "record": "321-695",
+       "profit": 3234.82,
+       "roi_per_100": 3.18,
+       "roi_ci95_game_cluster": [
+        -9.5,
+        16.76
+       ],
+       "avg_edge_pts": 7.21,
+       "avg_ev_per_100": 23.86,
+       "avg_model_prob": 0.3643,
+       "win_rate": 0.3159,
+       "avg_breakeven": 0.3115,
+       "games": 136
+      },
+      "receptions": {
+       "bets": 928,
+       "wins": 339,
+       "losses": 589,
+       "record": "339-589",
+       "profit": -4625.84,
+       "roi_per_100": -4.98,
+       "roi_ci95_game_cluster": [
+        -15.25,
+        5.5
+       ],
+       "avg_edge_pts": 7.59,
+       "avg_ev_per_100": 20.58,
+       "avg_model_prob": 0.424,
+       "win_rate": 0.3653,
+       "avg_breakeven": 0.3686,
+       "games": 136
+      },
+      "rush_yds": {
+       "bets": 345,
+       "wins": 97,
+       "losses": 248,
+       "record": "97-248",
+       "profit": -6754.35,
+       "roi_per_100": -19.58,
+       "roi_ci95_game_cluster": [
+        -36.68,
+        -1.07
+       ],
+       "avg_edge_pts": 9.03,
+       "avg_ev_per_100": 31.51,
+       "avg_model_prob": 0.3822,
+       "win_rate": 0.2812,
+       "avg_breakeven": 0.3105,
+       "games": 135
+      }
+     },
+     "by_week": {
+      "1": {
+       "bets": 412,
+       "wins": 177,
+       "losses": 235,
+       "record": "177-235",
+       "profit": -5861.31,
+       "roi_per_100": -14.23,
+       "roi_ci95_game_cluster": [
+        -28.83,
+        0.61
+       ],
+       "avg_edge_pts": 8.03,
+       "avg_ev_per_100": 17.82,
+       "avg_model_prob": 0.5155,
+       "win_rate": 0.4296,
+       "avg_breakeven": 0.4573,
+       "games": 16
+      },
+      "2": {
+       "bets": 412,
+       "wins": 136,
+       "losses": 276,
+       "record": "136-276",
+       "profit": -5594.83,
+       "roi_per_100": -13.58,
+       "roi_ci95_game_cluster": [
+        -27.94,
+        0.67
+       ],
+       "avg_edge_pts": 7.3,
+       "avg_ev_per_100": 20.06,
+       "avg_model_prob": 0.4138,
+       "win_rate": 0.3301,
+       "avg_breakeven": 0.3616,
+       "games": 16
+      },
+      "3": {
+       "bets": 409,
+       "wins": 141,
+       "losses": 268,
+       "record": "141-268",
+       "profit": 1657.32,
+       "roi_per_100": 4.05,
+       "roi_ci95_game_cluster": [
+        -16.06,
+        24.26
+       ],
+       "avg_edge_pts": 6.58,
+       "avg_ev_per_100": 22.16,
+       "avg_model_prob": 0.3759,
+       "win_rate": 0.3447,
+       "avg_breakeven": 0.3281,
+       "games": 16
+      },
+      "4": {
+       "bets": 428,
+       "wins": 146,
+       "losses": 282,
+       "record": "146-282",
+       "profit": 4880.44,
+       "roi_per_100": 11.4,
+       "roi_ci95_game_cluster": [
+        -10.3,
+        31.83
+       ],
+       "avg_edge_pts": 6.86,
+       "avg_ev_per_100": 22.4,
+       "avg_model_prob": 0.3795,
+       "win_rate": 0.3411,
+       "avg_breakeven": 0.3289,
+       "games": 16
+      },
+      "5": {
+       "bets": 424,
+       "wins": 140,
+       "losses": 284,
+       "record": "140-284",
+       "profit": -295.73,
+       "roi_per_100": -0.7,
+       "roi_ci95_game_cluster": [
+        -25.0,
+        25.89
+       ],
+       "avg_edge_pts": 6.68,
+       "avg_ev_per_100": 23.43,
+       "avg_model_prob": 0.3793,
+       "win_rate": 0.3302,
+       "avg_breakeven": 0.3298,
+       "games": 15
+      },
+      "6": {
+       "bets": 389,
+       "wins": 132,
+       "losses": 257,
+       "record": "132-257",
+       "profit": 883.81,
+       "roi_per_100": 2.27,
+       "roi_ci95_game_cluster": [
+        -24.26,
+        29.9
+       ],
+       "avg_edge_pts": 6.79,
+       "avg_ev_per_100": 21.58,
+       "avg_model_prob": 0.3923,
+       "win_rate": 0.3393,
+       "avg_breakeven": 0.3428,
+       "games": 14
+      },
+      "7": {
+       "bets": 381,
+       "wins": 144,
+       "losses": 237,
+       "record": "144-237",
+       "profit": -181.58,
+       "roi_per_100": -0.48,
+       "roi_ci95_game_cluster": [
+        -21.85,
+        23.94
+       ],
+       "avg_edge_pts": 6.56,
+       "avg_ev_per_100": 18.3,
+       "avg_model_prob": 0.4034,
+       "win_rate": 0.378,
+       "avg_breakeven": 0.3576,
+       "games": 14
+      },
+      "8": {
+       "bets": 378,
+       "wins": 132,
+       "losses": 246,
+       "record": "132-246",
+       "profit": -4189.22,
+       "roi_per_100": -11.08,
+       "roi_ci95_game_cluster": [
+        -34.58,
+        15.25
+       ],
+       "avg_edge_pts": 6.72,
+       "avg_ev_per_100": 19.25,
+       "avg_model_prob": 0.4162,
+       "win_rate": 0.3492,
+       "avg_breakeven": 0.3689,
+       "games": 14
+      },
+      "9": {
+       "bets": 392,
+       "wins": 150,
+       "losses": 242,
+       "record": "150-242",
+       "profit": -3072.22,
+       "roi_per_100": -7.84,
+       "roi_ci95_game_cluster": [
+        -26.24,
+        9.96
+       ],
+       "avg_edge_pts": 6.97,
+       "avg_ev_per_100": 18.63,
+       "avg_model_prob": 0.4323,
+       "win_rate": 0.3827,
+       "avg_breakeven": 0.3826,
+       "games": 15
+      }
+     },
+     "by_side": {
+      "over": {
+       "bets": 1529,
+       "wins": 349,
+       "losses": 1180,
+       "record": "349-1180",
+       "profit": -2689.04,
+       "roi_per_100": -1.76,
+       "roi_ci95_game_cluster": [
+        -14.05,
+        11.01
+       ],
+       "avg_edge_pts": 5.82,
+       "avg_ev_per_100": 25.26,
+       "avg_model_prob": 0.2653,
+       "win_rate": 0.2283,
+       "avg_breakeven": 0.2244,
+       "games": 136
+      },
+      "under": {
+       "bets": 2096,
+       "wins": 949,
+       "losses": 1147,
+       "record": "949-1147",
+       "profit": -9084.28,
+       "roi_per_100": -4.33,
+       "roi_ci95_game_cluster": [
+        -11.18,
+        2.8
+       ],
+       "avg_edge_pts": 7.77,
+       "avg_ev_per_100": 16.94,
+       "avg_model_prob": 0.5188,
+       "win_rate": 0.4528,
+       "avg_breakeven": 0.4619,
+       "games": 136
+      }
+     }
+    },
+    "all_qualifying_rungs": {
+     "bets": 11296,
+     "wins": 5586,
+     "losses": 5710,
+     "record": "5586-5710",
+     "profit": -17192.15,
+     "roi_per_100": -1.52,
+     "roi_ci95_game_cluster": [
+      -6.81,
+      4.08
+     ],
+     "avg_edge_pts": 6.5,
+     "avg_ev_per_100": 13.88,
+     "avg_model_prob": 0.5382,
+     "win_rate": 0.4945,
+     "avg_breakeven": 0.4931,
+     "games": 136
+    }
+   },
+   "tier_counts_all_rung_sides": {
+    "Pass": 42926,
+    "Lean": 6404,
+    "Strong": 1846
+   }
+  },
+  "live_as_published": {
+   "accounting": {
+    "graded_rungs": 31214,
+    "graded_by_market": {
+     "rec_yds": 10336,
+     "receptions": 8146,
+     "rush_yds": 3916,
+     "pass_yds": 2348,
+     "anytime_td": 1360,
+     "player_tds": 1183,
+     "rush_attempts": 1096,
+     "pass_tds": 1088,
+     "pass_completions": 999,
+     "pass_ints": 742
+    },
+    "not_matched_to_eligible_player": 11154,
+    "not_matched_note": "every Kalshi player was on that week's ACT roster stub; unmatched rungs fail our market eligibility (position not modeled for that market, e.g. QB/WR rush_yds, <3 prior games, or usage EWMA below the minimum) - live skips these too"
+   },
+   "level_factors": {
+    "anytime_td|wk1": 1.0139345353950404,
+    "anytime_td|wk2": 1.0320645003748055,
+    "anytime_td|wk3": 1.0241185968508164,
+    "anytime_td|wk4": 1.0202030180293284,
+    "anytime_td|wk5": 1.0203060111584241,
+    "anytime_td|wk6": 1.0283005960629803,
+    "anytime_td|wk7": 1.0118864872179703,
+    "anytime_td|wk8": 1.0070059594129774,
+    "anytime_td|wk9": 1.0171377038870424,
+    "pass_ints|wk1": 0.97416607003972,
+    "pass_ints|wk2": 0.9809272586560003,
+    "pass_ints|wk3": 0.9742285204213824,
+    "pass_ints|wk4": 0.9753895212006054,
+    "pass_ints|wk5": 0.980434537831719,
+    "pass_ints|wk6": 0.9831851655144558,
+    "pass_ints|wk7": 0.9851642069218446,
+    "pass_ints|wk8": 0.9734429576023689,
+    "pass_ints|wk9": 0.9785496643445701,
+    "pass_tds|wk1": 0.9887751415292549,
+    "pass_tds|wk2": 0.9881059083821448,
+    "pass_tds|wk3": 0.9893425404013535,
+    "pass_tds|wk4": 0.9979345788427241,
+    "pass_tds|wk5": 0.9865641918330609,
+    "pass_tds|wk6": 0.9879367668595416,
+    "pass_tds|wk7": 0.9880764878054583,
+    "pass_tds|wk8": 0.979865277518821,
+    "pass_tds|wk9": 0.9765269548622678,
+    "receptions|wk1": 0.9646109843100891,
+    "receptions|wk2": 0.9693741175433221,
+    "receptions|wk3": 0.9694230243995619,
+    "receptions|wk4": 0.9777402177636246,
+    "receptions|wk5": 0.9803262856125088,
+    "receptions|wk6": 0.9814424758724523,
+    "receptions|wk7": 0.9842579027244451,
+    "receptions|wk8": 0.9847028132500487,
+    "receptions|wk9": 0.9846247203777635,
+    "rec_yds|wk1": [
+     0.9547067279483404,
+     0.9650222105966755
+    ],
+    "rec_yds|wk2": [
+     0.9556896063641409,
+     0.9710818187765727
+    ],
+    "rec_yds|wk3": [
+     0.9559948329856728,
+     0.9810049381654004
+    ],
+    "rec_yds|wk4": [
+     0.9664542301189845,
+     0.9945187232595414
+    ],
+    "rec_yds|wk5": [
+     0.971528464418884,
+     0.9969384208566678
+    ],
+    "rec_yds|wk6": [
+     0.9754861511491815,
+     0.9952759254670219
+    ],
+    "rec_yds|wk7": [
+     0.9795042843165779,
+     0.9943627486774881
+    ],
+    "rec_yds|wk8": [
+     0.9812158638871105,
+     0.996170988560422
+    ],
+    "rec_yds|wk9": [
+     0.9817848357484941,
+     0.996307924764737
+    ],
+    "rush_yds|wk1": [
+     0.9760186885391863,
+     1.0107883831476816
+    ],
+    "rush_yds|wk2": [
+     0.9804595194336945,
+     1.0180187291634812
+    ],
+    "rush_yds|wk3": [
+     0.9832045073595491,
+     1.017996356679595
+    ],
+    "rush_yds|wk4": [
+     0.9835429211515255,
+     1.0125124541572608
+    ],
+    "rush_yds|wk5": [
+     0.9902607439342791,
+     1.014715706739755
+    ],
+    "rush_yds|wk6": [
+     0.9925174635213213,
+     1.0159890394085416
+    ],
+    "rush_yds|wk7": [
+     0.9983453018284836,
+     1.014436047592562
+    ],
+    "rush_yds|wk8": [
+     1.0090756344968088,
+     1.0191779294382337
+    ],
+    "rush_yds|wk9": [
+     1.0120802750683824,
+     1.0220391358648044
+    ],
+    "pass_yds|wk1": 0.9576574887819045,
+    "pass_yds|wk2": 0.9593223472157961,
+    "pass_yds|wk3": 0.9629267711332128,
+    "pass_yds|wk4": 0.969659551947181,
+    "pass_yds|wk5": 0.9665396883911773,
+    "pass_yds|wk6": 0.9668557427492945,
+    "pass_yds|wk7": 0.9736219058198932,
+    "pass_yds|wk8": 0.9726902834223669,
+    "pass_yds|wk9": 0.9640158751848971,
+    "pass_completions|wk1": 0.9687452814885956,
+    "pass_completions|wk2": 0.9718616732937715,
+    "pass_completions|wk3": 0.9729576216815082,
+    "pass_completions|wk4": 0.9804237632520325,
+    "pass_completions|wk5": 0.9770358955751165,
+    "pass_completions|wk6": 0.9763597639494529,
+    "pass_completions|wk7": 0.9861067037422051,
+    "pass_completions|wk8": 0.9856079070478506,
+    "pass_completions|wk9": 0.9765187286006848,
+    "rush_attempts|wk1": 0.9787729295767384,
+    "rush_attempts|wk2": 0.9846089123407807,
+    "rush_attempts|wk3": 0.9868009041595427,
+    "rush_attempts|wk4": 0.9858546089214806,
+    "rush_attempts|wk5": 0.9914975095987411,
+    "rush_attempts|wk6": 0.9918457033523147,
+    "rush_attempts|wk7": 0.9966082846030794,
+    "rush_attempts|wk8": 1.0052711236378298,
+    "rush_attempts|wk9": 1.0061421569688804
+   },
+   "headline_one_bet_per_player_market": {
+    "all": {
+     "bets": 2883,
+     "wins": 1060,
+     "losses": 1823,
+     "record": "1060-1823",
+     "profit": 11063.94,
+     "roi_per_100": 3.84,
+     "roi_ci95_game_cluster": [
+      -4.16,
+      12.04
+     ],
+     "avg_edge_pts": 6.03,
+     "avg_ev_per_100": 24.23,
+     "avg_model_prob": 0.4156,
+     "win_rate": 0.3677,
+     "avg_breakeven": 0.3554,
+     "games": 136
+    },
+    "by_tier": {
+     "Strong": {
+      "bets": 721,
+      "wins": 320,
+      "losses": 401,
+      "record": "320-401",
+      "profit": 7523.32,
+      "roi_per_100": 10.43,
+      "roi_ci95_game_cluster": [
+       -1.31,
+       22.4
+      ],
+      "avg_edge_pts": 7.44,
+      "avg_ev_per_100": 23.32,
+      "avg_model_prob": 0.4825,
+      "win_rate": 0.4438,
+      "avg_breakeven": 0.4081,
+      "games": 135
+     },
+     "Lean": {
+      "bets": 2162,
+      "wins": 740,
+      "losses": 1422,
+      "record": "740-1422",
+      "profit": 3540.63,
+      "roi_per_100": 1.64,
+      "roi_ci95_game_cluster": [
+       -7.28,
+       10.61
+      ],
+      "avg_edge_pts": 5.56,
+      "avg_ev_per_100": 24.54,
+      "avg_model_prob": 0.3933,
+      "win_rate": 0.3423,
+      "avg_breakeven": 0.3378,
+      "games": 136
+     }
+    },
+    "by_market": {
+     "anytime_td": {
+      "bets": 574,
+      "wins": 246,
+      "losses": 328,
+      "record": "246-328",
+      "profit": 2736.68,
+      "roi_per_100": 4.77,
+      "roi_ci95_game_cluster": [
+       -9.5,
+       19.88
+      ],
+      "avg_edge_pts": 4.84,
+      "avg_ev_per_100": 18.86,
+      "avg_model_prob": 0.4506,
+      "win_rate": 0.4286,
+      "avg_breakeven": 0.4022,
+      "games": 135
+     },
+     "pass_ints": {
+      "bets": 141,
+      "wins": 69,
+      "losses": 72,
+      "record": "69-72",
+      "profit": -1470.29,
+      "roi_per_100": -10.43,
+      "roi_ci95_game_cluster": [
+       -27.18,
+       6.91
+      ],
+      "avg_edge_pts": 5.83,
+      "avg_ev_per_100": 13.07,
+      "avg_model_prob": 0.576,
+      "win_rate": 0.4894,
+      "avg_breakeven": 0.5177,
+      "games": 102
+     },
+     "pass_tds": {
+      "bets": 210,
+      "wins": 86,
+      "losses": 124,
+      "record": "86-124",
+      "profit": 10327.5,
+      "roi_per_100": 49.18,
+      "roi_ci95_game_cluster": [
+       13.64,
+       86.99
+      ],
+      "avg_edge_pts": 4.99,
+      "avg_ev_per_100": 24.65,
+      "avg_model_prob": 0.35,
+      "win_rate": 0.4095,
+      "avg_breakeven": 0.3001,
+      "games": 130
+     },
+     "rec_yds": {
+      "bets": 855,
+      "wins": 274,
+      "losses": 581,
+      "record": "274-581",
+      "profit": 7001.37,
+      "roi_per_100": 8.19,
+      "roi_ci95_game_cluster": [
+       -5.2,
+       22.68
+      ],
+      "avg_edge_pts": 6.15,
+      "avg_ev_per_100": 27.01,
+      "avg_model_prob": 0.3733,
+      "win_rate": 0.3205,
+      "avg_breakeven": 0.3118,
+      "games": 136
+     },
+     "receptions": {
+      "bets": 775,
+      "wins": 291,
+      "losses": 484,
+      "record": "291-484",
+      "profit": -2120.18,
+      "roi_per_100": -2.74,
+      "roi_ci95_game_cluster": [
+       -14.66,
+       9.54
+      ],
+      "avg_edge_pts": 6.45,
+      "avg_ev_per_100": 23.5,
+      "avg_model_prob": 0.4377,
+      "win_rate": 0.3755,
+      "avg_breakeven": 0.3733,
+      "games": 136
+     },
+     "rush_yds": {
+      "bets": 328,
+      "wins": 94,
+      "losses": 234,
+      "record": "94-234",
+      "profit": -5411.14,
+      "roi_per_100": -16.5,
+      "roi_ci95_game_cluster": [
+       -35.18,
+       3.95
+      ],
+      "avg_edge_pts": 7.54,
+      "avg_ev_per_100": 32.67,
+      "avg_model_prob": 0.3857,
+      "win_rate": 0.2866,
+      "avg_breakeven": 0.3103,
+      "games": 134
+     }
+    },
+    "by_week": {
+     "1": {
+      "bets": 342,
+      "wins": 152,
+      "losses": 190,
+      "record": "152-190",
+      "profit": -1357.76,
+      "roi_per_100": -3.97,
+      "roi_ci95_game_cluster": [
+       -22.02,
+       14.47
+      ],
+      "avg_edge_pts": 6.78,
+      "avg_ev_per_100": 20.81,
+      "avg_model_prob": 0.5279,
+      "win_rate": 0.4444,
+      "avg_breakeven": 0.4601,
+      "games": 16
+     },
+     "2": {
+      "bets": 339,
+      "wins": 117,
+      "losses": 222,
+      "record": "117-222",
+      "profit": -1579.66,
+      "roi_per_100": -4.66,
+      "roi_ci95_game_cluster": [
+       -22.43,
+       12.23
+      ],
+      "avg_edge_pts": 6.14,
+      "avg_ev_per_100": 23.21,
+      "avg_model_prob": 0.416,
+      "win_rate": 0.3451,
+      "avg_breakeven": 0.3546,
+      "games": 16
+     },
+     "3": {
+      "bets": 316,
+      "wins": 109,
+      "losses": 207,
+      "record": "109-207",
+      "profit": 2706.31,
+      "roi_per_100": 8.56,
+      "roi_ci95_game_cluster": [
+       -12.04,
+       28.7
+      ],
+      "avg_edge_pts": 5.96,
+      "avg_ev_per_100": 27.31,
+      "avg_model_prob": 0.376,
+      "win_rate": 0.3449,
+      "avg_breakeven": 0.3163,
+      "games": 16
+     },
+     "4": {
+      "bets": 344,
+      "wins": 120,
+      "losses": 224,
+      "record": "120-224",
+      "profit": 7018.49,
+      "roi_per_100": 20.4,
+      "roi_ci95_game_cluster": [
+       -4.69,
+       44.2
+      ],
+      "avg_edge_pts": 6.04,
+      "avg_ev_per_100": 26.28,
+      "avg_model_prob": 0.3856,
+      "win_rate": 0.3488,
+      "avg_breakeven": 0.3252,
+      "games": 16
+     },
+     "5": {
+      "bets": 341,
+      "wins": 113,
+      "losses": 228,
+      "record": "113-228",
+      "profit": 3525.47,
+      "roi_per_100": 10.34,
+      "roi_ci95_game_cluster": [
+       -17.72,
+       40.94
+      ],
+      "avg_edge_pts": 5.81,
+      "avg_ev_per_100": 27.57,
+      "avg_model_prob": 0.3708,
+      "win_rate": 0.3314,
+      "avg_breakeven": 0.3127,
+      "games": 15
+     },
+     "6": {
+      "bets": 311,
+      "wins": 109,
+      "losses": 202,
+      "record": "109-202",
+      "profit": 794.26,
+      "roi_per_100": 2.55,
+      "roi_ci95_game_cluster": [
+       -25.02,
+       31.64
+      ],
+      "avg_edge_pts": 5.96,
+      "avg_ev_per_100": 25.51,
+      "avg_model_prob": 0.3973,
+      "win_rate": 0.3505,
+      "avg_breakeven": 0.3376,
+      "games": 14
+     },
+     "7": {
+      "bets": 292,
+      "wins": 115,
+      "losses": 177,
+      "record": "115-177",
+      "profit": 1859.14,
+      "roi_per_100": 6.37,
+      "roi_ci95_game_cluster": [
+       -19.25,
+       36.94
+      ],
+      "avg_edge_pts": 5.59,
+      "avg_ev_per_100": 21.38,
+      "avg_model_prob": 0.4128,
+      "win_rate": 0.3938,
+      "avg_breakeven": 0.3568,
+      "games": 14
+     },
+     "8": {
+      "bets": 302,
+      "wins": 107,
+      "losses": 195,
+      "record": "107-195",
+      "profit": -746.07,
+      "roi_per_100": -2.47,
+      "roi_ci95_game_cluster": [
+       -28.23,
+       24.39
+      ],
+      "avg_edge_pts": 5.7,
+      "avg_ev_per_100": 22.49,
+      "avg_model_prob": 0.4191,
+      "win_rate": 0.3543,
+      "avg_breakeven": 0.3622,
+      "games": 14
+     },
+     "9": {
+      "bets": 296,
+      "wins": 118,
+      "losses": 178,
+      "record": "118-178",
+      "profit": -1156.24,
+      "roi_per_100": -3.91,
+      "roi_ci95_game_cluster": [
+       -27.45,
+       19.89
+      ],
+      "avg_edge_pts": 6.16,
+      "avg_ev_per_100": 23.11,
+      "avg_model_prob": 0.4327,
+      "win_rate": 0.3986,
+      "avg_breakeven": 0.3711,
+      "games": 15
+     }
+    },
+    "by_side": {
+     "over": {
+      "bets": 1154,
+      "wins": 278,
+      "losses": 876,
+      "record": "278-876",
+      "profit": 12094.01,
+      "roi_per_100": 10.48,
+      "roi_ci95_game_cluster": [
+       -4.02,
+       25.22
+      ],
+      "avg_edge_pts": 5.15,
+      "avg_ev_per_100": 31.07,
+      "avg_model_prob": 0.271,
+      "win_rate": 0.2409,
+      "avg_breakeven": 0.2196,
+      "games": 136
+     },
+     "under": {
+      "bets": 1729,
+      "wins": 782,
+      "losses": 947,
+      "record": "782-947",
+      "profit": -1030.07,
+      "roi_per_100": -0.6,
+      "roi_ci95_game_cluster": [
+       -8.4,
+       7.42
+      ],
+      "avg_edge_pts": 6.62,
+      "avg_ev_per_100": 19.67,
+      "avg_model_prob": 0.5121,
+      "win_rate": 0.4523,
+      "avg_breakeven": 0.446,
+      "games": 136
+     }
+    }
+   },
+   "all_qualifying_rungs": {
+    "all": {
+     "bets": 8215,
+     "wins": 4037,
+     "losses": 4178,
+     "record": "4037-4178",
+     "profit": 14961.84,
+     "roi_per_100": 1.82,
+     "roi_ci95_game_cluster": [
+      -4.25,
+      8.21
+     ],
+     "avg_edge_pts": 5.77,
+     "avg_ev_per_100": 17.51,
+     "avg_model_prob": 0.5399,
+     "win_rate": 0.4914,
+     "avg_breakeven": 0.4822,
+     "games": 136
+    },
+    "by_tier": {
+     "Strong": {
+      "bets": 1815,
+      "wins": 873,
+      "losses": 942,
+      "record": "873-942",
+      "profit": 14662.8,
+      "roi_per_100": 8.08,
+      "roi_ci95_game_cluster": [
+       -0.75,
+       16.82
+      ],
+      "avg_edge_pts": 7.43,
+      "avg_ev_per_100": 20.21,
+      "avg_model_prob": 0.5268,
+      "win_rate": 0.481,
+      "avg_breakeven": 0.4524,
+      "games": 136
+     },
+     "Lean": {
+      "bets": 6400,
+      "wins": 3164,
+      "losses": 3236,
+      "record": "3164-3236",
+      "profit": 299.04,
+      "roi_per_100": 0.05,
+      "roi_ci95_game_cluster": [
+       -6.21,
+       6.66
+      ],
+      "avg_edge_pts": 5.29,
+      "avg_ev_per_100": 16.74,
+      "avg_model_prob": 0.5436,
+      "win_rate": 0.4944,
+      "avg_breakeven": 0.4907,
+      "games": 136
+     }
+    },
+    "by_market": {
+     "anytime_td": {
+      "bets": 574,
+      "wins": 246,
+      "losses": 328,
+      "record": "246-328",
+      "profit": 2736.68,
+      "roi_per_100": 4.77,
+      "roi_ci95_game_cluster": [
+       -9.5,
+       19.88
+      ],
+      "avg_edge_pts": 4.84,
+      "avg_ev_per_100": 18.86,
+      "avg_model_prob": 0.4506,
+      "win_rate": 0.4286,
+      "avg_breakeven": 0.4022,
+      "games": 135
+     },
+     "pass_ints": {
+      "bets": 204,
+      "wins": 116,
+      "losses": 88,
+      "record": "116-88",
+      "profit": -1926.95,
+      "roi_per_100": -9.45,
+      "roi_ci95_game_cluster": [
+       -22.25,
+       4.08
+      ],
+      "avg_edge_pts": 5.31,
+      "avg_ev_per_100": 10.89,
+      "avg_model_prob": 0.6534,
+      "win_rate": 0.5686,
+      "avg_breakeven": 0.6003,
+      "games": 102
+     },
+     "pass_tds": {
+      "bets": 390,
+      "wins": 215,
+      "losses": 175,
+      "record": "215-175",
+      "profit": 16501.21,
+      "roi_per_100": 42.31,
+      "roi_ci95_game_cluster": [
+       18.72,
+       66.45
+      ],
+      "avg_edge_pts": 4.97,
+      "avg_ev_per_100": 18.52,
+      "avg_model_prob": 0.469,
+      "win_rate": 0.5513,
+      "avg_breakeven": 0.4192,
+      "games": 130
+     },
+     "rec_yds": {
+      "bets": 3383,
+      "wins": 1638,
+      "losses": 1745,
+      "record": "1638-1745",
+      "profit": 9268.63,
+      "roi_per_100": 2.74,
+      "roi_ci95_game_cluster": [
+       -5.96,
+       12.03
+      ],
+      "avg_edge_pts": 5.75,
+      "avg_ev_per_100": 17.51,
+      "avg_model_prob": 0.5361,
+      "win_rate": 0.4842,
+      "avg_breakeven": 0.4786,
+      "games": 136
+     },
+     "receptions": {
+      "bets": 2252,
+      "wins": 1196,
+      "losses": 1056,
+      "record": "1196-1056",
+      "profit": -671.18,
+      "roi_per_100": -0.3,
+      "roi_ci95_game_cluster": [
+       -8.01,
+       7.82
+      ],
+      "avg_edge_pts": 5.93,
+      "avg_ev_per_100": 16.31,
+      "avg_model_prob": 0.5837,
+      "win_rate": 0.5311,
+      "avg_breakeven": 0.5243,
+      "games": 136
+     },
+     "rush_yds": {
+      "bets": 1412,
+      "wins": 626,
+      "losses": 786,
+      "record": "626-786",
+      "profit": -10946.55,
+      "roi_per_100": -7.75,
+      "roi_ci95_game_cluster": [
+       -20.07,
+       5.43
+      ],
+      "avg_edge_pts": 6.2,
+      "avg_ev_per_100": 19.56,
+      "avg_model_prob": 0.5186,
+      "win_rate": 0.4433,
+      "avg_breakeven": 0.4566,
+      "games": 134
+     }
+    },
+    "by_week": {
+     "1": {
+      "bets": 763,
+      "wins": 407,
+      "losses": 356,
+      "record": "407-356",
+      "profit": -1496.52,
+      "roi_per_100": -1.96,
+      "roi_ci95_game_cluster": [
+       -19.87,
+       17.56
+      ],
+      "avg_edge_pts": 6.14,
+      "avg_ev_per_100": 16.24,
+      "avg_model_prob": 0.6022,
+      "win_rate": 0.5334,
+      "avg_breakeven": 0.5408,
+      "games": 16
+     },
+     "2": {
+      "bets": 873,
+      "wins": 418,
+      "losses": 455,
+      "record": "418-455",
+      "profit": -2210.08,
+      "roi_per_100": -2.53,
+      "roi_ci95_game_cluster": [
+       -13.41,
+       8.04
+      ],
+      "avg_edge_pts": 5.75,
+      "avg_ev_per_100": 16.97,
+      "avg_model_prob": 0.5412,
+      "win_rate": 0.4788,
+      "avg_breakeven": 0.4837,
+      "games": 16
+     },
+     "3": {
+      "bets": 964,
+      "wins": 491,
+      "losses": 473,
+      "record": "491-473",
+      "profit": 4916.48,
+      "roi_per_100": 5.1,
+      "roi_ci95_game_cluster": [
+       -9.15,
+       21.87
+      ],
+      "avg_edge_pts": 5.82,
+      "avg_ev_per_100": 18.31,
+      "avg_model_prob": 0.5464,
+      "win_rate": 0.5093,
+      "avg_breakeven": 0.4882,
+      "games": 16
+     },
+     "4": {
+      "bets": 995,
+      "wins": 488,
+      "losses": 507,
+      "record": "488-507",
+      "profit": 11872.2,
+      "roi_per_100": 11.93,
+      "roi_ci95_game_cluster": [
+       -2.37,
+       27.75
+      ],
+      "avg_edge_pts": 5.73,
+      "avg_ev_per_100": 18.07,
+      "avg_model_prob": 0.5265,
+      "win_rate": 0.4905,
+      "avg_breakeven": 0.4692,
+      "games": 16
+     },
+     "5": {
+      "bets": 1104,
+      "wins": 501,
+      "losses": 603,
+      "record": "501-603",
+      "profit": 1482.68,
+      "roi_per_100": 1.34,
+      "roi_ci95_game_cluster": [
+       -20.85,
+       23.93
+      ],
+      "avg_edge_pts": 5.65,
+      "avg_ev_per_100": 19.5,
+      "avg_model_prob": 0.511,
+      "win_rate": 0.4538,
+      "avg_breakeven": 0.4545,
+      "games": 15
+     },
+     "6": {
+      "bets": 912,
+      "wins": 436,
+      "losses": 476,
+      "record": "436-476",
+      "profit": -1163.95,
+      "roi_per_100": -1.28,
+      "roi_ci95_game_cluster": [
+       -19.51,
+       18.03
+      ],
+      "avg_edge_pts": 5.69,
+      "avg_ev_per_100": 18.04,
+      "avg_model_prob": 0.5291,
+      "win_rate": 0.4781,
+      "avg_breakeven": 0.4721,
+      "games": 14
+     },
+     "7": {
+      "bets": 835,
+      "wins": 420,
+      "losses": 415,
+      "record": "420-415",
+      "profit": 4199.46,
+      "roi_per_100": 5.03,
+      "roi_ci95_game_cluster": [
+       -14.73,
+       28.99
+      ],
+      "avg_edge_pts": 5.4,
+      "avg_ev_per_100": 15.57,
+      "avg_model_prob": 0.5313,
+      "win_rate": 0.503,
+      "avg_breakeven": 0.4773,
+      "games": 14
+     },
+     "8": {
+      "bets": 909,
+      "wins": 440,
+      "losses": 469,
+      "record": "440-469",
+      "profit": -1368.38,
+      "roi_per_100": -1.51,
+      "roi_ci95_game_cluster": [
+       -20.02,
+       20.46
+      ],
+      "avg_edge_pts": 5.71,
+      "avg_ev_per_100": 16.51,
+      "avg_model_prob": 0.543,
+      "win_rate": 0.484,
+      "avg_breakeven": 0.4859,
+      "games": 14
+     },
+     "9": {
+      "bets": 860,
+      "wins": 436,
+      "losses": 424,
+      "record": "436-424",
+      "profit": -1270.06,
+      "roi_per_100": -1.48,
+      "roi_ci95_game_cluster": [
+       -16.83,
+       16.9
+      ],
+      "avg_edge_pts": 6.07,
+      "avg_ev_per_100": 17.44,
+      "avg_model_prob": 0.5451,
+      "win_rate": 0.507,
+      "avg_breakeven": 0.4844,
+      "games": 15
+     }
+    },
+    "by_side": {
+     "over": {
+      "bets": 2991,
+      "wins": 979,
+      "losses": 2012,
+      "record": "979-2012",
+      "profit": 13825.22,
+      "roi_per_100": 4.62,
+      "roi_ci95_game_cluster": [
+       -8.02,
+       17.49
+      ],
+      "avg_edge_pts": 5.43,
+      "avg_ev_per_100": 24.05,
+      "avg_model_prob": 0.3733,
+      "win_rate": 0.3273,
+      "avg_breakeven": 0.319,
+      "games": 136
+     },
+     "under": {
+      "bets": 5224,
+      "wins": 3058,
+      "losses": 2166,
+      "record": "3058-2166",
+      "profit": 1136.62,
+      "roi_per_100": 0.22,
+      "roi_ci95_game_cluster": [
+       -5.0,
+       5.6
+      ],
+      "avg_edge_pts": 5.96,
+      "avg_ev_per_100": 13.76,
+      "avg_model_prob": 0.6353,
+      "win_rate": 0.5854,
+      "avg_breakeven": 0.5757,
+      "games": 136
+     }
+    }
+   },
+   "calibration_all_graded_rungs": {
+    "all_published": {
+     "model": {
+      "n": 25588,
+      "ece": 0.0124,
+      "log_loss": 0.4738,
+      "brier": 0.1549,
+      "mean_pred": 0.3132,
+      "obs_rate": 0.3246,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 6517,
+        "mean_pred": 0.0532,
+        "obs_rate": 0.0598
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 4697,
+        "mean_pred": 0.1469,
+        "obs_rate": 0.145
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 3351,
+        "mean_pred": 0.2479,
+        "obs_rate": 0.2587
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 2476,
+        "mean_pred": 0.3487,
+        "obs_rate": 0.3708
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 2233,
+        "mean_pred": 0.4496,
+        "obs_rate": 0.4662
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 1878,
+        "mean_pred": 0.5483,
+        "obs_rate": 0.5607
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 1760,
+        "mean_pred": 0.6499,
+        "obs_rate": 0.6767
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 1604,
+        "mean_pred": 0.7475,
+        "obs_rate": 0.7749
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 998,
+        "mean_pred": 0.8414,
+        "obs_rate": 0.8607
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 74,
+        "mean_pred": 0.9173,
+        "obs_rate": 0.8649
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 25588,
+      "ece": 0.0068,
+      "log_loss": 0.4666,
+      "brier": 0.1523,
+      "mean_pred": 0.3279,
+      "obs_rate": 0.3246,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 6718,
+        "mean_pred": 0.057,
+        "obs_rate": 0.0537
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 4437,
+        "mean_pred": 0.1452,
+        "obs_rate": 0.151
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 2954,
+        "mean_pred": 0.2464,
+        "obs_rate": 0.2461
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 2309,
+        "mean_pred": 0.3467,
+        "obs_rate": 0.3426
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 2107,
+        "mean_pred": 0.4485,
+        "obs_rate": 0.4419
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 1905,
+        "mean_pred": 0.5468,
+        "obs_rate": 0.5223
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 1760,
+        "mean_pred": 0.6467,
+        "obs_rate": 0.642
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 1750,
+        "mean_pred": 0.7488,
+        "obs_rate": 0.7371
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 1456,
+        "mean_pred": 0.8398,
+        "obs_rate": 0.8537
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 192,
+        "mean_pred": 0.9171,
+        "obs_rate": 0.8802
+       }
+      ]
+     }
+    },
+    "anytime_td": {
+     "model": {
+      "n": 1360,
+      "ece": 0.0174,
+      "log_loss": 0.5581,
+      "brier": 0.1876,
+      "mean_pred": 0.2866,
+      "obs_rate": 0.2897,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 9,
+        "mean_pred": 0.0942,
+        "obs_rate": 0.1111
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 318,
+        "mean_pred": 0.1637,
+        "obs_rate": 0.1447
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 552,
+        "mean_pred": 0.249,
+        "obs_rate": 0.2663
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 273,
+        "mean_pred": 0.3448,
+        "obs_rate": 0.3333
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 120,
+        "mean_pred": 0.4466,
+        "obs_rate": 0.4417
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 53,
+        "mean_pred": 0.54,
+        "obs_rate": 0.5472
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 30,
+        "mean_pred": 0.6502,
+        "obs_rate": 0.7667
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 5,
+        "mean_pred": 0.7248,
+        "obs_rate": 0.8
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 1360,
+      "ece": 0.0178,
+      "log_loss": 0.5555,
+      "brier": 0.1867,
+      "mean_pred": 0.2818,
+      "obs_rate": 0.2897,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 105,
+        "mean_pred": 0.072,
+        "obs_rate": 0.0952
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 317,
+        "mean_pred": 0.1572,
+        "obs_rate": 0.1609
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 411,
+        "mean_pred": 0.2488,
+        "obs_rate": 0.253
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 270,
+        "mean_pred": 0.3441,
+        "obs_rate": 0.3778
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 138,
+        "mean_pred": 0.4476,
+        "obs_rate": 0.4203
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 83,
+        "mean_pred": 0.5416,
+        "obs_rate": 0.506
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 30,
+        "mean_pred": 0.65,
+        "obs_rate": 0.7333
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 6,
+        "mean_pred": 0.7317,
+        "obs_rate": 0.8333
+       }
+      ]
+     }
+    },
+    "pass_ints": {
+     "model": {
+      "n": 742,
+      "ece": 0.0257,
+      "log_loss": 0.4265,
+      "brier": 0.1406,
+      "mean_pred": 0.2198,
+      "obs_rate": 0.2399,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 260,
+        "mean_pred": 0.0431,
+        "obs_rate": 0.0385
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 198,
+        "mean_pred": 0.1487,
+        "obs_rate": 0.1566
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 29,
+        "mean_pred": 0.2359,
+        "obs_rate": 0.2069
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 44,
+        "mean_pred": 0.3536,
+        "obs_rate": 0.4091
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 154,
+        "mean_pred": 0.4537,
+        "obs_rate": 0.526
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 57,
+        "mean_pred": 0.5287,
+        "obs_rate": 0.5614
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 742,
+      "ece": 0.0286,
+      "log_loss": 0.4322,
+      "brier": 0.1402,
+      "mean_pred": 0.2475,
+      "obs_rate": 0.2399,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 215,
+        "mean_pred": 0.0545,
+        "obs_rate": 0.0326
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 222,
+        "mean_pred": 0.1505,
+        "obs_rate": 0.1261
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 38,
+        "mean_pred": 0.2201,
+        "obs_rate": 0.2105
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 10,
+        "mean_pred": 0.3845,
+        "obs_rate": 0.3
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 144,
+        "mean_pred": 0.4582,
+        "obs_rate": 0.5
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 108,
+        "mean_pred": 0.53,
+        "obs_rate": 0.5463
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 5,
+        "mean_pred": 0.616,
+        "obs_rate": 0.2
+       }
+      ]
+     }
+    },
+    "pass_tds": {
+     "model": {
+      "n": 1088,
+      "ece": 0.0417,
+      "log_loss": 0.4078,
+      "brier": 0.1308,
+      "mean_pred": 0.34,
+      "obs_rate": 0.3612,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 307,
+        "mean_pred": 0.0522,
+        "obs_rate": 0.0228
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 167,
+        "mean_pred": 0.1505,
+        "obs_rate": 0.1377
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 122,
+        "mean_pred": 0.2495,
+        "obs_rate": 0.2623
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 76,
+        "mean_pred": 0.3519,
+        "obs_rate": 0.4211
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 96,
+        "mean_pred": 0.4496,
+        "obs_rate": 0.4583
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 63,
+        "mean_pred": 0.547,
+        "obs_rate": 0.6825
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 73,
+        "mean_pred": 0.6481,
+        "obs_rate": 0.6712
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 98,
+        "mean_pred": 0.7576,
+        "obs_rate": 0.8061
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 83,
+        "mean_pred": 0.8394,
+        "obs_rate": 0.9759
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 3,
+        "mean_pred": 0.9142,
+        "obs_rate": 1.0
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 1088,
+      "ece": 0.0285,
+      "log_loss": 0.4399,
+      "brier": 0.1428,
+      "mean_pred": 0.3578,
+      "obs_rate": 0.3612,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 311,
+        "mean_pred": 0.0531,
+        "obs_rate": 0.0418
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 161,
+        "mean_pred": 0.1475,
+        "obs_rate": 0.1988
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 90,
+        "mean_pred": 0.245,
+        "obs_rate": 0.2444
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 87,
+        "mean_pred": 0.3509,
+        "obs_rate": 0.2759
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 87,
+        "mean_pred": 0.4451,
+        "obs_rate": 0.4598
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 64,
+        "mean_pred": 0.5474,
+        "obs_rate": 0.5781
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 62,
+        "mean_pred": 0.6504,
+        "obs_rate": 0.629
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 106,
+        "mean_pred": 0.7573,
+        "obs_rate": 0.7358
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 105,
+        "mean_pred": 0.8422,
+        "obs_rate": 0.8857
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 15,
+        "mean_pred": 0.9153,
+        "obs_rate": 1.0
+       }
+      ]
+     }
+    },
+    "rec_yds": {
+     "model": {
+      "n": 10336,
+      "ece": 0.0098,
+      "log_loss": 0.4889,
+      "brier": 0.1602,
+      "mean_pred": 0.3133,
+      "obs_rate": 0.3211,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 2503,
+        "mean_pred": 0.0597,
+        "obs_rate": 0.0703
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 2040,
+        "mean_pred": 0.1444,
+        "obs_rate": 0.1441
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 1308,
+        "mean_pred": 0.247,
+        "obs_rate": 0.2584
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 1008,
+        "mean_pred": 0.348,
+        "obs_rate": 0.371
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 894,
+        "mean_pred": 0.4484,
+        "obs_rate": 0.4452
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 829,
+        "mean_pred": 0.5485,
+        "obs_rate": 0.544
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 749,
+        "mean_pred": 0.6502,
+        "obs_rate": 0.6662
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 690,
+        "mean_pred": 0.7458,
+        "obs_rate": 0.7667
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 311,
+        "mean_pred": 0.8341,
+        "obs_rate": 0.8328
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 4,
+        "mean_pred": 0.9191,
+        "obs_rate": 0.25
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 10336,
+      "ece": 0.0088,
+      "log_loss": 0.4818,
+      "brier": 0.1579,
+      "mean_pred": 0.3207,
+      "obs_rate": 0.3211,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 2708,
+        "mean_pred": 0.0601,
+        "obs_rate": 0.0635
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 1849,
+        "mean_pred": 0.143,
+        "obs_rate": 0.1568
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 1206,
+        "mean_pred": 0.2462,
+        "obs_rate": 0.2562
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 960,
+        "mean_pred": 0.3464,
+        "obs_rate": 0.3438
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 827,
+        "mean_pred": 0.4488,
+        "obs_rate": 0.4426
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 810,
+        "mean_pred": 0.5465,
+        "obs_rate": 0.516
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 757,
+        "mean_pred": 0.648,
+        "obs_rate": 0.6367
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 735,
+        "mean_pred": 0.7483,
+        "obs_rate": 0.7483
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 478,
+        "mean_pred": 0.8339,
+        "obs_rate": 0.8285
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 6,
+        "mean_pred": 0.9167,
+        "obs_rate": 1.0
+       }
+      ]
+     }
+    },
+    "receptions": {
+     "model": {
+      "n": 8146,
+      "ece": 0.0189,
+      "log_loss": 0.4453,
+      "brier": 0.144,
+      "mean_pred": 0.3095,
+      "obs_rate": 0.3278,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 2642,
+        "mean_pred": 0.0463,
+        "obs_rate": 0.0553
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 1244,
+        "mean_pred": 0.1469,
+        "obs_rate": 0.1495
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 842,
+        "mean_pred": 0.249,
+        "obs_rate": 0.2684
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 671,
+        "mean_pred": 0.3503,
+        "obs_rate": 0.3875
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 594,
+        "mean_pred": 0.4501,
+        "obs_rate": 0.5017
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 537,
+        "mean_pred": 0.5496,
+        "obs_rate": 0.568
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 573,
+        "mean_pred": 0.6495,
+        "obs_rate": 0.6876
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 520,
+        "mean_pred": 0.7485,
+        "obs_rate": 0.7712
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 465,
+        "mean_pred": 0.8472,
+        "obs_rate": 0.8667
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 58,
+        "mean_pred": 0.9168,
+        "obs_rate": 0.8793
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 8146,
+      "ece": 0.0113,
+      "log_loss": 0.4386,
+      "brier": 0.1418,
+      "mean_pred": 0.3364,
+      "obs_rate": 0.3278,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 2463,
+        "mean_pred": 0.0528,
+        "obs_rate": 0.0455
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 1225,
+        "mean_pred": 0.1448,
+        "obs_rate": 0.1494
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 787,
+        "mean_pred": 0.246,
+        "obs_rate": 0.2338
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 631,
+        "mean_pred": 0.3463,
+        "obs_rate": 0.3296
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 593,
+        "mean_pred": 0.4456,
+        "obs_rate": 0.4317
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 528,
+        "mean_pred": 0.5501,
+        "obs_rate": 0.5303
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 585,
+        "mean_pred": 0.646,
+        "obs_rate": 0.6462
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 540,
+        "mean_pred": 0.7494,
+        "obs_rate": 0.7222
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 631,
+        "mean_pred": 0.8461,
+        "obs_rate": 0.8542
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 163,
+        "mean_pred": 0.9165,
+        "obs_rate": 0.8589
+       }
+      ]
+     }
+    },
+    "rush_yds": {
+     "model": {
+      "n": 3916,
+      "ece": 0.0117,
+      "log_loss": 0.4913,
+      "brier": 0.1615,
+      "mean_pred": 0.3405,
+      "obs_rate": 0.3455,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 796,
+        "mean_pred": 0.0591,
+        "obs_rate": 0.0628
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 730,
+        "mean_pred": 0.1454,
+        "obs_rate": 0.1384
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 498,
+        "mean_pred": 0.2476,
+        "obs_rate": 0.2369
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 404,
+        "mean_pred": 0.3491,
+        "obs_rate": 0.354
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 375,
+        "mean_pred": 0.4508,
+        "obs_rate": 0.4453
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 339,
+        "mean_pred": 0.5508,
+        "obs_rate": 0.5693
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 335,
+        "mean_pred": 0.6503,
+        "obs_rate": 0.6746
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 291,
+        "mean_pred": 0.7468,
+        "obs_rate": 0.7904
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 139,
+        "mean_pred": 0.8391,
+        "obs_rate": 0.8345
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 9,
+        "mean_pred": 0.9208,
+        "obs_rate": 1.0
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 3916,
+      "ece": 0.0149,
+      "log_loss": 0.4675,
+      "brier": 0.1527,
+      "mean_pred": 0.352,
+      "obs_rate": 0.3455,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 916,
+        "mean_pred": 0.0593,
+        "obs_rate": 0.0513
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 663,
+        "mean_pred": 0.1441,
+        "obs_rate": 0.1297
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 422,
+        "mean_pred": 0.2479,
+        "obs_rate": 0.237
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 351,
+        "mean_pred": 0.3484,
+        "obs_rate": 0.3533
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 318,
+        "mean_pred": 0.4499,
+        "obs_rate": 0.4371
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 312,
+        "mean_pred": 0.5489,
+        "obs_rate": 0.5096
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 321,
+        "mean_pred": 0.6447,
+        "obs_rate": 0.648
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 363,
+        "mean_pred": 0.7465,
+        "obs_rate": 0.7355
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 242,
+        "mean_pred": 0.8342,
+        "obs_rate": 0.8884
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 8,
+        "mean_pred": 0.9325,
+        "obs_rate": 1.0
+       }
+      ]
+     }
+    },
+    "player_tds": {
+     "model": {
+      "n": 1183,
+      "ece": 0.0072,
+      "log_loss": 0.2188,
+      "brier": 0.0586,
+      "mean_pred": 0.0625,
+      "obs_rate": 0.0676,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 992,
+        "mean_pred": 0.0415,
+        "obs_rate": 0.0423
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 141,
+        "mean_pred": 0.1363,
+        "obs_rate": 0.1702
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 34,
+        "mean_pred": 0.2432,
+        "obs_rate": 0.2059
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 15,
+        "mean_pred": 0.328,
+        "obs_rate": 0.4
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 1,
+        "mean_pred": 0.4041,
+        "obs_rate": 1.0
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 1183,
+      "ece": 0.0071,
+      "log_loss": 0.2207,
+      "brier": 0.0587,
+      "mean_pred": 0.061,
+      "obs_rate": 0.0676,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 975,
+        "mean_pred": 0.0389,
+        "obs_rate": 0.041
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 165,
+        "mean_pred": 0.137,
+        "obs_rate": 0.1515
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 32,
+        "mean_pred": 0.2486,
+        "obs_rate": 0.3438
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 10,
+        "mean_pred": 0.3355,
+        "obs_rate": 0.3
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 1,
+        "mean_pred": 0.415,
+        "obs_rate": 1.0
+       }
+      ]
+     }
+    },
+    "pass_yds": {
+     "model": {
+      "n": 2348,
+      "ece": 0.0414,
+      "log_loss": 0.5162,
+      "brier": 0.1686,
+      "mean_pred": 0.376,
+      "obs_rate": 0.4174,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 494,
+        "mean_pred": 0.0538,
+        "obs_rate": 0.1032
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 352,
+        "mean_pred": 0.1464,
+        "obs_rate": 0.1477
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 256,
+        "mean_pred": 0.247,
+        "obs_rate": 0.2695
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 219,
+        "mean_pred": 0.3469,
+        "obs_rate": 0.4064
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 209,
+        "mean_pred": 0.4486,
+        "obs_rate": 0.5024
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 201,
+        "mean_pred": 0.5508,
+        "obs_rate": 0.602
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 211,
+        "mean_pred": 0.652,
+        "obs_rate": 0.7393
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 222,
+        "mean_pred": 0.753,
+        "obs_rate": 0.8108
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 171,
+        "mean_pred": 0.8447,
+        "obs_rate": 0.848
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 13,
+        "mean_pred": 0.9151,
+        "obs_rate": 0.9231
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 2348,
+      "ece": 0.0155,
+      "log_loss": 0.4884,
+      "brier": 0.1597,
+      "mean_pred": 0.4051,
+      "obs_rate": 0.4174,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 482,
+        "mean_pred": 0.0597,
+        "obs_rate": 0.0685
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 350,
+        "mean_pred": 0.1445,
+        "obs_rate": 0.1429
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 228,
+        "mean_pred": 0.2483,
+        "obs_rate": 0.2719
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 202,
+        "mean_pred": 0.3495,
+        "obs_rate": 0.401
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 166,
+        "mean_pred": 0.4481,
+        "obs_rate": 0.4518
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 181,
+        "mean_pred": 0.5498,
+        "obs_rate": 0.558
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 193,
+        "mean_pred": 0.6534,
+        "obs_rate": 0.6995
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 225,
+        "mean_pred": 0.7528,
+        "obs_rate": 0.76
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 284,
+        "mean_pred": 0.8505,
+        "obs_rate": 0.8451
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 37,
+        "mean_pred": 0.9116,
+        "obs_rate": 0.8649
+       }
+      ]
+     }
+    },
+    "pass_completions": {
+     "model": {
+      "n": 999,
+      "ece": 0.077,
+      "log_loss": 0.5951,
+      "brier": 0.1975,
+      "mean_pred": 0.4449,
+      "obs_rate": 0.5165,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 55,
+        "mean_pred": 0.0757,
+        "obs_rate": 0.2727
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 137,
+        "mean_pred": 0.1456,
+        "obs_rate": 0.1825
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 135,
+        "mean_pred": 0.2494,
+        "obs_rate": 0.2296
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 125,
+        "mean_pred": 0.3496,
+        "obs_rate": 0.464
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 118,
+        "mean_pred": 0.4557,
+        "obs_rate": 0.5
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 116,
+        "mean_pred": 0.5436,
+        "obs_rate": 0.6207
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 144,
+        "mean_pred": 0.657,
+        "obs_rate": 0.7639
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 105,
+        "mean_pred": 0.7377,
+        "obs_rate": 0.8667
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 62,
+        "mean_pred": 0.8418,
+        "obs_rate": 0.8548
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 2,
+        "mean_pred": 0.9263,
+        "obs_rate": 1.0
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 999,
+      "ece": 0.0441,
+      "log_loss": 0.5688,
+      "brier": 0.1922,
+      "mean_pred": 0.4835,
+      "obs_rate": 0.5165,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 11,
+        "mean_pred": 0.0823,
+        "obs_rate": 0.0909
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 231,
+        "mean_pred": 0.1562,
+        "obs_rate": 0.1818
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 73,
+        "mean_pred": 0.2284,
+        "obs_rate": 0.2466
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 27,
+        "mean_pred": 0.3604,
+        "obs_rate": 0.5185
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 174,
+        "mean_pred": 0.4633,
+        "obs_rate": 0.4828
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 198,
+        "mean_pred": 0.535,
+        "obs_rate": 0.6414
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 29,
+        "mean_pred": 0.6395,
+        "obs_rate": 0.7241
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 41,
+        "mean_pred": 0.7666,
+        "obs_rate": 0.7073
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 208,
+        "mean_pred": 0.8499,
+        "obs_rate": 0.8365
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 7,
+        "mean_pred": 0.9071,
+        "obs_rate": 0.8571
+       }
+      ]
+     }
+    },
+    "rush_attempts": {
+     "model": {
+      "n": 1096,
+      "ece": 0.0789,
+      "log_loss": 0.6945,
+      "brier": 0.2426,
+      "mean_pred": 0.4313,
+      "obs_rate": 0.5055,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 55,
+        "mean_pred": 0.0612,
+        "obs_rate": 0.2909
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 125,
+        "mean_pred": 0.1416,
+        "obs_rate": 0.392
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 161,
+        "mean_pred": 0.2591,
+        "obs_rate": 0.3727
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 177,
+        "mean_pred": 0.352,
+        "obs_rate": 0.4294
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 153,
+        "mean_pred": 0.4494,
+        "obs_rate": 0.4575
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 121,
+        "mean_pred": 0.5434,
+        "obs_rate": 0.5702
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 176,
+        "mean_pred": 0.6467,
+        "obs_rate": 0.6648
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 90,
+        "mean_pred": 0.7451,
+        "obs_rate": 0.7333
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 34,
+        "mean_pred": 0.8382,
+        "obs_rate": 0.7941
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 4,
+        "mean_pred": 0.9294,
+        "obs_rate": 1.0
+       }
+      ]
+     },
+     "market_mid": {
+      "n": 1096,
+      "ece": 0.0296,
+      "log_loss": 0.6258,
+      "brier": 0.2178,
+      "mean_pred": 0.4824,
+      "obs_rate": 0.5055,
+      "reliability": [
+       {
+        "bin": "0.0-0.1",
+        "n": 4,
+        "mean_pred": 0.085,
+        "obs_rate": 0.0
+       },
+       {
+        "bin": "0.1-0.2",
+        "n": 64,
+        "mean_pred": 0.1639,
+        "obs_rate": 0.2656
+       },
+       {
+        "bin": "0.2-0.3",
+        "n": 204,
+        "mean_pred": 0.2516,
+        "obs_rate": 0.2794
+       },
+       {
+        "bin": "0.3-0.4",
+        "n": 126,
+        "mean_pred": 0.341,
+        "obs_rate": 0.381
+       },
+       {
+        "bin": "0.4-0.5",
+        "n": 188,
+        "mean_pred": 0.4552,
+        "obs_rate": 0.4947
+       },
+       {
+        "bin": "0.5-0.6",
+        "n": 174,
+        "mean_pred": 0.5348,
+        "obs_rate": 0.5575
+       },
+       {
+        "bin": "0.6-0.7",
+        "n": 116,
+        "mean_pred": 0.6582,
+        "obs_rate": 0.6466
+       },
+       {
+        "bin": "0.7-0.8",
+        "n": 171,
+        "mean_pred": 0.7442,
+        "obs_rate": 0.7368
+       },
+       {
+        "bin": "0.8-0.9",
+        "n": 45,
+        "mean_pred": 0.8362,
+        "obs_rate": 0.8222
+       },
+       {
+        "bin": "0.9-1.0",
+        "n": 4,
+        "mean_pred": 0.925,
+        "obs_rate": 1.0
+       }
+      ]
+     }
+    }
+   },
+   "naive_market_baseline": {
+    "buy_over_every_rung": {
+     "bets": 25588,
+     "wins": 8307,
+     "losses": 17281,
+     "record": "8307-17281",
+     "profit": -322194.66,
+     "roi_per_100": -12.59,
+     "roi_ci95_game_cluster": [
+      -18.31,
+      -6.7
+     ],
+     "avg_edge_pts": -3.54,
+     "avg_ev_per_100": -9.64,
+     "avg_model_prob": 0.3132,
+     "win_rate": 0.3246,
+     "avg_breakeven": 0.3486,
+     "games": 136
+    },
+    "buy_under_every_rung": {
+     "bets": 25588,
+     "wins": 17281,
+     "losses": 8307,
+     "record": "17281-8307",
+     "profit": -83738.25,
+     "roi_per_100": -3.27,
+     "roi_ci95_game_cluster": [
+      -5.94,
+      -0.5
+     ],
+     "avg_edge_pts": -0.56,
+     "avg_ev_per_100": 1.63,
+     "avg_model_prob": 0.6868,
+     "win_rate": 0.6754,
+     "avg_breakeven": 0.6923,
+     "games": 136
+    },
+    "buy_both_sides_every_rung": {
+     "bets": 51176,
+     "wins": 25588,
+     "losses": 25588,
+     "record": "25588-25588",
+     "profit": -405932.91,
+     "roi_per_100": -7.93,
+     "roi_ci95_game_cluster": [
+      -10.16,
+      -5.63
+     ],
+     "avg_edge_pts": -2.05,
+     "avg_ev_per_100": -4.01,
+     "avg_model_prob": 0.5,
+     "win_rate": 0.5,
+     "avg_breakeven": 0.5205,
+     "games": 136
+    }
+   },
+   "not_published_markets": {
+    "one_bet_per_player_market": {
+     "all": {
+      "bets": 749,
+      "wins": 296,
+      "losses": 453,
+      "record": "296-453",
+      "profit": -2437.78,
+      "roi_per_100": -3.25,
+      "roi_ci95_game_cluster": [
+       -16.88,
+       10.99
+      ],
+      "avg_edge_pts": 6.26,
+      "avg_ev_per_100": 23.87,
+      "avg_model_prob": 0.4753,
+      "win_rate": 0.3952,
+      "avg_breakeven": 0.4127,
+      "games": 136
+     },
+     "by_tier": {
+      "Strong": {
+       "bets": 344,
+       "wins": 125,
+       "losses": 219,
+       "record": "125-219",
+       "profit": -2097.26,
+       "roi_per_100": -6.1,
+       "roi_ci95_game_cluster": [
+        -21.41,
+        10.65
+       ],
+       "avg_edge_pts": 8.28,
+       "avg_ev_per_100": 28.19,
+       "avg_model_prob": 0.4628,
+       "win_rate": 0.3634,
+       "avg_breakeven": 0.38,
+       "games": 131
+      },
+      "Lean": {
+       "bets": 405,
+       "wins": 171,
+       "losses": 234,
+       "record": "171-234",
+       "profit": -340.53,
+       "roi_per_100": -0.84,
+       "roi_ci95_game_cluster": [
+        -21.45,
+        21.16
+       ],
+       "avg_edge_pts": 4.55,
+       "avg_ev_per_100": 20.2,
+       "avg_model_prob": 0.486,
+       "win_rate": 0.4222,
+       "avg_breakeven": 0.4404,
+       "games": 131
+      }
+     },
+     "by_market": {
+      "pass_completions": {
+       "bets": 158,
+       "wins": 70,
+       "losses": 88,
+       "record": "70-88",
+       "profit": -786.37,
+       "roi_per_100": -4.98,
+       "roi_ci95_game_cluster": [
+        -22.72,
+        14.15
+       ],
+       "avg_edge_pts": 6.34,
+       "avg_ev_per_100": 18.97,
+       "avg_model_prob": 0.5157,
+       "win_rate": 0.443,
+       "avg_breakeven": 0.4522,
+       "games": 113
+      },
+      "pass_yds": {
+       "bets": 249,
+       "wins": 56,
+       "losses": 193,
+       "record": "56-193",
+       "profit": -4641.23,
+       "roi_per_100": -18.64,
+       "roi_ci95_game_cluster": [
+        -43.91,
+        8.86
+       ],
+       "avg_edge_pts": 6.62,
+       "avg_ev_per_100": 34.67,
+       "avg_model_prob": 0.3281,
+       "win_rate": 0.2249,
+       "avg_breakeven": 0.2619,
+       "games": 135
+      },
+      "player_tds": {
+       "bets": 144,
+       "wins": 84,
+       "losses": 60,
+       "record": "84-60",
+       "profit": 3748.5,
+       "roi_per_100": 26.03,
+       "roi_ci95_game_cluster": [
+        -13.58,
+        70.12
+       ],
+       "avg_edge_pts": 3.94,
+       "avg_ev_per_100": 16.97,
+       "avg_model_prob": 0.6105,
+       "win_rate": 0.5833,
+       "avg_breakeven": 0.5711,
+       "games": 91
+      },
+      "rush_attempts": {
+       "bets": 198,
+       "wins": 86,
+       "losses": 112,
+       "record": "86-112",
+       "profit": -758.69,
+       "roi_per_100": -3.83,
+       "roi_ci95_game_cluster": [
+        -21.19,
+        14.73
+       ],
+       "avg_edge_pts": 7.44,
+       "avg_ev_per_100": 19.21,
+       "avg_model_prob": 0.53,
+       "win_rate": 0.4343,
+       "avg_breakeven": 0.4556,
+       "games": 116
+      }
+     },
+     "by_week": {
+      "1": {
+       "bets": 76,
+       "wins": 34,
+       "losses": 42,
+       "record": "34-42",
+       "profit": 123.2,
+       "roi_per_100": 1.62,
+       "roi_ci95_game_cluster": [
+        -27.92,
+        37.28
+       ],
+       "avg_edge_pts": 6.34,
+       "avg_ev_per_100": 20.43,
+       "avg_model_prob": 0.5385,
+       "win_rate": 0.4474,
+       "avg_breakeven": 0.4751,
+       "games": 16
+      },
+      "2": {
+       "bets": 81,
+       "wins": 32,
+       "losses": 49,
+       "record": "32-49",
+       "profit": 1251.98,
+       "roi_per_100": 15.46,
+       "roi_ci95_game_cluster": [
+        -20.01,
+        58.19
+       ],
+       "avg_edge_pts": 5.98,
+       "avg_ev_per_100": 25.25,
+       "avg_model_prob": 0.4166,
+       "win_rate": 0.3951,
+       "avg_breakeven": 0.3568,
+       "games": 16
+      },
+      "3": {
+       "bets": 86,
+       "wins": 39,
+       "losses": 47,
+       "record": "39-47",
+       "profit": 489.6,
+       "roi_per_100": 5.69,
+       "roi_ci95_game_cluster": [
+        -33.77,
+        51.35
+       ],
+       "avg_edge_pts": 6.26,
+       "avg_ev_per_100": 22.98,
+       "avg_model_prob": 0.5037,
+       "win_rate": 0.4535,
+       "avg_breakeven": 0.4411,
+       "games": 16
+      },
+      "4": {
+       "bets": 91,
+       "wins": 33,
+       "losses": 58,
+       "record": "33-58",
+       "profit": -452.91,
+       "roi_per_100": -4.98,
+       "roi_ci95_game_cluster": [
+        -44.06,
+        39.54
+       ],
+       "avg_edge_pts": 6.46,
+       "avg_ev_per_100": 27.52,
+       "avg_model_prob": 0.4389,
+       "win_rate": 0.3626,
+       "avg_breakeven": 0.3743,
+       "games": 16
+      },
+      "5": {
+       "bets": 92,
+       "wins": 39,
+       "losses": 53,
+       "record": "39-53",
+       "profit": 3485.48,
+       "roi_per_100": 37.89,
+       "roi_ci95_game_cluster": [
+        -10.71,
+        91.16
+       ],
+       "avg_edge_pts": 6.24,
+       "avg_ev_per_100": 23.84,
+       "avg_model_prob": 0.4677,
+       "win_rate": 0.4239,
+       "avg_breakeven": 0.4053,
+       "games": 15
+      },
+      "6": {
+       "bets": 90,
+       "wins": 35,
+       "losses": 55,
+       "record": "35-55",
+       "profit": -2662.47,
+       "roi_per_100": -29.58,
+       "roi_ci95_game_cluster": [
+        -50.83,
+        -3.19
+       ],
+       "avg_edge_pts": 6.16,
+       "avg_ev_per_100": 21.22,
+       "avg_model_prob": 0.524,
+       "win_rate": 0.3889,
+       "avg_breakeven": 0.4624,
+       "games": 14
+      },
+      "7": {
+       "bets": 78,
+       "wins": 29,
+       "losses": 49,
+       "record": "29-49",
+       "profit": 230.99,
+       "roi_per_100": 2.96,
+       "roi_ci95_game_cluster": [
+        -38.51,
+        53.22
+       ],
+       "avg_edge_pts": 5.8,
+       "avg_ev_per_100": 27.64,
+       "avg_model_prob": 0.4141,
+       "win_rate": 0.3718,
+       "avg_breakeven": 0.3561,
+       "games": 14
+      },
+      "8": {
+       "bets": 76,
+       "wins": 24,
+       "losses": 52,
+       "record": "24-52",
+       "profit": -2868.1,
+       "roi_per_100": -37.74,
+       "roi_ci95_game_cluster": [
+        -64.16,
+        0.06
+       ],
+       "avg_edge_pts": 6.72,
+       "avg_ev_per_100": 25.71,
+       "avg_model_prob": 0.4483,
+       "win_rate": 0.3158,
+       "avg_breakeven": 0.3811,
+       "games": 14
+      },
+      "9": {
+       "bets": 79,
+       "wins": 31,
+       "losses": 48,
+       "record": "31-48",
+       "profit": -2035.55,
+       "roi_per_100": -25.77,
+       "roi_ci95_game_cluster": [
+        -53.1,
+        7.92
+       ],
+       "avg_edge_pts": 6.41,
+       "avg_ev_per_100": 20.07,
+       "avg_model_prob": 0.5257,
+       "win_rate": 0.3924,
+       "avg_breakeven": 0.4615,
+       "games": 15
+      }
+     },
+     "by_side": {
+      "over": {
+       "bets": 311,
+       "wins": 86,
+       "losses": 225,
+       "record": "86-225",
+       "profit": 669.77,
+       "roi_per_100": 2.15,
+       "roi_ci95_game_cluster": [
+        -25.01,
+        31.77
+       ],
+       "avg_edge_pts": 5.72,
+       "avg_ev_per_100": 28.61,
+       "avg_model_prob": 0.3405,
+       "win_rate": 0.2765,
+       "avg_breakeven": 0.2832,
+       "games": 123
+      },
+      "under": {
+       "bets": 438,
+       "wins": 210,
+       "losses": 228,
+       "record": "210-228",
+       "profit": -3107.55,
+       "roi_per_100": -7.09,
+       "roi_ci95_game_cluster": [
+        -19.72,
+        7.01
+       ],
+       "avg_edge_pts": 6.64,
+       "avg_ev_per_100": 20.5,
+       "avg_model_prob": 0.5711,
+       "win_rate": 0.4795,
+       "avg_breakeven": 0.5046,
+       "games": 129
+      }
+     }
+    },
+    "all_qualifying_rungs": {
+     "all": {
+      "bets": 1591,
+      "wins": 724,
+      "losses": 867,
+      "record": "724-867",
+      "profit": 4867.91,
+      "roi_per_100": 3.06,
+      "roi_ci95_game_cluster": [
+       -9.33,
+       15.84
+      ],
+      "avg_edge_pts": 5.76,
+      "avg_ev_per_100": 18.87,
+      "avg_model_prob": 0.5139,
+      "win_rate": 0.4551,
+      "avg_breakeven": 0.4562,
+      "games": 136
+     },
+     "by_tier": {
+      "Strong": {
+       "bets": 793,
+       "wins": 325,
+       "losses": 468,
+       "record": "325-468",
+       "profit": -188.64,
+       "roi_per_100": -0.24,
+       "roi_ci95_game_cluster": [
+        -14.67,
+        14.81
+       ],
+       "avg_edge_pts": 7.52,
+       "avg_ev_per_100": 22.83,
+       "avg_model_prob": 0.4911,
+       "win_rate": 0.4098,
+       "avg_breakeven": 0.4159,
+       "games": 133
+      },
+      "Lean": {
+       "bets": 798,
+       "wins": 399,
+       "losses": 399,
+       "record": "399-399",
+       "profit": 5056.55,
+       "roi_per_100": 6.34,
+       "roi_ci95_game_cluster": [
+        -9.65,
+        23.29
+       ],
+       "avg_edge_pts": 4.02,
+       "avg_ev_per_100": 14.93,
+       "avg_model_prob": 0.5365,
+       "win_rate": 0.5,
+       "avg_breakeven": 0.4963,
+       "games": 136
+      }
+     },
+     "by_market": {
+      "pass_completions": {
+       "bets": 204,
+       "wins": 99,
+       "losses": 105,
+       "record": "99-105",
+       "profit": -728.53,
+       "roi_per_100": -3.57,
+       "roi_ci95_game_cluster": [
+        -19.77,
+        13.28
+       ],
+       "avg_edge_pts": 6.03,
+       "avg_ev_per_100": 16.75,
+       "avg_model_prob": 0.5484,
+       "win_rate": 0.4853,
+       "avg_breakeven": 0.488,
+       "games": 113
+      },
+      "pass_yds": {
+       "bets": 952,
+       "wins": 400,
+       "losses": 552,
+       "record": "400-552",
+       "profit": 2408.55,
+       "roi_per_100": 2.53,
+       "roi_ci95_game_cluster": [
+        -14.99,
+        20.99
+       ],
+       "avg_edge_pts": 5.65,
+       "avg_ev_per_100": 20.37,
+       "avg_model_prob": 0.4763,
+       "win_rate": 0.4202,
+       "avg_breakeven": 0.4198,
+       "games": 135
+      },
+      "player_tds": {
+       "bets": 144,
+       "wins": 84,
+       "losses": 60,
+       "record": "84-60",
+       "profit": 3748.5,
+       "roi_per_100": 26.03,
+       "roi_ci95_game_cluster": [
+        -13.58,
+        70.12
+       ],
+       "avg_edge_pts": 3.94,
+       "avg_ev_per_100": 16.97,
+       "avg_model_prob": 0.6105,
+       "win_rate": 0.5833,
+       "avg_breakeven": 0.5711,
+       "games": 91
+      },
+      "rush_attempts": {
+       "bets": 291,
+       "wins": 141,
+       "losses": 150,
+       "record": "141-150",
+       "profit": -560.62,
+       "roi_per_100": -1.93,
+       "roi_ci95_game_cluster": [
+        -18.66,
+        15.28
+       ],
+       "avg_edge_pts": 6.84,
+       "avg_ev_per_100": 16.38,
+       "avg_model_prob": 0.5648,
+       "win_rate": 0.4845,
+       "avg_breakeven": 0.4964,
+       "games": 116
+      }
+     },
+     "by_week": {
+      "1": {
+       "bets": 148,
+       "wins": 83,
+       "losses": 65,
+       "record": "83-65",
+       "profit": 4421.26,
+       "roi_per_100": 29.87,
+       "roi_ci95_game_cluster": [
+        -17.38,
+        81.6
+       ],
+       "avg_edge_pts": 5.87,
+       "avg_ev_per_100": 16.97,
+       "avg_model_prob": 0.5711,
+       "win_rate": 0.5608,
+       "avg_breakeven": 0.5125,
+       "games": 16
+      },
+      "2": {
+       "bets": 170,
+       "wins": 86,
+       "losses": 84,
+       "record": "86-84",
+       "profit": 5718.96,
+       "roi_per_100": 33.64,
+       "roi_ci95_game_cluster": [
+        9.92,
+        60.32
+       ],
+       "avg_edge_pts": 5.39,
+       "avg_ev_per_100": 19.94,
+       "avg_model_prob": 0.4481,
+       "win_rate": 0.5059,
+       "avg_breakeven": 0.3943,
+       "games": 16
+      },
+      "3": {
+       "bets": 186,
+       "wins": 97,
+       "losses": 89,
+       "record": "97-89",
+       "profit": 3793.51,
+       "roi_per_100": 20.4,
+       "roi_ci95_game_cluster": [
+        -16.86,
+        66.82
+       ],
+       "avg_edge_pts": 5.88,
+       "avg_ev_per_100": 18.62,
+       "avg_model_prob": 0.5372,
+       "win_rate": 0.5215,
+       "avg_breakeven": 0.4784,
+       "games": 16
+      },
+      "4": {
+       "bets": 210,
+       "wins": 89,
+       "losses": 121,
+       "record": "89-121",
+       "profit": -1680.42,
+       "roi_per_100": -8.0,
+       "roi_ci95_game_cluster": [
+        -39.72,
+        30.87
+       ],
+       "avg_edge_pts": 5.93,
+       "avg_ev_per_100": 20.64,
+       "avg_model_prob": 0.5023,
+       "win_rate": 0.4238,
+       "avg_breakeven": 0.443,
+       "games": 16
+      },
+      "5": {
+       "bets": 186,
+       "wins": 82,
+       "losses": 104,
+       "record": "82-104",
+       "profit": 3463.57,
+       "roi_per_100": 18.62,
+       "roi_ci95_game_cluster": [
+        -18.99,
+        59.04
+       ],
+       "avg_edge_pts": 5.67,
+       "avg_ev_per_100": 18.74,
+       "avg_model_prob": 0.4907,
+       "win_rate": 0.4409,
+       "avg_breakeven": 0.434,
+       "games": 15
+      },
+      "6": {
+       "bets": 166,
+       "wins": 67,
+       "losses": 99,
+       "record": "67-99",
+       "profit": -4748.23,
+       "roi_per_100": -28.6,
+       "roi_ci95_game_cluster": [
+        -54.7,
+        7.31
+       ],
+       "avg_edge_pts": 5.74,
+       "avg_ev_per_100": 17.45,
+       "avg_model_prob": 0.5485,
+       "win_rate": 0.4036,
+       "avg_breakeven": 0.4911,
+       "games": 14
+      },
+      "7": {
+       "bets": 192,
+       "wins": 85,
+       "losses": 107,
+       "record": "85-107",
+       "profit": 83.87,
+       "roi_per_100": 0.44,
+       "roi_ci95_game_cluster": [
+        -25.83,
+        32.61
+       ],
+       "avg_edge_pts": 5.74,
+       "avg_ev_per_100": 20.55,
+       "avg_model_prob": 0.4959,
+       "win_rate": 0.4427,
+       "avg_breakeven": 0.4385,
+       "games": 14
+      },
+      "8": {
+       "bets": 162,
+       "wins": 54,
+       "losses": 108,
+       "record": "54-108",
+       "profit": -3111.14,
+       "roi_per_100": -19.2,
+       "roi_ci95_game_cluster": [
+        -50.6,
+        21.39
+       ],
+       "avg_edge_pts": 5.95,
+       "avg_ev_per_100": 20.3,
+       "avg_model_prob": 0.4816,
+       "win_rate": 0.3333,
+       "avg_breakeven": 0.4221,
+       "games": 14
+      },
+      "9": {
+       "bets": 171,
+       "wins": 81,
+       "losses": 90,
+       "record": "81-90",
+       "profit": -3073.46,
+       "roi_per_100": -17.97,
+       "roi_ci95_game_cluster": [
+        -36.45,
+        5.52
+       ],
+       "avg_edge_pts": 5.68,
+       "avg_ev_per_100": 15.8,
+       "avg_model_prob": 0.5606,
+       "win_rate": 0.4737,
+       "avg_breakeven": 0.5038,
+       "games": 15
+      }
+     },
+     "by_side": {
+      "over": {
+       "bets": 650,
+       "wins": 243,
+       "losses": 407,
+       "record": "243-407",
+       "profit": 8721.17,
+       "roi_per_100": 13.42,
+       "roi_ci95_game_cluster": [
+        -10.63,
+        39.15
+       ],
+       "avg_edge_pts": 5.51,
+       "avg_ev_per_100": 22.57,
+       "avg_model_prob": 0.4064,
+       "win_rate": 0.3738,
+       "avg_breakeven": 0.3513,
+       "games": 124
+      },
+      "under": {
+       "bets": 941,
+       "wins": 481,
+       "losses": 460,
+       "record": "481-460",
+       "profit": -3853.26,
+       "roi_per_100": -4.09,
+       "roi_ci95_game_cluster": [
+        -16.66,
+        9.0
+       ],
+       "avg_edge_pts": 5.94,
+       "avg_ev_per_100": 16.31,
+       "avg_model_prob": 0.5881,
+       "win_rate": 0.5112,
+       "avg_breakeven": 0.5287,
+       "games": 130
+      }
+     }
+    }
+   },
+   "sensitivity_edge_vs_mid": {
+    "one_bet_per_player_market": {
+     "all": {
+      "bets": 3619,
+      "wins": 1346,
+      "losses": 2273,
+      "record": "1346-2273",
+      "profit": 8583.25,
+      "roi_per_100": 2.37,
+      "roi_ci95_game_cluster": [
+       -5.21,
+       9.97
+      ],
+      "avg_edge_pts": 6.91,
+      "avg_ev_per_100": 20.31,
+      "avg_model_prob": 0.4124,
+      "win_rate": 0.3719,
+      "avg_breakeven": 0.3626,
+      "games": 136
+     },
+     "by_tier": {
+      "Strong": {
+       "bets": 1002,
+       "wins": 416,
+       "losses": 586,
+       "record": "416-586",
+       "profit": 7442.76,
+       "roi_per_100": 7.43,
+       "roi_ci95_game_cluster": [
+        -3.19,
+        18.27
+       ],
+       "avg_edge_pts": 8.29,
+       "avg_ev_per_100": 20.01,
+       "avg_model_prob": 0.4488,
+       "win_rate": 0.4152,
+       "avg_breakeven": 0.3867,
+       "games": 136
+      },
+      "Lean": {
+       "bets": 2617,
+       "wins": 930,
+       "losses": 1687,
+       "record": "930-1687",
+       "profit": 1140.48,
+       "roi_per_100": 0.44,
+       "roi_ci95_game_cluster": [
+        -8.45,
+        9.43
+       ],
+       "avg_edge_pts": 6.38,
+       "avg_ev_per_100": 20.43,
+       "avg_model_prob": 0.3984,
+       "win_rate": 0.3554,
+       "avg_breakeven": 0.3534,
+       "games": 136
+      }
+     },
+     "by_market": {
+      "anytime_td": {
+       "bets": 873,
+       "wins": 382,
+       "losses": 491,
+       "record": "382-491",
+       "profit": 3301.59,
+       "roi_per_100": 3.78,
+       "roi_ci95_game_cluster": [
+        -7.26,
+        15.62
+       ],
+       "avg_edge_pts": 5.38,
+       "avg_ev_per_100": 13.59,
+       "avg_model_prob": 0.4591,
+       "win_rate": 0.4376,
+       "avg_breakeven": 0.4236,
+       "games": 136
+      },
+      "pass_ints": {
+       "bets": 201,
+       "wins": 104,
+       "losses": 97,
+       "record": "104-97",
+       "profit": -234.6,
+       "roi_per_100": -1.17,
+       "roi_ci95_game_cluster": [
+        -15.83,
+        14.09
+       ],
+       "avg_edge_pts": 6.58,
+       "avg_ev_per_100": 9.97,
+       "avg_model_prob": 0.552,
+       "win_rate": 0.5174,
+       "avg_breakeven": 0.5085,
+       "games": 128
+      },
+      "pass_tds": {
+       "bets": 252,
+       "wins": 94,
+       "losses": 158,
+       "record": "94-158",
+       "profit": 11053.46,
+       "roi_per_100": 43.86,
+       "roi_ci95_game_cluster": [
+        9.54,
+        79.63
+       ],
+       "avg_edge_pts": 6.0,
+       "avg_ev_per_100": 22.16,
+       "avg_model_prob": 0.3231,
+       "win_rate": 0.373,
+       "avg_breakeven": 0.2805,
+       "games": 136
+      },
+      "rec_yds": {
+       "bets": 1016,
+       "wins": 321,
+       "losses": 695,
+       "record": "321-695",
+       "profit": 3234.82,
+       "roi_per_100": 3.18,
+       "roi_ci95_game_cluster": [
+        -9.5,
+        16.76
+       ],
+       "avg_edge_pts": 7.21,
+       "avg_ev_per_100": 23.86,
+       "avg_model_prob": 0.3643,
+       "win_rate": 0.3159,
+       "avg_breakeven": 0.3115,
+       "games": 136
+      },
+      "receptions": {
+       "bets": 932,
+       "wins": 348,
+       "losses": 584,
+       "record": "348-584",
+       "profit": -2017.68,
+       "roi_per_100": -2.16,
+       "roi_ci95_game_cluster": [
+        -12.36,
+        8.26
+       ],
+       "avg_edge_pts": 7.54,
+       "avg_ev_per_100": 20.32,
+       "avg_model_prob": 0.4262,
+       "win_rate": 0.3734,
+       "avg_breakeven": 0.3713,
+       "games": 136
+      },
+      "rush_yds": {
+       "bets": 345,
+       "wins": 97,
+       "losses": 248,
+       "record": "97-248",
+       "profit": -6754.35,
+       "roi_per_100": -19.58,
+       "roi_ci95_game_cluster": [
+        -36.68,
+        -1.07
+       ],
+       "avg_edge_pts": 9.03,
+       "avg_ev_per_100": 31.51,
+       "avg_model_prob": 0.3822,
+       "win_rate": 0.2812,
+       "avg_breakeven": 0.3105,
+       "games": 135
+      }
+     },
+     "by_week": {
+      "1": {
+       "bets": 411,
+       "wins": 180,
+       "losses": 231,
+       "record": "180-231",
+       "profit": -3211.75,
+       "roi_per_100": -7.81,
+       "roi_ci95_game_cluster": [
+        -24.46,
+        8.45
+       ],
+       "avg_edge_pts": 7.99,
+       "avg_ev_per_100": 18.21,
+       "avg_model_prob": 0.5106,
+       "win_rate": 0.438,
+       "avg_breakeven": 0.4527,
+       "games": 16
+      },
+      "2": {
+       "bets": 414,
+       "wins": 148,
+       "losses": 266,
+       "record": "148-266",
+       "profit": -1700.33,
+       "roi_per_100": -4.11,
+       "roi_ci95_game_cluster": [
+        -20.5,
+        11.76
+       ],
+       "avg_edge_pts": 7.26,
+       "avg_ev_per_100": 19.71,
+       "avg_model_prob": 0.4141,
+       "win_rate": 0.3575,
+       "avg_breakeven": 0.3624,
+       "games": 16
+      },
+      "3": {
+       "bets": 408,
+       "wins": 146,
+       "losses": 262,
+       "record": "146-262",
+       "profit": 4176.34,
+       "roi_per_100": 10.24,
+       "roi_ci95_game_cluster": [
+        -11.65,
+        33.81
+       ],
+       "avg_edge_pts": 6.62,
+       "avg_ev_per_100": 22.43,
+       "avg_model_prob": 0.3763,
+       "win_rate": 0.3578,
+       "avg_breakeven": 0.3281,
+       "games": 16
+      },
+      "4": {
+       "bets": 429,
+       "wins": 153,
+       "losses": 276,
+       "record": "153-276",
+       "profit": 7037.78,
+       "roi_per_100": 16.41,
+       "roi_ci95_game_cluster": [
+        -5.96,
+        38.04
+       ],
+       "avg_edge_pts": 6.81,
+       "avg_ev_per_100": 22.18,
+       "avg_model_prob": 0.3785,
+       "win_rate": 0.3566,
+       "avg_breakeven": 0.3285,
+       "games": 16
+      },
+      "5": {
+       "bets": 419,
+       "wins": 144,
+       "losses": 275,
+       "record": "144-275",
+       "profit": 3966.24,
+       "roi_per_100": 9.47,
+       "roi_ci95_game_cluster": [
+        -17.38,
+        36.91
+       ],
+       "avg_edge_pts": 6.62,
+       "avg_ev_per_100": 23.39,
+       "avg_model_prob": 0.3786,
+       "win_rate": 0.3437,
+       "avg_breakeven": 0.3297,
+       "games": 15
+      },
+      "6": {
+       "bets": 384,
+       "wins": 133,
+       "losses": 251,
+       "record": "133-251",
+       "profit": 3028.83,
+       "roi_per_100": 7.89,
+       "roi_ci95_game_cluster": [
+        -21.94,
+        39.47
+       ],
+       "avg_edge_pts": 6.79,
+       "avg_ev_per_100": 21.55,
+       "avg_model_prob": 0.3903,
+       "win_rate": 0.3464,
+       "avg_breakeven": 0.3407,
+       "games": 14
+      },
+      "7": {
+       "bets": 381,
+       "wins": 147,
+       "losses": 234,
+       "record": "147-234",
+       "profit": -444.32,
+       "roi_per_100": -1.17,
+       "roi_ci95_game_cluster": [
+        -22.76,
+        23.78
+       ],
+       "avg_edge_pts": 6.48,
+       "avg_ev_per_100": 17.63,
+       "avg_model_prob": 0.406,
+       "win_rate": 0.3858,
+       "avg_breakeven": 0.361,
+       "games": 14
+      },
+      "8": {
+       "bets": 376,
+       "wins": 138,
+       "losses": 238,
+       "record": "138-238",
+       "profit": -2240.57,
+       "roi_per_100": -5.96,
+       "roi_ci95_game_cluster": [
+        -29.43,
+        18.07
+       ],
+       "avg_edge_pts": 6.74,
+       "avg_ev_per_100": 18.96,
+       "avg_model_prob": 0.4224,
+       "win_rate": 0.367,
+       "avg_breakeven": 0.3748,
+       "games": 14
+      },
+      "9": {
+       "bets": 397,
+       "wins": 157,
+       "losses": 240,
+       "record": "157-240",
+       "profit": -2028.97,
+       "roi_per_100": -5.11,
+       "roi_ci95_game_cluster": [
+        -24.18,
+        12.08
+       ],
+       "avg_edge_pts": 6.84,
+       "avg_ev_per_100": 18.32,
+       "avg_model_prob": 0.4361,
+       "win_rate": 0.3955,
+       "avg_breakeven": 0.3875,
+       "games": 15
+      }
+     },
+     "by_side": {
+      "over": {
+       "bets": 1526,
+       "wins": 369,
+       "losses": 1157,
+       "record": "369-1157",
+       "profit": 10618.39,
+       "roi_per_100": 6.96,
+       "roi_ci95_game_cluster": [
+        -6.73,
+        20.78
+       ],
+       "avg_edge_pts": 5.82,
+       "avg_ev_per_100": 25.41,
+       "avg_model_prob": 0.2653,
+       "win_rate": 0.2418,
+       "avg_breakeven": 0.2243,
+       "games": 136
+      },
+      "under": {
+       "bets": 2093,
+       "wins": 977,
+       "losses": 1116,
+       "record": "977-1116",
+       "profit": -2035.14,
+       "roi_per_100": -0.97,
+       "roi_ci95_game_cluster": [
+        -8.01,
+        6.22
+       ],
+       "avg_edge_pts": 7.7,
+       "avg_ev_per_100": 16.6,
+       "avg_model_prob": 0.5196,
+       "win_rate": 0.4668,
+       "avg_breakeven": 0.4634,
+       "games": 136
+      }
+     }
+    },
+    "all_qualifying_rungs": {
+     "bets": 11273,
+     "wins": 5657,
+     "losses": 5616,
+     "record": "5657-5616",
+     "profit": 14935.94,
+     "roi_per_100": 1.32,
+     "roi_ci95_game_cluster": [
+      -4.12,
+      7.02
+     ],
+     "avg_edge_pts": 6.48,
+     "avg_ev_per_100": 13.87,
+     "avg_model_prob": 0.5364,
+     "win_rate": 0.5018,
+     "avg_breakeven": 0.4915,
+     "games": 136
+    }
+   },
+   "tier_counts_all_rung_sides": {
+    "Pass": 42961,
+    "Lean": 6400,
+    "Strong": 1815
+   }
+  }
+ },
+ "price_check_vs_file_net_fee_odds": {
+  "n": 124856,
+  "max_abs_diff_breakeven": 0.0011,
+  "median_abs_diff": 5e-05
+ },
+ "generated_at": "2026-11-14T16:36:01+00:00",
+ "paper_only": true,
+ "data": "data/lines/kalshi_history_2026.parquet (SCHEMA 1.4)",
+ "season": 2026,
+ "weeks": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "accounting": {
+  "rows_total": 51547,
+  "dst_rows_excluded": 272,
+  "scalar_void_rows": 894,
+  "scalar_void_rows_twosided": 636,
+  "no_valid_twosided_prekick_quote": 5417,
+  "player_tds_3plus_filtered": 357,
+  "no_model_market_rows": {
+   "rush_rec_yds": 1177,
+   "pass_attempts": 1062
+  }
+ },
+ "models": {
+  "anytime_td": {
+   "live_model": "baseline_market",
+   "dist": "poisson",
+   "par": {},
+   "live_trained_through": "2026 wk10",
+   "live_n_train": 22434,
+   "live_in_sample_2026_wk1_9": true,
+   "oos_refit": "same spec refit on 21068 rows, seasons 2018-2025",
+   "dispersion_fit": "2024 validation (train_backtest.py), no 2026 data"
+  },
+  "pass_ints": {
+   "live_model": "baseline_stats_only",
+   "dist": "nb",
+   "par": {
+    "alpha": 0.1750643055835361
+   },
+   "live_trained_through": "2026 wk10",
+   "live_n_train": 4794,
+   "live_in_sample_2026_wk1_9": true,
+   "oos_refit": "same spec refit on 4489 rows, seasons 2018-2025",
+   "dispersion_fit": "2024 validation (train_backtest.py), no 2026 data"
+  },
+  "pass_tds": {
+   "live_model": "ml_market",
+   "dist": "poisson",
+   "par": {},
+   "live_trained_through": "2026 wk10",
+   "live_n_train": 4794,
+   "live_in_sample_2026_wk1_9": true,
+   "oos_refit": "same spec refit on 4489 rows, seasons 2018-2025, LightGBM n_iter=320 (early-stopped on 2024 in train_backtest)",
+   "dispersion_fit": "2024 validation (train_backtest.py), no 2026 data"
+  },
+  "receptions": {
+   "live_model": "baseline_market",
+   "dist": "nb",
+   "par": {
+    "alpha": 0.08569953499505298
+   },
+   "live_trained_through": "2026 wk10",
+   "live_n_train": 19684,
+   "live_in_sample_2026_wk1_9": true,
+   "oos_refit": "same spec refit on 18502 rows, seasons 2018-2025",
+   "dispersion_fit": "2024 validation (train_backtest.py), no 2026 data"
+  },
+  "rec_yds": {
+   "live_model": "v2_volxeff_baseline_market_opp_recal",
+   "dist": "volxeff",
+   "live_trained_through": "2023 (mean models 2018-2023; dispersion/recal 2022-23 OOF; frozen as tested)",
+   "live_n_train": 13781,
+   "live_in_sample_2026_wk1_9": false,
+   "oos_refit": "not needed: frozen mean models fit 2018-2023, dispersion/recal on 2022-23 OOF",
+   "note": "frozen live level factors (computed at freeze through 2026 wk9) replaced by rolling earlier-weeks factors"
+  },
+  "rush_yds": {
+   "live_model": "v2_volxeff_baseline_stats_only_opp_recal",
+   "dist": "volxeff",
+   "live_trained_through": "2023 (mean models 2018-2023; dispersion/recal 2022-23 OOF; frozen as tested)",
+   "live_n_train": 4570,
+   "live_in_sample_2026_wk1_9": false,
+   "oos_refit": "not needed: frozen mean models fit 2018-2023, dispersion/recal on 2022-23 OOF",
+   "note": "frozen live level factors (computed at freeze through 2026 wk9) replaced by rolling earlier-weeks factors"
+  },
+  "pass_yds": {
+   "live_model": null,
+   "candidate": "ml_market",
+   "dist": "normal",
+   "trained": "2018-2023, dist fit on 2024",
+   "published": false
+  },
+  "pass_completions": {
+   "live_model": null,
+   "candidate": "baseline_stats_only",
+   "dist": "emp",
+   "trained": "2018-2023, dist fit on 2024",
+   "published": false
+  },
+  "rush_attempts": {
+   "live_model": null,
+   "candidate": "baseline_market",
+   "dist": "emp",
+   "trained": "2018-2023, dist fit on 2024",
+   "published": false
+  }
+ },
+ "bootstrap": {
+  "reps": 10000,
+  "cluster": "game_id",
+  "stat": "profit per $100 staked"
+ },
+ "rules": {
+  "tiers": {
+   "strong_ev": 5.0,
+   "strong_edge": 4.0,
+   "lean_ev": 0.0,
+   "lean_edge": 2.0
+  },
+  "liquidity": "(volume_24h >= 100 OR open_interest >= 500) AND spread <= 5.0c (live uses lifetime volume; history has only last-hour and 24h volume, 24h used)",
+  "edge": "model_prob - fee-inclusive breakeven (props_ev.py Kalshi branch); sensitivity: model_prob - mid",
+  "p_over": "P(X >= threshold) = P(X > threshold - 0.5) from the predictive distribution",
+  "flags": "model_market_disagreement (>15 pts or ratio>2 under 20%) and kalshi_illiquid -> Pass; mean_far_from_line (>35%), missed_last_game, offense_pct_last<25% -> check (never Strong); kalshi_tail_price -> low confidence; rec_yds capped at Lean; n_prior<10 -> low confidence",
+  "not_replicated": "live_roles.py role overrides / week_roles role flags (no historical weekly role tables); role-adjusted rush_yds cap therefore vacuous",
+  "one_bet": "one bet per game-player-market: highest-EV Strong/Lean rung/side"
+ },
+ "projection_vs_market": {
+  "method": "Market-implied median per game-player-market from the last pre-kick ladder. P(X>=k) = mid of the YES quote.\nUsable rung = valid two-sided pre-kick quote AND spread <= 5c. Monotone fix: running minimum over increasing k.\nThe 50% crossing must be bracketed by two usable rungs that are adjacent in the listed pre-kick ladder (no one-sided or\nwide rung between them); count markets add the trivial rung P(X>=0)=1. Median interpolated linearly on the half-point\nline (k-0.5). Count markets also get the integer median (smallest m with P(X>=m+1) <= 0.5).",
+  "ladders_used": 4737,
+  "ladders_skipped": {
+   "scalar_void": 82,
+   "lt2_usable_rungs": 56,
+   "crossing_not_bracketed": 707,
+   "bracket_not_adjacent_or_illiquid": 224
+  },
+  "sample": "2026 weeks 1-9 player-games with a usable pre-kick ladder, our eligibility (>=3 prior games, min usage), a nflverse stat row, and a season-average benchmark",
+  "season_avg_rule": "projection_accuracy.season_avgs: season-to-date mean if >=2 prior games this season, else prior-season mean, else fallback",
+  "caveats": [
+   "Nothing here saw 2026 weeks 1-9 outcomes before predicting them: count markets are refit every week on prior weeks only; rush_yds/rec_yds frozen v2 mean models were fit on 2018-2023 (fine).",
+   "The live models/artifacts pickles (trained through 2026 wk10 TNF) are NOT used here; they would be in-sample.",
+   "Model/variant selection and the frozen v2 promotions used 2025 + 2026 wk1-9 test metrics (mild selection bias); dispersion was fit on 2024.",
+   "Count medians are integers; the market median is interpolated (continuous). mae_market_median_int is the like-for-like integer version.",
+   "Market median uses the mid of the last hourly pre-kick candle; ladders with one-sided/wide (>5c) rungs at the 50% crossing are skipped."
+  ],
+  "rows_file": "models/kalshi_projection_vs_market_rows.parquet",
+  "by_market": {
+   "pass_yds": {
+    "model": "ml_market (unpublished candidate), refit EVERY week on all eligible rows before that week (seasons 2018+ through 2026 week w-1), LightGBM n_iter=376; dist normal with dispersion fit on 2024; level factor = rolling 17 earlier weeks of that refit's predictions (as live)",
+    "published": false,
+    "n": 255,
+    "avg_actual": 229.553,
+    "mae_our_median": 60.653,
+    "mae_our_mean": 60.654,
+    "mae_market_median": 57.609,
+    "mae_season_avg": 67.599,
+    "mae_diff_ours_minus_market": 3.044,
+    "mae_diff_ci95_game_cluster": [
+     0.326,
+     5.926
+    ],
+    "head_to_head_we_closer": 0.4784,
+    "head_to_head_market_closer": 0.5216,
+    "head_to_head_tie": 0.0,
+    "avg_our_median_minus_market": -6.754,
+    "in_sample_2026_wk1_9": false
+   },
+   "pass_tds": {
+    "model": "ml_market (live spec), refit EVERY week on all eligible rows before that week (seasons 2018+ through 2026 week w-1), LightGBM n_iter=320; dist poisson with dispersion fit on 2024; level factor = rolling 17 earlier weeks of that refit's predictions (as live)",
+    "published": true,
+    "n": 260,
+    "avg_actual": 1.485,
+    "mae_our_median": 0.858,
+    "mae_our_mean": 0.886,
+    "mae_market_median": 0.869,
+    "mae_season_avg": 0.954,
+    "mae_diff_ours_minus_market": -0.011,
+    "mae_diff_ci95_game_cluster": [
+     -0.058,
+     0.034
+    ],
+    "head_to_head_we_closer": 0.5692,
+    "head_to_head_market_closer": 0.4192,
+    "head_to_head_tie": 0.0115,
+    "avg_our_median_minus_market": -0.156,
+    "in_sample_2026_wk1_9": false,
+    "mae_market_median_int": 0.831,
+    "head_to_head_vs_int_we_closer": 0.0885,
+    "head_to_head_vs_int_market_closer": 0.1154,
+    "head_to_head_vs_int_tie": 0.7962
+   },
+   "pass_completions": {
+    "model": "baseline_stats_only (unpublished candidate), refit EVERY week on all eligible rows before that week (seasons 2018+ through 2026 week w-1); dist emp with dispersion fit on 2024; level factor = rolling 17 earlier weeks of that refit's predictions (as live)",
+    "published": false,
+    "n": 197,
+    "avg_actual": 20.604,
+    "mae_our_median": 4.898,
+    "mae_our_mean": 5.01,
+    "mae_market_median": 4.639,
+    "mae_season_avg": 5.551,
+    "mae_diff_ours_minus_market": 0.259,
+    "mae_diff_ci95_game_cluster": [
+     -0.049,
+     0.582
+    ],
+    "head_to_head_we_closer": 0.4975,
+    "head_to_head_market_closer": 0.4975,
+    "head_to_head_tie": 0.0051,
+    "avg_our_median_minus_market": -0.374,
+    "in_sample_2026_wk1_9": false,
+    "mae_market_median_int": 4.599,
+    "head_to_head_vs_int_we_closer": 0.3198,
+    "head_to_head_vs_int_market_closer": 0.4213,
+    "head_to_head_vs_int_tie": 0.2589
+   },
+   "pass_ints": {
+    "model": "baseline_stats_only (live spec), refit EVERY week on all eligible rows before that week (seasons 2018+ through 2026 week w-1); dist nb with dispersion fit on 2024; level factor = rolling 17 earlier weeks of that refit's predictions (as live)",
+    "published": true,
+    "n": 261,
+    "avg_actual": 0.693,
+    "mae_our_median": 0.663,
+    "mae_our_mean": 0.667,
+    "mae_market_median": 0.673,
+    "mae_season_avg": 0.647,
+    "mae_diff_ours_minus_market": -0.01,
+    "mae_diff_ci95_game_cluster": [
+     -0.071,
+     0.05
+    ],
+    "head_to_head_we_closer": 0.5172,
+    "head_to_head_market_closer": 0.4828,
+    "head_to_head_tie": 0.0,
+    "avg_our_median_minus_market": -0.294,
+    "in_sample_2026_wk1_9": false,
+    "mae_market_median_int": 0.651,
+    "head_to_head_vs_int_we_closer": 0.1877,
+    "head_to_head_vs_int_market_closer": 0.1992,
+    "head_to_head_vs_int_tie": 0.613
+   },
+   "rush_yds": {
+    "model": "v2_volxeff_baseline_stats_only_opp_recal (frozen live model, mean models fit 2018-2023; rolling earlier-weeks level factors; not refit)",
+    "published": true,
+    "n": 346,
+    "avg_actual": 54.179,
+    "mae_our_median": 23.372,
+    "mae_our_mean": 23.506,
+    "mae_market_median": 22.233,
+    "mae_season_avg": 24.79,
+    "mae_diff_ours_minus_market": 1.139,
+    "mae_diff_ci95_game_cluster": [
+     0.208,
+     2.09
+    ],
+    "head_to_head_we_closer": 0.4595,
+    "head_to_head_market_closer": 0.5405,
+    "head_to_head_tie": 0.0,
+    "avg_our_median_minus_market": -3.4,
+    "in_sample_2026_wk1_9": false
+   },
+   "rush_attempts": {
+    "model": "baseline_market (unpublished candidate), refit EVERY week on all eligible rows before that week (seasons 2018+ through 2026 week w-1); dist emp with dispersion fit on 2024; level factor = rolling 17 earlier weeks of that refit's predictions (as live)",
+    "published": false,
+    "n": 253,
+    "avg_actual": 14.154,
+    "mae_our_median": 4.364,
+    "mae_our_mean": 4.241,
+    "mae_market_median": 3.857,
+    "mae_season_avg": 4.914,
+    "mae_diff_ours_minus_market": 0.506,
+    "mae_diff_ci95_game_cluster": [
+     0.246,
+     0.769
+    ],
+    "head_to_head_we_closer": 0.4032,
+    "head_to_head_market_closer": 0.581,
+    "head_to_head_tie": 0.0158,
+    "avg_our_median_minus_market": -0.219,
+    "in_sample_2026_wk1_9": false,
+    "mae_market_median_int": 3.858,
+    "head_to_head_vs_int_we_closer": 0.3043,
+    "head_to_head_vs_int_market_closer": 0.4862,
+    "head_to_head_vs_int_tie": 0.2095
+   },
+   "rec_yds": {
+    "model": "v2_volxeff_baseline_market_opp_recal (frozen live model, mean models fit 2018-2023; rolling earlier-weeks level factors; not refit)",
+    "published": true,
+    "n": 948,
+    "avg_actual": 44.472,
+    "mae_our_median": 24.421,
+    "mae_our_mean": 24.61,
+    "mae_market_median": 24.192,
+    "mae_season_avg": 26.712,
+    "mae_diff_ours_minus_market": 0.23,
+    "mae_diff_ci95_game_cluster": [
+     -0.348,
+     0.802
+    ],
+    "head_to_head_we_closer": 0.481,
+    "head_to_head_market_closer": 0.519,
+    "head_to_head_tie": 0.0,
+    "avg_our_median_minus_market": -2.831,
+    "in_sample_2026_wk1_9": false
+   },
+   "receptions": {
+    "model": "baseline_market (live spec), refit EVERY week on all eligible rows before that week (seasons 2018+ through 2026 week w-1); dist nb with dispersion fit on 2024; level factor = rolling 17 earlier weeks of that refit's predictions (as live)",
+    "published": true,
+    "n": 1042,
+    "avg_actual": 3.659,
+    "mae_our_median": 1.676,
+    "mae_our_mean": 1.675,
+    "mae_market_median": 1.661,
+    "mae_season_avg": 1.832,
+    "mae_diff_ours_minus_market": 0.015,
+    "mae_diff_ci95_game_cluster": [
+     -0.031,
+     0.061
+    ],
+    "head_to_head_we_closer": 0.5134,
+    "head_to_head_market_closer": 0.4731,
+    "head_to_head_tie": 0.0134,
+    "avg_our_median_minus_market": -0.282,
+    "in_sample_2026_wk1_9": false,
+    "mae_market_median_int": 1.646,
+    "head_to_head_vs_int_we_closer": 0.2313,
+    "head_to_head_vs_int_market_closer": 0.2543,
+    "head_to_head_vs_int_tie": 0.5144
+   }
+  }
+ }
+}

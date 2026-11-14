@@ -1780,7 +1780,7 @@
     initPaperBetSummaries();
     initWinnerAccuracy();
     initMoneylineBacktest();
-    initKalshiBacktest();
+    // Kalshi weeks 1–9 now rendered by js/kalshi-backtest.js from data/kalshi_backtest_2026.json.
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
   else start();

@@ -44,7 +44,10 @@ if ! copy_if_present "$ROOT/out/graded_picks.json" "$SITE/data/graded_picks.json
 fi
 copy_if_present "$ROOT/models/moneyline_roi_backtest_results.json" "$SITE/data/moneyline_backtest.json" || true
 
-# Optional Kalshi weeks 1–9 props backtest (skip gracefully if missing).
+# Kalshi 2026 weeks 1–9 out-of-sample backtest (official results file).
+copy_if_present "$ROOT/models/kalshi_backtest_2026_results.json" "$SITE/data/kalshi_backtest_2026.json" || true
+
+# Legacy optional Kalshi file name (kept for compatibility; the page does not render it).
 kalshi_src=""
 for cand in \
   "$ROOT/out/kalshi_props_backtest.json" \
@@ -164,7 +167,9 @@ while (( $(date +%s) < deadline )); do
     ml_code="$(curl -sS -o /tmp/nfl-props-ml-backtest.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/moneyline_backtest.json" || echo "000")"
   fi
   kalshi_code="skip"
-  if [[ -f "$SITE/data/kalshi_props_backtest.json" ]]; then
+  if [[ -f "$SITE/data/kalshi_backtest_2026.json" ]]; then
+    kalshi_code="$(curl -sS -o /tmp/nfl-props-kalshi-backtest.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/kalshi_backtest_2026.json" || echo "000")"
+  elif [[ -f "$SITE/data/kalshi_props_backtest.json" ]]; then
     kalshi_code="$(curl -sS -o /tmp/nfl-props-kalshi-backtest.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/kalshi_props_backtest.json" || echo "000")"
   fi
   weeks_code="$(curl -sS -o /tmp/nfl-props-weeks.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/weeks/index.json" || echo "000")"
