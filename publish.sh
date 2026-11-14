@@ -61,6 +61,30 @@ if [[ -n "$kalshi_src" ]]; then
   copy_if_present "$kalshi_src" "$SITE/data/kalshi_props_backtest.json" || true
 fi
 
+# Projection accuracy (CSV now; JSON if/when Modeler publishes one).
+if ! copy_if_present "$ROOT/models/projection_accuracy.json" "$SITE/data/projection_accuracy.json"; then
+  copy_if_present "$ROOT/out/projection_accuracy.json" "$SITE/data/projection_accuracy.json" || true
+fi
+if ! copy_if_present "$ROOT/models/projection_accuracy_test.csv" "$SITE/data/projection_accuracy.csv"; then
+  copy_if_present "$ROOT/models/projection_accuracy.csv" "$SITE/data/projection_accuracy.csv" || true
+fi
+
+# Paper-bet weekly/season summaries (skip gracefully if none).
+paper_src="$ROOT/out/paper_bets"
+paper_dest="$SITE/data/paper_bets"
+mkdir -p "$paper_dest"
+shopt -s nullglob
+if [[ -d "$paper_src" ]]; then
+  for src in "$paper_src"/summary_*.json; do
+    copy_if_present "$src" "$paper_dest/$(basename "$src")" || true
+  done
+fi
+shopt -u nullglob
+python3 "$SITE/build_paper_bets_index.py" || true
+
+# Player projections (JSON preferred, CSV fallback). Also writes the week copy.
+python3 "$SITE/build_projections.py" || true
+
 # Archive this week's file automatically (keeps prior weeks in the manifest).
 python3 "$SITE/archive_week.py"
 
@@ -141,7 +165,25 @@ while (( $(date +%s) < deadline )); do
   weeks_code="$(curl -sS -o /tmp/nfl-props-weeks.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/weeks/index.json" || echo "000")"
   top_code="$(curl -sS -o /tmp/nfl-props-top.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/props_top.json" || echo "000")"
   game_code="$(curl -sS -o /tmp/nfl-props-game.html -w '%{http_code}' --max-time 20 "$LIVE_BASE/game.html" || echo "000")"
-  last_info="index=$idx_code track=$tr_code data=$json_code graded=$graded_code weeks=$weeks_code top=$top_code game=$game_code ml=$ml_code kalshi=$kalshi_code"
+  proj_page="skip"
+  if [[ -f "$SITE/projections.html" ]]; then
+    proj_page="$(curl -sS -o /tmp/nfl-props-projections.html -w '%{http_code}' --max-time 20 "$LIVE_BASE/projections.html" || echo "000")"
+  fi
+  proj_data="skip"
+  if [[ -f "$SITE/data/projections.json" ]]; then
+    proj_data="$(curl -sS -o /tmp/nfl-props-projections.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/projections.json" || echo "000")"
+  fi
+  acc_code="skip"
+  if [[ -f "$SITE/data/projection_accuracy.json" ]]; then
+    acc_code="$(curl -sS -o /tmp/nfl-props-proj-acc.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/projection_accuracy.json" || echo "000")"
+  elif [[ -f "$SITE/data/projection_accuracy.csv" ]]; then
+    acc_code="$(curl -sS -o /tmp/nfl-props-proj-acc.csv -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/projection_accuracy.csv" || echo "000")"
+  fi
+  paper_code="skip"
+  if [[ -f "$SITE/data/paper_bets/index.json" ]]; then
+    paper_code="$(curl -sS -o /tmp/nfl-props-paper-index.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/paper_bets/index.json" || echo "000")"
+  fi
+  last_info="index=$idx_code track=$tr_code data=$json_code graded=$graded_code weeks=$weeks_code top=$top_code game=$game_code ml=$ml_code kalshi=$kalshi_code proj=$proj_page projdata=$proj_data acc=$acc_code paper=$paper_code"
   live_gen=""
   if [[ "$json_code" == "200" ]]; then
     live_gen="$(python3 - <<'PY'
@@ -159,7 +201,7 @@ PY
 )"
     last_info="$last_info generated_at=$live_gen"
   fi
-  if [[ "$idx_code" == "200" && "$tr_code" == "200" && "$json_code" == "200" && ( "$graded_code" == "skip" || "$graded_code" == "200" ) && "$weeks_code" == "200" && "$top_code" == "200" && "$game_code" == "200" && ( "$ml_code" == "skip" || "$ml_code" == "200" ) && ( "$kalshi_code" == "skip" || "$kalshi_code" == "200" ) ]]; then
+  if [[ "$idx_code" == "200" && "$tr_code" == "200" && "$json_code" == "200" && ( "$graded_code" == "skip" || "$graded_code" == "200" ) && "$weeks_code" == "200" && "$top_code" == "200" && "$game_code" == "200" && ( "$ml_code" == "skip" || "$ml_code" == "200" ) && ( "$kalshi_code" == "skip" || "$kalshi_code" == "200" ) && ( "$proj_page" == "skip" || "$proj_page" == "200" ) && ( "$proj_data" == "skip" || "$proj_data" == "200" ) && ( "$acc_code" == "skip" || "$acc_code" == "200" ) && ( "$paper_code" == "skip" || "$paper_code" == "200" ) ]]; then
     if [[ -z "$generated_at" || "$live_gen" == "$generated_at" ]]; then
       ok=1
       break

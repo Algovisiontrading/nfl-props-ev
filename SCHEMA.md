@@ -333,3 +333,15 @@ If the parquet files or pandas/pyarrow are missing, publish still succeeds and t
 Manifest week entries may also include `top_file`, `all_file`, `games_dir`, and `top_rows`.
 
 Game pages use `game.html?week=N&game=<game_id>` (optional `season`). Picks are a flat list sorted Strong, then Lean, then Pass, and by `ev_per_100` descending within each tier. Rows with a Check or Thin market badge always sort to the bottom.
+
+## `data/projections.json`
+
+Built at publish time by `build_projections.py` from the first available source in `out/`: `projections.json`, `projections_full.json`, `projections_week.json`, other `projections*.json`, then `projections_week.csv` / `projections.csv`. A copy is also written to `data/weeks/<season>-wk<NN>/projections.json`. The Projections page prefers the week file when a week is selected. Rows are slimmed to identity fields plus `model_mean`, `proj_median`, `proj_p25`, `proj_p75`, and optional flags such as `market_passed`. The page shows median with a 25th–75th percentile range when those fields exist, otherwise the mean. A payload `note` is shown when present.
+
+## `data/projection_accuracy.csv` / `data/projection_accuracy.json`
+
+Copied at publish time from `models/projection_accuracy_test.csv` (or `models/projection_accuracy.csv`) and, when present, `models/projection_accuracy.json`. The Track Record and Projections pages prefer the JSON file if it has rows, otherwise the CSV. Expected CSV columns: `market`, `n`, `avg_actual`, `miss_model`, `miss_recent8`, `better_pct` (plus optional extras). Display columns: Stat, Games, Avg actual, Our avg miss, Last-8-avg miss, Better by. Numbers are rendered from the file only.
+
+## `data/paper_bets/`
+
+Copied at publish time from `out/paper_bets/summary_*.json`. `index.json` lists those files (`kind` = week or season). The Track Record **Paper bets** tally renders graded weeks (bets / wins / losses / `roi_per_100` / `beat_close_rate`, by tier, market, and pick type). Until Tuesday's grading, files may list logged-but-unsettled picks in `pushes_voids` with `bets: 0`; the page then keeps the empty state and does not treat those zeros as results.

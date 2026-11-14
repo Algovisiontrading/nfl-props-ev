@@ -1,0 +1,135 @@
+{
+  "integrity": {
+    "tampered_or_missing": [],
+    "ok": true
+  },
+  "props": {
+    "bets_strong_plus_lean": {
+      "bets": 0,
+      "wins": 0,
+      "losses": 0,
+      "pushes_voids": 395,
+      "profit_flat100": 0.0,
+      "roi_per_100": null,
+      "clv_n": 0,
+      "beat_close_rate": null,
+      "avg_clv_pts": null
+    },
+    "Strong": {
+      "bets": 0,
+      "wins": 0,
+      "losses": 0,
+      "pushes_voids": 110,
+      "profit_flat100": 0.0,
+      "roi_per_100": null,
+      "clv_n": 0,
+      "beat_close_rate": null,
+      "avg_clv_pts": null
+    },
+    "Lean": {
+      "bets": 0,
+      "wins": 0,
+      "losses": 0,
+      "pushes_voids": 285,
+      "profit_flat100": 0.0,
+      "roi_per_100": null,
+      "clv_n": 0,
+      "beat_close_rate": null,
+      "avg_clv_pts": null
+    },
+    "Pass": {
+      "bets": 0,
+      "wins": 0,
+      "losses": 0,
+      "pushes_voids": 5443,
+      "profit_flat100": 0.0,
+      "roi_per_100": null,
+      "clv_n": 0,
+      "beat_close_rate": null,
+      "avg_clv_pts": null
+    },
+    "market:anytime_td": {
+      "bets": 0,
+      "wins": 0,
+      "losses": 0,
+      "pushes_voids": 65,
+      "profit_flat100": 0.0,
+      "roi_per_100": null,
+      "clv_n": 0,
+      "beat_close_rate": null,
+      "avg_clv_pts": null
+    },
+    "market:pass_ints": {
+      "bets": 0,
+      "wins": 0,
+      "losses": 0,
+      "pushes_voids": 8,
+      "profit_flat100": 0.0,
+      "roi_per_100": null,
+      "clv_n": 0,
+      "beat_close_rate": null,
+      "avg_clv_pts": null
+    },
+    "market:pass_tds": {
+      "bets": 0,
+      "wins": 0,
+      "losses": 0,
+      "pushes_voids": 29,
+      "profit_flat100": 0.0,
+      "roi_per_100": null,
+      "clv_n": 0,
+      "beat_close_rate": null,
+      "avg_clv_pts": null
+    },
+    "market:rec_yds": {
+      "bets": 0,
+      "wins": 0,
+      "losses": 0,
+      "pushes_voids": 140,
+      "profit_flat100": 0.0,
+      "roi_per_100": null,
+      "clv_n": 0,
+      "beat_close_rate": null,
+      "avg_clv_pts": null
+    },
+    "market:receptions": {
+      "bets": 0,
+      "wins": 0,
+      "losses": 0,
+      "pushes_voids": 93,
+      "profit_flat100": 0.0,
+      "roi_per_100": null,
+      "clv_n": 0,
+      "beat_close_rate": null,
+      "avg_clv_pts": null
+    },
+    "market:rush_yds": {
+      "bets": 0,
+      "wins": 0,
+      "losses": 0,
+      "pushes_voids": 60,
+      "profit_flat100": 0.0,
+      "roi_per_100": null,
+      "clv_n": 0,
+      "beat_close_rate": null,
+      "avg_clv_pts": null
+    }
+  },
+  "winners": {
+    "betting_favorite": {
+      "bets": 0,
+      "wins": 0,
+      "losses": 0,
+      "profit_flat100": 0.0
+    },
+    "stats_model": {
+      "bets": 0,
+      "wins": 0,
+      "losses": 0,
+      "profit_flat100": 0.0
+    }
+  },
+  "graded_at": "2026-11-14T11:09:32-05:00",
+  "season": 2026,
+  "week": 10
+}

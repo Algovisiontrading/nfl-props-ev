@@ -17,6 +17,7 @@
       </a>
       <nav class="primary" aria-label="Primary">
         <a href="index.html">Best bets</a>
+        <a href="projections.html">Projections</a>
         <a href="track-record.html" aria-current="page">Track record</a>
       </nav>
     </div>
@@ -137,6 +138,27 @@
       </div>
       <div id="moneyline-backtest-extra"></div>
       <p class="panel-note" id="moneyline-backtest-note"></p>
+    </section>
+
+    <section class="panel" id="projection-accuracy-panel" hidden>
+      <h2>Projection accuracy</h2>
+      <p class="panel-intro" id="projection-accuracy-intro"></p>
+      <div class="table-wrap" style="border:0;background:transparent;">
+        <table class="plain" aria-label="Projection accuracy">
+          <thead>
+            <tr>
+              <th>Stat</th>
+              <th class="num">Games</th>
+              <th class="num">Avg actual</th>
+              <th class="num">Our avg miss</th>
+              <th class="num">Last-8-avg miss</th>
+              <th class="num">Better by</th>
+            </tr>
+          </thead>
+          <tbody id="projection-accuracy-tbody"></tbody>
+        </table>
+      </div>
+      <p class="panel-note" id="projection-accuracy-note"></p>
     </section>
 
     <section class="panel" id="kalshi-backtest-panel">

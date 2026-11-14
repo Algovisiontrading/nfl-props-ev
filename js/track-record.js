@@ -783,6 +783,16 @@
       });
   }
 
+  var paperState = {
+    picksPayload: null,
+    picksRows: null,
+    picksReal: false,
+    picksError: null,
+    picksLoaded: false,
+    summaries: null,
+    summariesLoaded: false
+  };
+
   function initGraded() {
     P.fetchJson("data/graded_picks.json")
       .then(function (raw) {
@@ -794,40 +804,289 @@
         } else {
           picks = (raw && (raw.picks || raw.rows || raw.data)) || [];
         }
-        if (!isRealGraded(payload, picks)) {
-          showGradedEmpty();
-          return;
-        }
-        var rows = Array.isArray(picks) ? picks.map(normalizePick) : [];
-        gradedState.rows = rows;
-        $("graded-empty").hidden = true;
-        $("graded-banner").hidden = true;
-        $("graded-banner").textContent = "";
-        renderPaperTally(payload, rows);
-        if (rows.length) {
-          $("graded-content").hidden = false;
-          populateGradedFilters(rows);
-          renderBuckets(rows);
-          bindGraded();
-          renderGraded();
-        } else {
-          $("graded-content").hidden = true;
-        }
+        paperState.picksPayload = payload;
+        paperState.picksReal = isRealGraded(payload, picks);
+        paperState.picksRows = paperState.picksReal && Array.isArray(picks) ? picks.map(normalizePick) : [];
+        paperState.picksError = null;
+        paperState.picksLoaded = true;
+        finishPaperBets();
       })
       .catch(function (err) {
-        if (err && err.status === 404) {
-          showGradedEmpty();
-        } else {
-          $("graded-content").hidden = true;
-          $("graded-banner").hidden = true;
-          if ($("graded-tally")) {
-            $("graded-tally").hidden = true;
-            $("graded-tally").innerHTML = "";
-          }
-          $("graded-empty").hidden = false;
-          $("graded-empty").className = "banner err";
-          $("graded-empty").textContent = "Could not load data/graded_picks.json.";
+        paperState.picksPayload = null;
+        paperState.picksRows = [];
+        paperState.picksReal = false;
+        paperState.picksError = (err && err.status === 404) ? "missing" : "error";
+        paperState.picksLoaded = true;
+        finishPaperBets();
+      });
+  }
+
+  function adaptPaperStat(obj) {
+    if (!obj || typeof obj !== "object") return null;
+    var bets = numPick(obj, ["bets", "n", "count"]);
+    var profit = numPick(obj, ["profit_per_100", "roi_per_100", "pnl_per_100"]);
+    if (profit == null) {
+      var total = numPick(obj, ["profit_flat100"]);
+      if (total != null && bets) profit = total / bets;
+    }
+    var rate = obj.beat_close_rate != null ? obj.beat_close_rate : (
+      obj.beat_closing_line_rate != null ? obj.beat_closing_line_rate : (
+        obj.clv_rate != null ? obj.clv_rate : obj.clv_hit_rate
+      )
+    );
+    return {
+      bets: bets,
+      wins: numPick(obj, ["wins", "hits"]),
+      losses: numPick(obj, ["losses", "misses"]),
+      pushes: numPick(obj, ["pushes", "push", "pushes_voids"]),
+      profit_per_100: profit,
+      beat_close_rate: (rate == null ? null : Number(rate)),
+      record: obj.record || null
+    };
+  }
+
+  function statHasGrades(st) {
+    if (!st) return false;
+    if (Number(st.bets) > 0) return true;
+    if (Number(st.wins) > 0 || Number(st.losses) > 0) return true;
+    if (st.profit_per_100 != null && Number.isFinite(Number(st.profit_per_100))) return true;
+    if (st.beat_close_rate != null && Number.isFinite(Number(st.beat_close_rate))) return true;
+    return false;
+  }
+
+  function parseSummaryFile(meta, data) {
+    meta = meta || {};
+    data = data || {};
+    var season = data.season != null ? data.season : meta.season;
+    var week = data.week != null ? data.week : meta.week;
+    var kind = meta.kind || (week != null ? "week" : (season != null ? "season" : "other"));
+    var label = meta.label || data.label;
+    if (!label) {
+      if (kind === "season" && season != null) label = String(season) + " season to date";
+      else if (season != null && week != null) label = String(season) + " W" + String(week);
+      else label = meta.file || "Summary";
+    }
+    var props = data.props || {};
+    var winners = data.winners || {};
+    var tiers = [];
+    var markets = [];
+    var types = [];
+    var overallProps = null;
+    var loggedStrongLean = null;
+
+    function take(obj) {
+      return adaptPaperStat(obj);
+    }
+
+    var tierList = props.by_tier || data.by_tier;
+    if (Array.isArray(tierList)) {
+      tierList.forEach(function (r) {
+        var st = take(r);
+        if (st) tiers.push({ label: normalizeTier(r.tier || r.label || r.name) || "—", row: st });
+      });
+    }
+    var marketList = props.by_market || data.by_market;
+    if (Array.isArray(marketList)) {
+      marketList.forEach(function (r) {
+        var st = take(r);
+        if (st) {
+          var m = r.market || r.label || r.name;
+          markets.push({ label: P.marketLabel(m) || String(m || "—"), row: st });
         }
+      });
+    }
+
+    Object.keys(props).forEach(function (k) {
+      if (k === "by_tier" || k === "by_market" || k === "by_pick_type") return;
+      var st = take(props[k]);
+      if (!st) return;
+      if (k === "bets_strong_plus_lean" || k === "summary" || k === "overall" || k === "strong_plus_lean") {
+        overallProps = st;
+        if (st.pushes != null && !statHasGrades(st)) loggedStrongLean = st.pushes;
+      } else if (k === "Strong" || k === "Lean" || k === "Pass" || k === "Check" || /^tier:/i.test(k)) {
+        tiers.push({ label: normalizeTier(String(k).replace(/^tier:/i, "")) || k, row: st });
+      } else if (k.indexOf("market:") === 0) {
+        var m = k.slice(7);
+        markets.push({ label: P.marketLabel(m) || m, row: st });
+      }
+    });
+    if (!overallProps && data.summary) overallProps = take(data.summary);
+
+    if (overallProps) types.push({ label: "Props", row: overallProps });
+    Object.keys(winners).forEach(function (k) {
+      var st = take(winners[k]);
+      if (!st) return;
+      var lab = pickTypeLabel(k) || k;
+      if (k === "betting_favorite" || k === "favorite" || k === "winner_favorite") lab = "Winner: betting favorite";
+      if (k === "stats_model" || k === "model" || k === "winner_model") lab = "Winner: our stats model";
+      types.push({ label: lab, row: st });
+    });
+    var typeList = data.by_pick_type || props.by_pick_type;
+    if (Array.isArray(typeList)) {
+      typeList.forEach(function (r) {
+        var st = take(r);
+        if (st) types.push({ label: pickTypeLabel(r.pick_type || r.type || r.label) || r.label || "—", row: st });
+      });
+    }
+
+    var graded = false;
+    function mark(st) { if (statHasGrades(st)) graded = true; }
+    if (overallProps) mark(overallProps);
+    tiers.forEach(function (x) { mark(x.row); });
+    markets.forEach(function (x) { mark(x.row); });
+    types.forEach(function (x) { mark(x.row); });
+
+    return {
+      season: season,
+      week: week,
+      kind: kind,
+      label: label,
+      graded: graded,
+      overall: overallProps,
+      tiers: tiers,
+      markets: markets,
+      types: types,
+      loggedStrongLean: loggedStrongLean,
+      data: data
+    };
+  }
+
+  function renderPaperSummaries(parsedList) {
+    var graded = (parsedList || []).filter(function (p) { return p.graded; });
+    if (!graded.length) return false;
+    var seasonFiles = graded.filter(function (p) { return p.kind === "season"; });
+    var weekFiles = graded.filter(function (p) { return p.kind !== "season"; });
+    weekFiles.sort(function (a, b) {
+      if (a.season !== b.season) return (b.season || 0) - (a.season || 0);
+      return (b.week || 0) - (a.week || 0);
+    });
+    var weekItems = [];
+    weekFiles.forEach(function (p) {
+      if (p.overall) weekItems.push({ label: p.label, row: p.overall });
+    });
+    var seasonItems = [];
+    seasonFiles.forEach(function (p) {
+      if (p.overall) seasonItems.push({ label: p.label, row: p.overall });
+    });
+    var breakoutSrc = seasonFiles.length ? seasonFiles[0] : (weekFiles.length === 1 ? weekFiles[0] : null);
+
+    var html = "";
+    if (seasonItems.length) {
+      html += tallyTable("Season to date", "Group", seasonItems, "Paper bets season to date");
+    } else if (weekItems.length === 1) {
+      html += tallyTable("Season to date", "Group", [{ label: "All paper bets · " + weekItems[0].label, row: weekItems[0].row }], "Paper bets season to date");
+    }
+    html += tallyTable("By week", "Week", weekItems, "Paper bets by week");
+    if (breakoutSrc) {
+      html += tallyTable("By tier", "Tier", breakoutSrc.tiers, "Paper bets by tier");
+      html += tallyTable("By market", "Market", breakoutSrc.markets, "Paper bets by market");
+      html += tallyTable("By pick type", "Pick type", breakoutSrc.types, "Paper bets by pick type");
+    } else if (weekItems.length > 1) {
+      html += '<p class="panel-note">Tier, market, and pick-type breakouts will appear when a season total file is published.</p>';
+    }
+    var bad = [];
+    graded.forEach(function (p) {
+      var integ = p.data && p.data.integrity;
+      if (integ && integ.ok === false) bad.push(p.label);
+    });
+    if (bad.length) {
+      html += '<p class="panel-note">Integrity warning on ' + P.escapeHtml(bad.join(", ")) + ".</p>";
+    }
+    var wrap = $("graded-tally");
+    if (!wrap) return false;
+    wrap.innerHTML = html;
+    wrap.hidden = !html;
+    $("graded-empty").hidden = true;
+    $("graded-banner").hidden = true;
+    return true;
+  }
+
+  function loggedButUngradedNote(parsedList) {
+    var parts = [];
+    (parsedList || []).forEach(function (p) {
+      if (p.graded) return;
+      if (p.loggedStrongLean) {
+        var wk = p.week != null ? "Week " + p.week : p.label;
+        parts.push(P.formatInt(p.loggedStrongLean) + " Strong/Lean props are logged for " + wk + ".");
+      }
+    });
+    return parts.join(" ");
+  }
+
+  function showPicksTable() {
+    var rows = paperState.picksRows || [];
+    gradedState.rows = rows;
+    $("graded-empty").hidden = true;
+    $("graded-banner").hidden = true;
+    $("graded-banner").textContent = "";
+    if (rows.length) {
+      $("graded-content").hidden = false;
+      populateGradedFilters(rows);
+      renderBuckets(rows);
+      bindGraded();
+      renderGraded();
+    } else {
+      $("graded-content").hidden = true;
+    }
+  }
+
+  function finishPaperBets() {
+    if (!paperState.picksLoaded || !paperState.summariesLoaded) return;
+    var parsed = paperState.summaries || [];
+    if (renderPaperSummaries(parsed)) {
+      if (paperState.picksReal && paperState.picksRows && paperState.picksRows.length) showPicksTable();
+      else if ($("graded-content")) $("graded-content").hidden = true;
+      return;
+    }
+    if (paperState.picksReal) {
+      renderPaperTally(paperState.picksPayload, paperState.picksRows || []);
+      showPicksTable();
+      return;
+    }
+    if (paperState.picksError === "error" && !parsed.length) {
+      $("graded-content").hidden = true;
+      $("graded-banner").hidden = true;
+      if ($("graded-tally")) {
+        $("graded-tally").hidden = true;
+        $("graded-tally").innerHTML = "";
+      }
+      $("graded-empty").hidden = false;
+      $("graded-empty").className = "banner err";
+      $("graded-empty").textContent = "Could not load data/graded_picks.json.";
+      return;
+    }
+    showGradedEmpty();
+    var extra = loggedButUngradedNote(parsed);
+    if (extra) $("graded-empty").textContent = GRADED_EMPTY_TEXT + " " + extra;
+  }
+
+  function initPaperBetSummaries() {
+    P.fetchJson("data/paper_bets/index.json")
+      .then(function (idx) {
+        var files = (idx && (idx.files || idx.summaries)) || [];
+        if (!files.length) {
+          paperState.summaries = [];
+          paperState.summariesLoaded = true;
+          finishPaperBets();
+          return null;
+        }
+        return Promise.all(files.map(function (f) {
+          var name = typeof f === "string" ? f : f.file;
+          var meta = typeof f === "string" ? { file: name } : Object.assign({}, f);
+          if (!name) return Promise.resolve(null);
+          return P.fetchJson("data/paper_bets/" + name).then(function (data) {
+            return parseSummaryFile(meta, data);
+          }).catch(function () { return null; });
+        })).then(function (list) {
+          paperState.summaries = list.filter(Boolean);
+          paperState.summariesLoaded = true;
+          finishPaperBets();
+        });
+      })
+      .catch(function () {
+        paperState.summaries = [];
+        paperState.summariesLoaded = true;
+        finishPaperBets();
       });
   }
 
@@ -1365,12 +1624,131 @@
       });
   }
 
+
+  var PROJ_ACC_NOTE = "Tested on games the model never saw (2025 + 2026 weeks 1–9). Trained on 2018–23. The benchmark is each player's last-8-game average.";
+
+  function formatAccNum(v) {
+    if (v == null || !Number.isFinite(Number(v))) return "—";
+    var n = Number(v);
+    if (Math.abs(n - Math.round(n)) < 1e-9) return String(Math.round(n));
+    return String(Number(n.toFixed(2)));
+  }
+
+  function normalizeAccRow(r) {
+    r = r || {};
+    var market = r.market || r.stat || r.name || r.label || "";
+    var better = r.better_pct != null ? r.better_pct : (
+      r.better_by != null ? r.better_by : r.better
+    );
+    return {
+      stat: P.marketLabel(market) || market || "—",
+      games: r.n != null ? r.n : (r.games != null ? r.games : r.count),
+      avg_actual: r.avg_actual != null ? r.avg_actual : r.average_actual,
+      miss_model: r.miss_model != null ? r.miss_model : (
+        r.our_avg_miss != null ? r.our_avg_miss : r.model_miss
+      ),
+      miss_recent8: r.miss_recent8 != null ? r.miss_recent8 : (
+        r.last8_avg_miss != null ? r.last8_avg_miss : r.miss_last8
+      ),
+      better_pct: better
+    };
+  }
+
+  function betterCell(v) {
+    if (v == null || !Number.isFinite(Number(v))) return { html: "—", cls: "muted" };
+    var n = Number(v);
+    var pct = (Math.abs(n) < 1 && n !== 0) ? n * 100 : n;
+    return { html: P.formatSignedPct(pct, 1), cls: P.evClass(pct) };
+  }
+
+  function renderProjectionAccuracy(rows, note) {
+    var panel = $("projection-accuracy-panel");
+    if (!panel) return;
+    if (!rows || !rows.length) {
+      panel.hidden = true;
+      return;
+    }
+    panel.hidden = false;
+    $("projection-accuracy-tbody").innerHTML = rows.map(function (raw) {
+      var r = normalizeAccRow(raw);
+      var b = betterCell(r.better_pct);
+      return "<tr>" +
+        "<td>" + P.escapeHtml(r.stat) + "</td>" +
+        '<td class="num">' + (r.games != null ? P.formatInt(r.games) : "—") + "</td>" +
+        '<td class="num">' + formatAccNum(r.avg_actual) + "</td>" +
+        '<td class="num">' + formatAccNum(r.miss_model) + "</td>" +
+        '<td class="num">' + formatAccNum(r.miss_recent8) + "</td>" +
+        '<td class="num ' + b.cls + '">' + b.html + "</td>" +
+        "</tr>";
+    }).join("");
+    var noteEl = $("projection-accuracy-note");
+    if (noteEl) noteEl.textContent = note || PROJ_ACC_NOTE;
+  }
+
+  function parseCsv(text) {
+    var lines = String(text || "").trim().split(/\r?\n/).filter(function (l) { return l.trim(); });
+    if (lines.length < 2) return [];
+    var headers = lines[0].split(",").map(function (h) { return h.trim(); });
+    return lines.slice(1).map(function (line) {
+      var cols = line.split(",");
+      var o = {};
+      headers.forEach(function (h, i) {
+        var v = (cols[i] != null ? cols[i] : "").trim();
+        if (v === "") o[h] = null;
+        else if (!isNaN(Number(v))) o[h] = Number(v);
+        else o[h] = v;
+      });
+      return o;
+    });
+  }
+
+  function rowsFromAccPayload(data) {
+    if (!data) return { rows: [], note: null };
+    if (Array.isArray(data)) return { rows: data, note: null };
+    var rows = data.rows || data.by_market || data.markets || data.stats || data.data || [];
+    var note = data.note || data.intro || data.caption || null;
+    return { rows: rows, note: note };
+  }
+
+  function loadAccCsv() {
+    return fetch("data/projection_accuracy.csv", { cache: "no-store" })
+      .then(function (res) {
+        if (!res.ok) {
+          var err = new Error("csv_" + res.status);
+          err.status = res.status;
+          throw err;
+        }
+        return res.text();
+      })
+      .then(function (text) {
+        renderProjectionAccuracy(parseCsv(text), null);
+      })
+      .catch(function () {
+        if ($("projection-accuracy-panel")) $("projection-accuracy-panel").hidden = true;
+      });
+  }
+
+  function initProjectionAccuracy() {
+    P.fetchJson("data/projection_accuracy.json")
+      .then(function (data) {
+        var got = rowsFromAccPayload(data);
+        if (got.rows && got.rows.length) {
+          renderProjectionAccuracy(got.rows, got.note);
+          return null;
+        }
+        return loadAccCsv();
+      })
+      .catch(function () { return loadAccCsv(); });
+  }
+
   function start() {
     init();
     initGraded();
+    initPaperBetSummaries();
     initWinnerAccuracy();
     initMoneylineBacktest();
     initKalshiBacktest();
+    initProjectionAccuracy();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
   else start();

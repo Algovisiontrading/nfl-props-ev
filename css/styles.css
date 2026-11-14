@@ -829,3 +829,51 @@ table.props td.proj, table.props th[data-key="projection"] {
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
+
+/* Projections page */
+.proj-search { margin: 0 0 16px; }
+.proj-kickoff { margin: -6px 0 12px; color: var(--muted); font-size: 13px; }
+.proj-game h2 { margin: 0 0 4px; font-size: 18px; }
+.proj-game h2 a { color: inherit; text-decoration: none; }
+.proj-game h2 a:hover { color: var(--accent); }
+.proj-players { display: flex; flex-direction: column; gap: 10px; }
+.proj-player {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.proj-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px 12px;
+  margin-top: 8px;
+}
+.proj-stat .label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--faint);
+  font-weight: 650;
+}
+.proj-val {
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+}
+.proj-flag {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 6px;
+  font-weight: 650;
+}
+@media (max-width: 760px) {
+  .proj-stats { grid-template-columns: 1fr 1fr; }
+  nav.primary a { padding: 8px 8px; font-size: 13px; }
+}

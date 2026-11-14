@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Projections · NFL Player Props EV</title>
+  <meta name="description" content="Model projections for NFL player stats, grouped by game. Estimates only, not betting results.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%230c0e12'/%3E%3Cpath d='M3 11 L7 5 L10 9 L13 4' fill='none' stroke='%233ecf8e' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+</head>
+<body class="proj-page">
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="brand-title">NFL Player Props EV</span>
+        <span class="brand-sub">Model estimates · not bets</span>
+      </a>
+      <div class="header-right">
+        <label class="week-select">Week
+          <select id="week-select" aria-label="Select week"></select>
+        </label>
+        <nav class="primary" aria-label="Primary">
+          <a href="index.html">Best bets</a>
+          <a href="projections.html" aria-current="page">Projections</a>
+          <a href="track-record.html">Track record</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="page-meta" id="page-meta">Loading…</div>
+    <div class="banner sample" id="sample-banner" hidden></div>
+    <p class="disclaimer">
+      These are <strong>model projections</strong>, not guarantees. This project does not place bets.
+    </p>
+    <p class="panel-note" id="proj-file-note" hidden></p>
+
+    <section class="panel" id="projection-accuracy-panel" hidden>
+      <h2>Projection accuracy</h2>
+      <div class="table-wrap" style="border:0;background:transparent;">
+        <table class="plain" aria-label="Projection accuracy">
+          <thead>
+            <tr>
+              <th>Stat</th>
+              <th class="num">Games</th>
+              <th class="num">Avg actual</th>
+              <th class="num">Our avg miss</th>
+              <th class="num">Last-8-avg miss</th>
+              <th class="num">Better by</th>
+            </tr>
+          </thead>
+          <tbody id="projection-accuracy-tbody"></tbody>
+        </table>
+      </div>
+      <p class="panel-note" id="projection-accuracy-note"></p>
+    </section>
+
+    <form class="filters proj-search" id="proj-filters" onsubmit="return false;">
+      <label class="span-2">Search player
+        <input type="search" id="proj-q" placeholder="Player name" autocomplete="off" spellcheck="false">
+      </label>
+    </form>
+
+    <div class="banner empty" id="proj-empty" hidden>No projections have been published for this week yet.</div>
+    <div id="proj-games"></div>
+  </main>
+
+  <footer class="footer">
+    Model estimates, not guarantees. No bets are placed by this project.
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/projections.js"></script>
+</body>
+</html>

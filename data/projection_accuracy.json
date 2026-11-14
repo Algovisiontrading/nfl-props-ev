@@ -1,0 +1,95 @@
+{
+ "generated_at": "2026-11-14T11:18:58-05:00",
+ "method": "Walk-forward projection accuracy, 2023-25 regular season (Props Modeler, 2026-11-14).\nEach game is predicted only with data from before it:\n- Features: data/features/player_games.parquet via common.prep (all rolling features are shift(1)).\n- Mean model: stats-only baseline (Poisson GLM, train_backtest.Baseline) per market, refit EVERY WEEK on an expanding\n  window (all labeled eligible rows from seasons < S plus weeks < w of season S), then predicts week w.\n- Level-drift correction: train_backtest.bias_factor on the out-of-sample prediction stream (strictly earlier weeks,\n  17-week window, warmed up with 2022 out-of-sample predictions).\n- Distribution: family = the one backtest_results.json picked for that variant (chosen on 2024; noted as a caveat);\n  dispersion / empirical ratios for season S fitted only on season S-1 out-of-sample predictions (model trained on < S-1).\n- Projection = median of that distribution; range = [p25, p75]; counts use integer quantiles.\n- Live variant per market (where it differs): baseline_market / ml_market refit weekly the same way (ML with the\n  backtest's fixed iteration count); frozen v2 volume x efficiency (rush_yds, rec_yds) scored as-is on 2024-25 only\n  (it was trained on 2018-23, so 2023 is in-sample and excluded; not refit).\nBenchmarks: season-to-date average (prior games this season; if < 2 prior games this season, prior-season average;\nif no prior-season games either, all prior games), last-8 EWMA (<y>_ewm8, shift(1)). No historical sportsbook lines\nexist for 2023-25 in our data, so mae_line = null.\nWrites models/projection_accuracy.json. Nothing live is touched.",
+ "seasons": [
+  2023,
+  2024,
+  2025
+ ],
+ "season_type": "regular season only",
+ "refit_cadence": "weekly expanding window (train = all eligible labeled rows before the target week)",
+ "season_avg_rule": "season-to-date mean of prior games this season if >= 2 prior games this season; else prior-season mean; else (no prior-season games) season-to-date if >= 1 game, else all prior games",
+ "lines_note": "No historical sportsbook prop lines for 2023-25 in our data (free sources lack them), so mae_line is null. Only 2026 week 10 live lines exist.",
+ "coverage_note": "coverage_p25_p75 = share of actuals with p25 <= actual <= p75 (inclusive). Ideal ~50% for continuous stats. For count stats the quantiles are integers, so ties at p25/p75 push inclusive coverage above 50%; compare to coverage_expected_inclusive (the model's own P(p25 <= Y <= p75)) and see coverage_p25_p75_exclusive.",
+ "runtime_s": 14,
+ "by_market": [
+  {
+   "market": "pass_ints",
+   "model": "baseline_stats_only (walk-forward, weekly refit)",
+   "dist": "nb",
+   "n": 1856,
+   "avg_actual": 0.609,
+   "mae_model": 0.596,
+   "mae_model_mean": 0.655,
+   "mae_season_avg": 0.684,
+   "mae_last8": 0.728,
+   "mae_line": null,
+   "coverage_p25_p75": 0.861,
+   "coverage_p25_p75_inclusive": 0.861,
+   "coverage_p25_p75_exclusive": 0.0065,
+   "share_actual_equals_p25_or_p75": 0.8545,
+   "p25_eq_p75_share": 0.0458,
+   "pct_better_vs_season_avg": 12.9,
+   "pct_better_vs_last8": 18.1,
+   "coverage_expected_inclusive": 0.8595,
+   "by_season": {
+    "2023": {
+     "n": 618,
+     "avg_actual": 0.655,
+     "mae_model": 0.654,
+     "mae_model_mean": 0.679,
+     "mae_season_avg": 0.701,
+     "mae_last8": 0.748,
+     "mae_line": null,
+     "coverage_p25_p75": 0.8495,
+     "coverage_p25_p75_inclusive": 0.8495,
+     "coverage_p25_p75_exclusive": 0.0081,
+     "share_actual_equals_p25_or_p75": 0.8414,
+     "coverage_expected_inclusive": 0.8476,
+     "p25_eq_p75_share": 0.0388,
+     "pct_better_vs_season_avg": 6.7,
+     "pct_better_vs_last8": 12.6
+    },
+    "2024": {
+     "n": 622,
+     "avg_actual": 0.596,
+     "mae_model": 0.58,
+     "mae_model_mean": 0.661,
+     "mae_season_avg": 0.699,
+     "mae_last8": 0.737,
+     "mae_line": null,
+     "coverage_p25_p75": 0.8585,
+     "coverage_p25_p75_inclusive": 0.8585,
+     "coverage_p25_p75_exclusive": 0.008,
+     "share_actual_equals_p25_or_p75": 0.8505,
+     "coverage_expected_inclusive": 0.8624,
+     "p25_eq_p75_share": 0.0418,
+     "pct_better_vs_season_avg": 17.0,
+     "pct_better_vs_last8": 21.3
+    },
+    "2025": {
+     "n": 616,
+     "avg_actual": 0.576,
+     "mae_model": 0.555,
+     "mae_model_mean": 0.625,
+     "mae_season_avg": 0.653,
+     "mae_last8": 0.698,
+     "mae_line": null,
+     "coverage_p25_p75": 0.875,
+     "coverage_p25_p75_inclusive": 0.875,
+     "coverage_p25_p75_exclusive": 0.0032,
+     "share_actual_equals_p25_or_p75": 0.8718,
+     "coverage_expected_inclusive": 0.8686,
+     "p25_eq_p75_share": 0.0568,
+     "pct_better_vs_season_avg": 15.0,
+     "pct_better_vs_last8": 20.5
+    }
+   },
+   "plain_english": "QB interceptions: off by about 0.60 INTs on average, vs 0.68 using his season average and 0.73 using his last-8 weighted average (avg actual 0.61).",
+   "live_variant": {
+    "model": "baseline_stats_only",
+    "note": "live model is the same variant as the walk-forward baseline above"
+   }
+  }
+ ]
+}

@@ -330,6 +330,10 @@
         window.location.href = "index.html?season=" + encodeURIComponent(season) + "&week=" + encodeURIComponent(week) + "#games";
         return;
       }
+      if (page === "projections") {
+        window.location.href = "projections.html?season=" + encodeURIComponent(season) + "&week=" + encodeURIComponent(week);
+        return;
+      }
       var url = "index.html?season=" + encodeURIComponent(season) + "&week=" + encodeURIComponent(week);
       window.location.href = url;
     });
