@@ -269,6 +269,9 @@
         populateFilters(data.rows);
         B.showMeta($("page-meta"), data.payload, data.rows);
         B.showSampleBanner($("sample-banner"), data.payload);
+        if (window.PropsParlays) {
+          PropsParlays.fillCross($("cross-parlays"), data.season, data.week);
+        }
         function finish() { render(); }
         var need = !B.gamesForBoard(data).some(function (g) { return g.likely_winner; });
         if (!need) { finish(); return; }

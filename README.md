@@ -8,6 +8,7 @@ Static dashboard of **model-estimated** expected value for NFL player props. Pub
 - Game page: `game.html?week=N&game=<game_id>`
 - Track record / calibration / model comparison / moneyline replay / paper bets / projection accuracy: `track-record.html`
 - Projections (player stats by game): `projections.html`
+- Parlays: `data/parlays.json` from `out/parlays.json` only (never candidate drafts). Game pages show same-game parlays; the dashboard shows cross-game parlays. Hidden when the file is absent.
 - JSON contract: [`SCHEMA.md`](SCHEMA.md)
 - Week archive: `data/weeks/<season>-wk<NN>.json` and `data/weeks/index.json` (written automatically by `publish.sh`)
 - Slim first-load files: `data/props_top.json` (current week's Strong/Lean plus game counts), `data/weeks/<season>-wk<NN>/top.json`, `all.json`, and `games/<game_id>.json`. The dashboard loads the top file first; **Show Pass** (or a filter) loads `all.json`. Game pages load only their per-game file. Full `props_ev.json` is still published as a fallback.

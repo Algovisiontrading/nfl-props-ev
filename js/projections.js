@@ -385,7 +385,6 @@
   }
 
   function start() {
-    initProjectionAccuracy();
     var params = B.queryParams();
     P.fetchJson("data/weeks/index.json").then(function (manifest) {
       var cur = manifest && (manifest.current_season != null || manifest.current_week != null)

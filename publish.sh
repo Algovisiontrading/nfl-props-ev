@@ -85,8 +85,13 @@ python3 "$SITE/build_paper_bets_index.py" || true
 # Player projections (JSON preferred, CSV fallback). Also writes the week copy.
 python3 "$SITE/build_projections.py" || true
 
+# Official parlays only (never out/candidates/).
+python3 "$SITE/build_parlays.py" || true
+
 # Archive this week's file automatically (keeps prior weeks in the manifest).
 python3 "$SITE/archive_week.py"
+
+python3 "$SITE/verify_winners.py" || exit 1
 
 
 if [[ ! -d "$SITE/.git" ]]; then
@@ -183,7 +188,11 @@ while (( $(date +%s) < deadline )); do
   if [[ -f "$SITE/data/paper_bets/index.json" ]]; then
     paper_code="$(curl -sS -o /tmp/nfl-props-paper-index.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/paper_bets/index.json" || echo "000")"
   fi
-  last_info="index=$idx_code track=$tr_code data=$json_code graded=$graded_code weeks=$weeks_code top=$top_code game=$game_code ml=$ml_code kalshi=$kalshi_code proj=$proj_page projdata=$proj_data acc=$acc_code paper=$paper_code"
+  parlays_code="skip"
+  if [[ -f "$SITE/data/parlays.json" ]]; then
+    parlays_code="$(curl -sS -o /tmp/nfl-props-parlays.json -w '%{http_code}' --max-time 20 "$LIVE_BASE/data/parlays.json" || echo "000")"
+  fi
+  last_info="index=$idx_code track=$tr_code data=$json_code graded=$graded_code weeks=$weeks_code top=$top_code game=$game_code ml=$ml_code kalshi=$kalshi_code proj=$proj_page projdata=$proj_data acc=$acc_code paper=$paper_code parlays=$parlays_code"
   live_gen=""
   if [[ "$json_code" == "200" ]]; then
     live_gen="$(python3 - <<'PY'
@@ -201,7 +210,7 @@ PY
 )"
     last_info="$last_info generated_at=$live_gen"
   fi
-  if [[ "$idx_code" == "200" && "$tr_code" == "200" && "$json_code" == "200" && ( "$graded_code" == "skip" || "$graded_code" == "200" ) && "$weeks_code" == "200" && "$top_code" == "200" && "$game_code" == "200" && ( "$ml_code" == "skip" || "$ml_code" == "200" ) && ( "$kalshi_code" == "skip" || "$kalshi_code" == "200" ) && ( "$proj_page" == "skip" || "$proj_page" == "200" ) && ( "$proj_data" == "skip" || "$proj_data" == "200" ) && ( "$acc_code" == "skip" || "$acc_code" == "200" ) && ( "$paper_code" == "skip" || "$paper_code" == "200" ) ]]; then
+  if [[ "$idx_code" == "200" && "$tr_code" == "200" && "$json_code" == "200" && ( "$graded_code" == "skip" || "$graded_code" == "200" ) && "$weeks_code" == "200" && "$top_code" == "200" && "$game_code" == "200" && ( "$ml_code" == "skip" || "$ml_code" == "200" ) && ( "$kalshi_code" == "skip" || "$kalshi_code" == "200" ) && ( "$proj_page" == "skip" || "$proj_page" == "200" ) && ( "$proj_data" == "skip" || "$proj_data" == "200" ) && ( "$acc_code" == "skip" || "$acc_code" == "200" ) && ( "$paper_code" == "skip" || "$paper_code" == "200" ) && ( "$parlays_code" == "skip" || "$parlays_code" == "200" ) ]]; then
     if [[ -z "$generated_at" || "$live_gen" == "$generated_at" ]]; then
       ok=1
       break

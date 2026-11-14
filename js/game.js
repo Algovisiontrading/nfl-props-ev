@@ -171,6 +171,13 @@
 
         state.allGameRows = data.rows || [];
 
+        if (window.PropsParlays && params.game) {
+          PropsParlays.fillGame($("game-parlays"), params.game, data.season, data.week);
+        } else if ($("game-parlays")) {
+          $("game-parlays").hidden = true;
+          $("game-parlays").innerHTML = "";
+        }
+
         if (!params.game || !state.allGameRows.length) {
           if ($("game-title")) $("game-title").textContent = "Game not found";
           if ($("game-kickoff")) $("game-kickoff").textContent = "";
