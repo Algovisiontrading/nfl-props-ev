@@ -691,6 +691,64 @@
     });
   }
 
+
+  function pct1(x) {
+    if (x == null || !Number.isFinite(Number(x))) return "—";
+    return (Number(x) * 100).toFixed(1) + "%";
+  }
+
+  function comma(n) {
+    return Number(n).toLocaleString("en-US");
+  }
+
+  function renderWinnerAccuracy(data) {
+    var panel = $("winner-accuracy-panel");
+    if (!panel) return;
+    if (!data || (!data.intro && !(data.calibration && data.calibration.buckets && data.calibration.buckets.length) && !data.note)) {
+      panel.hidden = true;
+      return;
+    }
+    panel.hidden = false;
+    var intro = $("winner-accuracy-intro");
+    if (intro) intro.textContent = data.intro || "";
+    var note = $("winner-accuracy-note");
+    if (note) note.textContent = data.note || "";
+    var wrap = $("winner-cal-wrap");
+    var tbody = $("winner-cal-tbody");
+    var cal = data.calibration || {};
+    var buckets = cal.buckets || [];
+    if (wrap && tbody && buckets.length) {
+      wrap.hidden = false;
+      var caption = cal.label ? '<tr><th colspan="4">' + P.escapeHtml(cal.label) + "</th></tr>" : "";
+      // put label as a heading above table instead of a header row if present
+      tbody.innerHTML = buckets.map(function (b) {
+        return "<tr>" +
+          "<td>" + P.escapeHtml(b.range || b.label || "") + "</td>" +
+          '<td class="num">' + pct1(b.predicted) + "</td>" +
+          '<td class="num">' + pct1(b.actual) + "</td>" +
+          '<td class="num">' + comma(b.n || 0) + "</td>" +
+          "</tr>";
+      }).join("");
+      if (cal.label) {
+        var h = document.createElement("h3");
+        h.className = "winner-cal-label";
+        h.textContent = cal.label;
+        if (!wrap.querySelector(".winner-cal-label")) wrap.insertBefore(h, wrap.firstChild);
+        else wrap.querySelector(".winner-cal-label").textContent = cal.label;
+      }
+    } else if (wrap) {
+      wrap.hidden = true;
+    }
+  }
+
+  function initWinnerAccuracy() {
+    P.fetchJson("data/winner_accuracy.json")
+      .then(renderWinnerAccuracy)
+      .catch(function () {
+        if ($("winner-accuracy-panel")) $("winner-accuracy-panel").hidden = true;
+      });
+  }
+
   function initGraded() {
     P.fetchJson("data/graded_picks.json")
       .then(function (raw) {
@@ -740,6 +798,11 @@
       });
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function () { init(); initGraded(); });
-  else { init(); initGraded(); }
+  function start() {
+    init();
+    initGraded();
+    initWinnerAccuracy();
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+  else start();
 })();

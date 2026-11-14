@@ -19,6 +19,29 @@
 
   function $(id) { return document.getElementById(id); }
 
+  function showWinner(payload, gameId, matchup) {
+    var node = $("game-winner");
+    if (!node) return Promise.resolve();
+    function paint(rec) {
+      var html = B.winnerLineHtml(rec || {});
+      if (!html) {
+        node.hidden = true;
+        node.innerHTML = "";
+        return;
+      }
+      node.hidden = false;
+      node.innerHTML = html;
+    }
+    if (payload && payload.likely_winner) {
+      paint(payload);
+      return Promise.resolve();
+    }
+    return B.loadWinners(payload && payload.season, payload && payload.week).then(function (winners) {
+      paint(B.winnerForGame(winners, gameId, matchup) || payload);
+    }).catch(function () { paint(null); });
+  }
+
+
   function applyFilters(rows) {
     var showFailed = $("filter-failed") ? $("filter-failed").checked : false;
     var player = state.player;
@@ -151,6 +174,7 @@
         if (!params.game || !state.allGameRows.length) {
           if ($("game-title")) $("game-title").textContent = "Game not found";
           if ($("game-kickoff")) $("game-kickoff").textContent = "";
+          if ($("game-winner")) { $("game-winner").hidden = true; $("game-winner").innerHTML = ""; }
           if ($("game-missing")) {
             $("game-missing").hidden = false;
             $("game-missing").textContent = params.game
@@ -165,7 +189,8 @@
         if ($("game-title")) $("game-title").textContent = g.matchup || params.game;
         if ($("game-kickoff")) $("game-kickoff").textContent = g.kickoff ? P.formatKickoff(g.kickoff) : "";
         document.title = (g.matchup || "Game") + " · NFL Player Props EV";
-        render();
+        showWinner(Object.assign({}, data.payload, g), params.game, g.matchup || data.payload.matchup).then(function () { render(); });
+        return;
       })
       .catch(function (err) {
         if ($("page-meta")) $("page-meta").textContent = "";

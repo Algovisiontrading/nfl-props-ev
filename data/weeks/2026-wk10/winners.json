@@ -1,0 +1,262 @@
+{
+  "generated_at": "2026-11-14T13:26:04Z",
+  "season": 2026,
+  "week": 10,
+  "source": "market",
+  "source_label": "betting-market odds",
+  "updated_at": "2026-11-13T14:41:29Z",
+  "games": [
+    {
+      "game_id": "2026_10_NE_DET",
+      "matchup": "NE @ DET",
+      "home_team": "DET",
+      "away_team": "NE",
+      "home_win_prob": 0.57206,
+      "away_win_prob": 0.42794,
+      "likely_winner": "DET",
+      "likely_winner_prob": 0.57206,
+      "winner_source": "market",
+      "winner_source_label": "betting-market odds",
+      "winner_tooltip": "From betting-market odds with the bookmaker's cut removed, not from our player-props model. Updated Nov 13, 2026, 9:41 AM ET.",
+      "winner_updated_at": "2026-11-13T14:41:29Z",
+      "winner_n_books": 1
+    },
+    {
+      "game_id": "2026_10_BUF_NYJ",
+      "matchup": "BUF @ NYJ",
+      "home_team": "NYJ",
+      "away_team": "BUF",
+      "home_win_prob": 0.223167,
+      "away_win_prob": 0.776833,
+      "likely_winner": "BUF",
+      "likely_winner_prob": 0.776833,
+      "winner_source": "market",
+      "winner_source_label": "betting-market odds",
+      "winner_tooltip": "From betting-market odds with the bookmaker's cut removed, not from our player-props model. Updated Nov 13, 2026, 9:41 AM ET.",
+      "winner_updated_at": "2026-11-13T14:41:29Z",
+      "winner_n_books": 1
+    },
+    {
+      "game_id": "2026_10_CAR_NO",
+      "matchup": "CAR @ NO",
+      "home_team": "NO",
+      "away_team": "CAR",
+      "home_win_prob": 0.551441,
+      "away_win_prob": 0.448559,
+      "likely_winner": "NO",
+      "likely_winner_prob": 0.551441,
+      "winner_source": "market",
+      "winner_source_label": "betting-market odds",
+      "winner_tooltip": "From betting-market odds with the bookmaker's cut removed, not from our player-props model. Updated Nov 13, 2026, 9:41 AM ET.",
+      "winner_updated_at": "2026-11-13T14:41:29Z",
+      "winner_n_books": 1
+    },
+    {
+      "game_id": "2026_10_HOU_CLE",
+      "matchup": "HOU @ CLE",
+      "home_team": "CLE",
+      "away_team": "HOU",
+      "home_win_prob": 0.324969,
+      "away_win_prob": 0.675031,
+      "likely_winner": "HOU",
+      "likely_winner_prob": 0.675031,
+      "winner_source": "market",
+      "winner_source_label": "betting-market odds",
+      "winner_tooltip": "From betting-market odds with the bookmaker's cut removed, not from our player-props model. Updated Nov 13, 2026, 9:41 AM ET.",
+      "winner_updated_at": "2026-11-13T14:41:29Z",
+      "winner_n_books": 1
+    },
+    {
+      "game_id": "2026_10_JAX_TEN",
+      "matchup": "JAX @ TEN",
+      "home_team": "TEN",
+      "away_team": "JAX",
+      "home_win_prob": 0.16835,
+      "away_win_prob": 0.83165,
+      "likely_winner": "JAX",
+      "likely_winner_prob": 0.83165,
+      "winner_source": "market",
+      "winner_source_label": "betting-market odds",
+      "winner_tooltip": "From betting-market odds with the bookmaker's cut removed, not from our player-props model. Updated Nov 13, 2026, 9:41 AM ET.",
+      "winner_updated_at": "2026-11-13T14:41:29Z",
+      "winner_n_books": 1
+    },
+    {
+      "game_id": "2026_10_KC_ATL",
+      "matchup": "KC @ ATL",
+      "home_team": "ATL",
+      "away_team": "KC",
+      "home_win_prob": 0.377533,
+      "away_win_prob": 0.622467,
+      "likely_winner": "KC",
+      "likely_winner_prob": 0.622467,
+      "winner_source": "market",
+      "winner_source_label": "betting-market odds",
+      "winner_tooltip": "From betting-market odds with the bookmaker's cut removed, not from our player-props model. Updated Nov 13, 2026, 9:41 AM ET.",
+      "winner_updated_at": "2026-11-13T14:41:29Z",
+      "winner_n_books": 1
+    },
+    {
+      "game_id": "2026_10_MIA_IND",
+      "matchup": "MIA @ IND",
+      "home_team": "IND",
+      "away_team": "MIA",
+      "home_win_prob": 0.644729,
+      "away_win_prob": 0.355271,
+      "likely_winner": "IND",
+      "likely_winner_prob": 0.644729,
+      "winner_source": "market",
+      "winner_source_label": "betting-market odds",
+      "winner_tooltip": "From betting-market odds with the bookmaker's cut removed, not from our player-props model. Updated Nov 13, 2026, 9:41 AM ET.",
+      "winner_updated_at": "2026-11-13T14:41:29Z",
+      "winner_n_books": 1
+    },
+    {
+      "game_id": "2026_10_MIN_GB",
+      "matchup": "MIN @ GB",
+      "home_team": "GB",
+      "away_team": "MIN",
+      "home_win_prob": 0.582993,
+      "away_win_prob": 0.417007,
+      "likely_winner": "GB",
+      "likely_winner_prob": 0.582993,
+      "winner_source": "market",
+      "winner_source_label": "betting-market odds",
+      "winner_tooltip": "From betting-market odds with the bookmaker's cut removed, not from our player-props model. Updated Nov 13, 2026, 9:41 AM ET.",
+      "winner_updated_at": "2026-11-13T14:41:29Z",
+      "winner_n_books": 1
+    },
+    {
+      "game_id": "2026_10_LA_ARI",
+      "matchup": "LA @ ARI",
+      "home_team": "ARI",
+      "away_team": "LA",
+      "home_win_prob": 0.2,
+      "away_win_prob": 0.8,
+      "likely_winner": "LA",
+      "likely_winner_prob": 0.8,
+      "winner_source": "market",
+      "winner_source_label": "betting-market odds",
+      "winner_tooltip": "From betting-market odds with the bookmaker's cut removed, not from our player-props model. Updated Nov 13, 2026, 9:41 AM ET.",
+      "winner_updated_at": "2026-11-13T14:41:29Z",
+      "winner_n_books": 1
+    },
+    {
+      "game_id": "2026_10_SEA_LV",
+      "matchup": "SEA @ LV",
+      "home_team": "LV",
+      "away_team": "SEA",
+      "home_win_prob": 0.282029,
+      "away_win_prob": 0.717971,
+      "likely_winner": "SEA",
+      "likely_winner_prob": 0.717971,
+      "winner_source": "market",
+      "winner_source_label": "betting-market odds",
+      "winner_tooltip": "From betting-market odds with the bookmaker's cut removed, not from our player-props model. Updated Nov 13, 2026, 9:41 AM ET.",
+      "winner_updated_at": "2026-11-13T14:41:29Z",
+      "winner_n_books": 1
+    },
+    {
+      "game_id": "2026_10_SF_DAL",
+      "matchup": "SF @ DAL",
+      "home_team": "DAL",
+      "away_team": "SF",
+      "home_win_prob": 0.355271,
+      "away_win_prob": 0.644729,
+      "likely_winner": "SF",
+      "likely_winner_prob": 0.644729,
+      "winner_source": "market",
+      "winner_source_label": "betting-market odds",
+      "winner_tooltip": "From betting-market odds with the bookmaker's cut removed, not from our player-props model. Updated Nov 13, 2026, 9:41 AM ET.",
+      "winner_updated_at": "2026-11-13T14:41:29Z",
+      "winner_n_books": 1
+    },
+    {
+      "game_id": "2026_10_PIT_CIN",
+      "matchup": "PIT @ CIN",
+      "home_team": "CIN",
+      "away_team": "PIT",
+      "home_win_prob": 0.616438,
+      "away_win_prob": 0.383562,
+      "likely_winner": "CIN",
+      "likely_winner_prob": 0.616438,
+      "winner_source": "market",
+      "winner_source_label": "betting-market odds",
+      "winner_tooltip": "From betting-market odds with the bookmaker's cut removed, not from our player-props model. Updated Nov 13, 2026, 9:41 AM ET.",
+      "winner_updated_at": "2026-11-13T14:41:29Z",
+      "winner_n_books": 1
+    },
+    {
+      "game_id": "2026_10_LAC_BAL",
+      "matchup": "LAC @ BAL",
+      "home_team": "BAL",
+      "away_team": "LAC",
+      "home_win_prob": 0.657475,
+      "away_win_prob": 0.342525,
+      "likely_winner": "BAL",
+      "likely_winner_prob": 0.657475,
+      "winner_source": "market",
+      "winner_source_label": "betting-market odds",
+      "winner_tooltip": "From betting-market odds with the bookmaker's cut removed, not from our player-props model. Updated Nov 13, 2026, 9:41 AM ET.",
+      "winner_updated_at": "2026-11-13T14:41:29Z",
+      "winner_n_books": 1
+    }
+  ],
+  "missing": [],
+  "accuracy": {
+    "source": "market",
+    "source_label": "betting-market odds",
+    "title": "Likely winner accuracy",
+    "intro": "The betting favorite won 66.3% of 1,420 games in 2021\u20132025, and 67.6% of 136 games so far in 2026 (65.8% in 2025).",
+    "note": "These figures use closing-line moneylines from nflverse schedules, with the bookmaker's cut removed. Ties are excluded. The pick a few days before kickoff can differ slightly from the close.",
+    "headline": [
+      {
+        "label": "2021\u20132025",
+        "correct": 942,
+        "n": 1420,
+        "rate": 0.6633802816901408
+      },
+      {
+        "label": "2026 so far",
+        "correct": 92,
+        "n": 136,
+        "rate": 0.6764705882352942
+      },
+      {
+        "label": "2025",
+        "correct": 187,
+        "n": 284,
+        "rate": 0.6584507042253521
+      }
+    ],
+    "calibration": {
+      "label": "Calibration, 2021\u20132026 so far",
+      "buckets": [
+        {
+          "range": "50\u201360%",
+          "predicted": 0.5578451883387402,
+          "actual": 0.5652173913043478,
+          "n": 529
+        },
+        {
+          "range": "60\u201370%",
+          "predicted": 0.6461338954593062,
+          "actual": 0.6464646464646465,
+          "n": 495
+        },
+        {
+          "range": "70\u201380%",
+          "predicted": 0.7498058853421391,
+          "actual": 0.7573333333333333,
+          "n": 375
+        },
+        {
+          "range": "80%+",
+          "predicted": 0.8487552877117646,
+          "actual": 0.8552631578947368,
+          "n": 152
+        }
+      ]
+    }
+  }
+}

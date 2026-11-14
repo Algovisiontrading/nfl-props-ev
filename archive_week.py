@@ -404,6 +404,13 @@ def main(site: Path) -> int:
     prev.sort(key=lambda w: (int(w.get("season") or 0), int(w.get("week") or 0)), reverse=True)
     man["weeks"] = prev
     man_path.write_text(json.dumps(man, indent=2) + "\n")
+
+    try:
+        from build_winners import build as build_winners
+        build_winners(site, season, week)
+    except Exception as exc:
+        print(f"build_winners skipped: {type(exc).__name__}: {exc}")
+
     print(
         f"archived {dest} ({len(data.get('rows') or [])} full rows, {stats['games']} games); "
         f"slim top={stats['top_rows']} rows ({stats['top_bytes']} bytes), "

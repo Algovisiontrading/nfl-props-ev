@@ -98,6 +98,26 @@
       </section>
     </div>
 
+
+    <section class="panel" id="winner-accuracy-panel" hidden>
+      <h2>Likely winner accuracy</h2>
+      <p class="winner-accuracy-intro" id="winner-accuracy-intro"></p>
+      <div class="table-wrap" style="border:0;background:transparent;" id="winner-cal-wrap" hidden>
+        <table class="plain" aria-label="Likely winner calibration">
+          <thead>
+            <tr>
+              <th>Favorite probability</th>
+              <th class="num">Predicted</th>
+              <th class="num">Actual</th>
+              <th class="num">Games</th>
+            </tr>
+          </thead>
+          <tbody id="winner-cal-tbody"></tbody>
+        </table>
+      </div>
+      <p class="winner-accuracy-note" id="winner-accuracy-note"></p>
+    </section>
+
     <section class="panel" id="graded-panel">
       <h2>Past picks, graded</h2>
       <p class="compare-legend">Probabilities are frozen before kickoff; misses are shown too.</p>

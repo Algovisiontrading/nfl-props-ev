@@ -269,6 +269,22 @@ The dashboard loads `top.json` (or `data/props_top.json` when the selected week 
 
 The list renders 100 rows at a time, with Previous / Show more, so the DOM does not hold thousands of rows.
 
+## Likely winners
+
+At publish time `archive_week.py` runs `build_winners.py`, which writes:
+
+- `data/weeks/<season>-wk<NN>/winners.json` — one entry per game that has a probability, plus the accuracy block
+- `data/winner_accuracy.json` — the same accuracy block, for the Track Record page
+- the `likely_winner` / `likely_winner_prob` fields (and tooltip text) on each Games-card object in `top.json` / `props_top.json` and on each `games/<game_id>.json`
+
+Source is pluggable and never invents a number:
+
+1. If `/workspace/nfl-props/out/game_win_probs.json` exists, use it. Expected shape: a top-level `model_name` and `accuracy_note` (or `accuracy_text` / `tested_accuracy`), plus per-`game_id` `home_win_prob` (optional `away_win_prob`). `games` may be an object keyed by `game_id` or a list of rows. Games not in that file get no likely-winner line. The Track Record section shows the model's accuracy note (and a structured `accuracy` object if one is supplied).
+2. Otherwise use sportsbook moneylines from `data/raw/game_lines_latest.parquet`: convert each book to implied probabilities, remove the vig so the two sides sum to 1, and average the no-vig probabilities across books. If a game has no sportsbook moneyline, fall back to Kalshi `KXNFLGAME` winner markets in `data/lines/kalshi_games_latest.parquet` (mid of `yes_bid` / `yes_ask`, then normalize). Market accuracy is recomputed each run from closing moneylines in `data/raw/schedules.parquet` (ties excluded). These are closing-line odds, so a pick a few days before kickoff can differ slightly.
+
+If the parquet files or pandas/pyarrow are missing, publish still succeeds and the UI simply omits the likely-winner line and the accuracy section. Tooltip copy is data-driven (market vs model) and includes the source's `updated` time in ET.
+
+
 Manifest week entries may also include `top_file`, `all_file`, `games_dir`, and `top_rows`.
 
 Game pages use `game.html?week=N&game=<game_id>` (optional `season`). Picks are a flat list sorted Strong, then Lean, then Pass, and by `ev_per_100` descending within each tier. Rows with a Check or Thin market badge always sort to the bottom.

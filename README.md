@@ -10,6 +10,7 @@ Static dashboard of **model-estimated** expected value for NFL player props. Pub
 - JSON contract: [`SCHEMA.md`](SCHEMA.md)
 - Week archive: `data/weeks/<season>-wk<NN>.json` and `data/weeks/index.json` (written automatically by `publish.sh`)
 - Slim first-load files: `data/props_top.json` (current week's Strong/Lean plus game counts), `data/weeks/<season>-wk<NN>/top.json`, `all.json`, and `games/<game_id>.json`. The dashboard loads the top file first; **Show Pass** (or a filter) loads `all.json`. Game pages load only their per-game file. Full `props_ev.json` is still published as a fallback.
+- Likely winners: `data/weeks/<season>-wk<NN>/winners.json` and `data/winner_accuracy.json`, written at publish time. Prefers `out/game_win_probs.json` when present; otherwise no-vig sportsbook moneylines (Kalshi fallback). Games without data show no winner line.
 - Publish: `./publish.sh` copies `out/props_ev.json`, `models/track_record.json`, and `out/` (or `models/`) `graded_picks.json` when present, archives the current week, then pushes this repo
 
 The week selector defaults to the current week in the manifest; past weeks stay browsable. Game pages list picks in a flat Strong → Lean → Pass order (then EV); Check and Thin market rows sit at the bottom.

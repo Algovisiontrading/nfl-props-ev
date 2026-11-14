@@ -245,6 +245,7 @@
               String(r.game || "") === String(gid);
           });
         }
+        copyWinnerFields(raw, out.payload);
         return {
           payload: out.payload,
           rows: rows,
@@ -593,6 +594,64 @@
     }).join("");
   }
 
+  function copyWinnerFields(from, to) {
+    if (!from || !to) return to;
+    ["likely_winner", "likely_winner_prob", "home_win_prob", "away_win_prob",
+     "winner_source", "winner_source_label", "winner_tooltip", "winner_updated_at",
+     "winner_n_books", "home_team", "away_team", "matchup", "kickoff", "game_id"].forEach(function (k) {
+      if (from[k] != null && to[k] == null) to[k] = from[k];
+    });
+    return to;
+  }
+
+  function winnerLineHtml(g) {
+    if (!g || !g.likely_winner || g.likely_winner_prob == null) return "";
+    var pct = Math.round(Number(g.likely_winner_prob) * 100);
+    if (!Number.isFinite(pct) || pct <= 50) return "";
+    var tip = g.winner_tooltip || "";
+    var tipBtn = tip
+      ? '<button type="button" class="tip" aria-expanded="false" aria-label="About the likely winner">?<span class="tip-bubble" role="tooltip">' + P.escapeHtml(tip) + "</span></button>"
+      : "";
+    return (
+      '<div class="game-winner">Likely winner: <strong>' +
+      P.escapeHtml(String(g.likely_winner)) +
+      " (" + pct + "%)</strong>" + tipBtn + "</div>"
+    );
+  }
+
+  function mergeWinner(target, rec) {
+    if (!target || !rec) return target;
+    ["likely_winner", "likely_winner_prob", "home_win_prob", "away_win_prob",
+     "winner_source", "winner_source_label", "winner_tooltip", "winner_updated_at",
+     "winner_n_books", "home_team", "away_team"].forEach(function (k) {
+      if (rec[k] != null) target[k] = rec[k];
+    });
+    return target;
+  }
+
+  function winnersUrl(season, week) {
+    if (season == null || week == null) return null;
+    return "data/weeks/" + weekStem(season, week) + "/winners.json";
+  }
+
+  function loadWinners(season, week) {
+    var url = winnersUrl(season, week);
+    if (!url) return Promise.resolve(null);
+    return P.fetchJson(url).catch(function () { return null; });
+  }
+
+  function winnerForGame(winners, gameId, matchup) {
+    if (!winners || !winners.games) return null;
+    var gid = String(gameId || "");
+    var mu = String(matchup || "");
+    for (var i = 0; i < winners.games.length; i++) {
+      var rec = winners.games[i];
+      if (gid && String(rec.game_id || "") === gid) return rec;
+      if (mu && String(rec.matchup || "") === mu) return rec;
+    }
+    return null;
+  }
+
   function renderGames(root, games, season, week) {
     if (!root) return;
     if (!games.length) {
@@ -601,16 +660,22 @@
     }
     root.innerHTML = games.map(function (g) {
       var href = gameHref(season, week, g.game_id);
+      var winner = winnerLineHtml(g);
       return (
-        '<a class="game-card" href="' + P.escapeHtml(href) + '">' +
-          '<div class="game-card-matchup">' + P.escapeHtml(g.matchup) + "</div>" +
-          '<div class="sub">' + P.escapeHtml(g.kickoff ? P.formatKickoff(g.kickoff) : "") + "</div>" +
-          '<div class="game-card-counts">' +
-            P.escapeHtml(String(g.picks)) + " pick" + (g.picks === 1 ? "" : "s") +
-            " · <strong>" + g.strong + " Strong</strong>" +
-            " · <strong>" + g.lean + " Lean</strong>" +
-          "</div>" +
-        "</a>"
+        '<div class="game-card">' +
+          '<a class="game-card-link" href="' + P.escapeHtml(href) + '">' +
+            '<div class="game-card-matchup">' + P.escapeHtml(g.matchup) + "</div>" +
+            '<div class="sub">' + P.escapeHtml(g.kickoff ? P.formatKickoff(g.kickoff) : "") + "</div>" +
+          "</a>" +
+          winner +
+          '<a class="game-card-link" href="' + P.escapeHtml(href) + '">' +
+            '<div class="game-card-counts">' +
+              P.escapeHtml(String(g.picks)) + " pick" + (g.picks === 1 ? "" : "s") +
+              " · <strong>" + g.strong + " Strong</strong>" +
+              " · <strong>" + g.lean + " Lean</strong>" +
+            "</div>" +
+          "</a>" +
+        "</div>"
       );
     }).join("");
   }
@@ -649,6 +714,9 @@
     loadBoardData: loadBoardData,
     loadPassRows: loadPassRows,
     loadGameData: loadGameData,
+    loadWinners: loadWinners,
+    winnerForGame: winnerForGame,
+    mergeWinner: mergeWinner,
     fillWeekSelector: fillWeekSelector,
     bindWeekSelector: bindWeekSelector,
     gameHref: gameHref,
@@ -664,6 +732,7 @@
     renderTable: renderTable,
     renderCards: renderCards,
     renderGames: renderGames,
+    winnerLineHtml: winnerLineHtml,
     showMeta: showMeta,
     showSampleBanner: showSampleBanner,
   };

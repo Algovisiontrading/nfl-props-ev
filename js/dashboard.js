@@ -269,7 +269,19 @@
         populateFilters(data.rows);
         B.showMeta($("page-meta"), data.payload, data.rows);
         B.showSampleBanner($("sample-banner"), data.payload);
-        render();
+        function finish() { render(); }
+        var need = !B.gamesForBoard(data).some(function (g) { return g.likely_winner; });
+        if (!need) { finish(); return; }
+        B.loadWinners(data.season, data.week).then(function (winners) {
+          if (winners && state.board) {
+            var list = B.gamesForBoard(state.board);
+            list.forEach(function (g) {
+              B.mergeWinner(g, B.winnerForGame(winners, g.game_id, g.matchup));
+            });
+            state.board.games = list;
+          }
+          finish();
+        });
       })
       .catch(function (err) {
         $("page-meta").textContent = "";
