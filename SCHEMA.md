@@ -269,12 +269,24 @@ The dashboard loads `top.json` (or `data/props_top.json` when the selected week 
 
 The list renders 100 rows at a time, with Previous / Show more, so the DOM does not hold thousands of rows.
 
-## Win-model favorite (optional)
+## Betting odds favorite (and optional model line)
 
-A winner line is published only when `/workspace/nfl-props/out/game_win_probs.json` exists. The dashboard and game page then show **Our model: TEAM (X%)**, with a tooltip that includes the file's tested-accuracy note.
+At publish time `archive_week.py` runs `build_winners.py`, which writes:
 
-`archive_week.py` runs `build_winners.py`, which attaches `model_winner` / `model_winner_prob` (and tooltip text) on each Games-card object in `top.json` / `props_top.json` and on each `games/<game_id>.json`. If the modeler file is missing, those fields are not written, and any leftover `data/weeks/<season>-wk<NN>/winners.json` or `data/winner_accuracy.json` is removed so the live site shows no winner line and no accuracy section.
+- `data/weeks/<season>-wk<NN>/winners.json` — one entry per game that has a market (or model) probability, plus the accuracy block
+- `data/winner_accuracy.json` — market-favorite accuracy for the Track Record page (title: **Betting odds favorite accuracy**). If a model file was present, its note is stored under `model_accuracy` and shown separately, never in place of the market figures.
+- the `likely_winner` / `likely_winner_prob` fields (market favorite) and, when present, `model_winner` / `model_winner_prob`, on each Games-card object in `top.json` / `props_top.json` and on each `games/<game_id>.json`
 
-Expected model file shape: a top-level `model_name` and `accuracy_note` (or `accuracy_text` / `tested_accuracy`), plus per-`game_id` `home_win_prob` (optional `away_win_prob`). `games` may be an object keyed by `game_id` or a list of rows. Games not in that file get no winner line. The builder never invents a probability.
+The dashboard and game page always label the market line **Betting odds favorite: DET (57%)**. Tooltip: *From sportsbook moneylines with the bookmaker's cut removed. This is the market's pick, not our model. Updated &lt;time ET&gt;.*
 
-Sportsbook moneyline helpers may remain in `build_winners.py` but are not published.
+Source rules, and the builder never invents a number:
+
+1. Sportsbook moneylines from `data/raw/game_lines_latest.parquet` are converted to implied probabilities, the vig is removed so the two sides sum to 1, and no-vig probabilities are averaged across books. If a game has no sportsbook moneyline, fall back to Kalshi `KXNFLGAME` winner markets in `data/lines/kalshi_games_latest.parquet` (mid of `yes_bid` / `yes_ask`, then normalize). Market accuracy is recomputed each run from closing moneylines in `data/raw/schedules.parquet` (ties excluded). The calibration heading uses the same season range as the games in those buckets. These are closing-line odds, so a pick a few days before kickoff can differ slightly.
+2. If `/workspace/nfl-props/out/game_win_probs.json` also exists, it is shown as a **separate** line, **Our model: TEAM (X%)**, and never replaces the betting-odds favorite. Expected shape: a top-level `model_name` and `accuracy_note` (or `accuracy_text` / `tested_accuracy`), plus per-`game_id` `home_win_prob` (optional `away_win_prob`). `games` may be an object keyed by `game_id` or a list of rows. Games not in that file simply have no model line. The model tooltip includes the tested-accuracy note when one is supplied.
+
+If the parquet files or pandas/pyarrow are missing, publish still succeeds and the UI omits the favorite line and the accuracy section.
+
+
+Manifest week entries may also include `top_file`, `all_file`, `games_dir`, and `top_rows`.
+
+Game pages use `game.html?week=N&game=<game_id>` (optional `season`). Picks are a flat list sorted Strong, then Lean, then Pass, and by `ev_per_100` descending within each tier. Rows with a Check or Thin market badge always sort to the bottom.

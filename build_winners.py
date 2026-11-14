@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
-"""Attach an "Our model" winner line only when out/game_win_probs.json exists.
+"""Build betting-odds favorite (and optional model) data for the props dashboard.
 
-Market moneylines may still be computed in unused helpers, but they are not
-written to the site. If the modeler file is missing, any previously published
-winners.json / winner_accuracy.json and favorite fields are removed. Publishing
-still succeeds if this script exits 0 after a skip.
+Always writes no-vig sportsbook moneylines from data/raw/game_lines_latest.parquet
+(averaged across books), with optional Kalshi KXNFLGAME fallback, labeled as the
+market's pick — not our model. If out/game_win_probs.json also exists, its
+home_win_prob values are attached as a separate "Our model" line and never
+replace the market favorite.
+
+Never invents a probability. Missing parquet/pandas or no line for a game
+means that game simply has no favorite line. Publishing should still succeed
+if this script exits 0 after a skip.
 """
 from __future__ import annotations
 
@@ -454,7 +459,8 @@ def market_tooltip(updated_at: Optional[str]) -> str:
     updated = format_et(updated_at)
     text = (
         "From sportsbook moneylines with the bookmaker's cut removed. "
-        "This is the market's pick, not our model."
+        "This is the market's pick, not our model. "
+        "The betting favorite won 68% of games in 2023–25."
     )
     if updated:
         text += f" Updated {updated}."
@@ -607,99 +613,17 @@ def accuracy_from_model(model: dict) -> dict:
     return acc
 
 
-def _unlink(path: Path) -> None:
-    if path.exists():
-        path.unlink()
-        log(f"build_winners: removed {path}")
-
-
-def strip_winner_fields_from_obj(obj: dict, is_top: bool = False) -> dict:
-    if is_top and isinstance(obj.get("games"), list):
-        cleaned = []
-        for g in obj["games"]:
-            g = dict(g)
-            for k in WINNER_FIELDS:
-                g.pop(k, None)
-            cleaned.append(g)
-        obj["games"] = cleaned
-        obj.pop("winners_file", None)
-    for k in WINNER_FIELDS:
-        obj.pop(k, None)
-    return obj
-
-
-def clear_published_winners(site: Path, season: Optional[int] = None, week: Optional[int] = None) -> None:
-    """Remove published market/model winner artifacts from the site tree."""
-    _unlink(site / "data" / "winner_accuracy.json")
-    weeks_dir = site / "data" / "weeks"
-    if weeks_dir.exists():
-        for path in weeks_dir.glob("*/winners.json"):
-            _unlink(path)
-    # Strip fields from current (and any) week slim files we can find
-    stems = []
-    if season is not None and week is not None:
-        stems.append(f"{int(season)}-wk{int(week):02d}")
-    if weeks_dir.exists():
-        stems.extend(p.name for p in weeks_dir.iterdir() if p.is_dir())
-    seen = set()
-    for stem in stems:
-        if stem in seen:
-            continue
-        seen.add(stem)
-        week_dir = weeks_dir / stem
-        for path in [week_dir / "top.json", site / "data" / "props_top.json"]:
-            if not path.exists():
-                continue
-            try:
-                obj = load_json(path)
-            except Exception:
-                continue
-            if not isinstance(obj, dict):
-                continue
-            # only strip props_top when it matches this stem or always for props_top
-            dump_json(path, strip_winner_fields_from_obj(obj, is_top=True))
-        games_dir = week_dir / "games"
-        if games_dir.exists():
-            for path in sorted(games_dir.glob("*.json")):
-                try:
-                    obj = load_json(path)
-                except Exception:
-                    continue
-                if isinstance(obj, dict):
-                    dump_json(path, strip_winner_fields_from_obj(obj))
-    man_path = weeks_dir / "index.json"
-    if man_path.exists():
-        try:
-            man = load_json(man_path)
-            for entry in man.get("weeks") or []:
-                entry.pop("winners_file", None)
-            man_path.write_text(json.dumps(man, indent=2) + "\n")
-        except Exception:
-            pass
-
-
-def attach_model_to_week_files(site: Path, season: int, week: int, winners: dict[str, dict], payload: dict) -> None:
-    """Write model-only fields onto slim game/top files. Does not publish market data."""
+def attach_to_week_files(site: Path, season: int, week: int, winners: dict[str, dict], payload: dict) -> None:
     stem = f"{season}-wk{week:02d}"
     week_dir = site / "data" / "weeks" / stem
-    model_keys = (
-        "model",
-        "model_winner",
-        "model_winner_prob",
-        "model_source_label",
-        "model_tooltip",
-        "model_updated_at",
-        "model_home_win_prob",
-        "model_away_win_prob",
-    )
 
     def merge_game_dict(g: dict) -> dict:
-        g = dict(g)
+        rec = winners.get(str(g.get("game_id") or ""))
+        # drop previous winner fields if we are refreshing
         for k in WINNER_FIELDS:
             g.pop(k, None)
-        rec = winners.get(str(g.get("game_id") or ""))
         if rec:
-            for k in model_keys:
+            for k in WINNER_FIELDS:
                 if rec.get(k) is not None:
                     g[k] = rec[k]
         return g
@@ -715,27 +639,23 @@ def attach_model_to_week_files(site: Path, season: int, week: int, winners: dict
             return
         if is_top and isinstance(obj.get("games"), list):
             obj["games"] = [merge_game_dict(dict(g)) for g in obj["games"]]
-            obj.pop("winners_file", None)
+            obj["winners_file"] = f"data/weeks/{stem}/winners.json"
         if is_game:
             rec = winners.get(str(gid or obj.get("game_id") or path.stem))
             for k in WINNER_FIELDS:
                 obj.pop(k, None)
             if rec:
-                for k in model_keys:
+                for k in WINNER_FIELDS:
                     if rec.get(k) is not None:
                         obj[k] = rec[k]
         dump_json(path, obj)
 
-    # Do not publish winners.json (market or otherwise). Model fields live on game/top files.
-    _unlink(week_dir / "winners.json")
-    acc = payload.get("model_accuracy") or payload.get("accuracy")
+    dump_json(week_dir / "winners.json", payload, pretty=True)
     acc_path = site / "data" / "winner_accuracy.json"
-    if acc and acc.get("source") == "model":
-        dump_json(acc_path, acc, pretty=True)
-    else:
-        _unlink(acc_path)
+    dump_json(acc_path, payload.get("accuracy") or {}, pretty=True)
 
     patch_obj(week_dir / "top.json", is_top=True)
+    # Root props_top.json only if it is this same week
     top_root = site / "data" / "props_top.json"
     if top_root.exists():
         try:
@@ -754,7 +674,8 @@ def attach_model_to_week_files(site: Path, season: int, week: int, winners: dict
         try:
             man = load_json(man_path)
             for entry in man.get("weeks") or []:
-                entry.pop("winners_file", None)
+                if int(entry.get("season") or -1) == season and int(entry.get("week") or -1) == week:
+                    entry["winners_file"] = f"{stem}/winners.json"
             man_path.write_text(json.dumps(man, indent=2) + "\n")
         except Exception:
             pass
@@ -762,8 +683,11 @@ def attach_model_to_week_files(site: Path, season: int, week: int, winners: dict
 
 def build(site: Path, season: Optional[int] = None, week: Optional[int] = None) -> int:
     root = project_root(site)
+    if not ensure_pandas(root):
+        return 0
 
     if season is None or week is None:
+        # Prefer the week archive just written this publish, else props_ev.
         for path in (site / "data" / "props_ev.json", site / "data" / "weeks" / "index.json"):
             if not path.exists():
                 continue
@@ -777,75 +701,108 @@ def build(site: Path, season: Optional[int] = None, week: Optional[int] = None) 
             if season is not None and week is not None:
                 break
     if season is None or week is None:
-        # Still try to clear leftover published files.
-        clear_published_winners(site)
         log("build_winners skip: no season/week")
         return 0
     season, week = int(season), int(week)
 
-    model_path = root / "out" / "game_win_probs.json"
-    model = parse_model_file(model_path) if model_path.exists() else None
-    if not model:
-        clear_published_winners(site, season, week)
-        log("build_winners: no out/game_win_probs.json; no winner lines published")
-        return 0
-
     games = week_games(site, season, week)
     if not games:
-        clear_published_winners(site, season, week)
         log("build_winners skip: no games listed for this week")
         return 0
 
+    market_map, pulled = load_market_probs(root, season, week, games)
+    kalshi_map, k_pulled = load_kalshi_probs(root, games)
+    updated_at = pulled or k_pulled
     winners: dict[str, dict] = {}
-    model_accuracy = accuracy_from_model(model)
-    model_updated = model.get("generated_at")
-    acc_note = (model.get("accuracy_note") or "").strip()
+
     for g in games:
         gid = str(g.get("game_id") or "")
-        rec = model["games"].get(gid)
+        rec = market_map.get(gid)
+        src = "market"
+        if not rec:
+            rec = kalshi_map.get(gid)
+            src = "kalshi"
         if not rec:
             continue
-        hp = rec.get("home_win_prob")
-        try:
-            hp = float(hp)
-        except (TypeError, ValueError):
-            continue
-        if not (math.isfinite(hp) and 0 <= hp <= 1):
-            continue
-        ap = rec.get("away_win_prob")
-        try:
-            ap = float(ap) if ap is not None else 1.0 - hp
-        except (TypeError, ValueError):
-            ap = 1.0 - hp
-        merged_game = dict(g)
-        if rec.get("home_team") and rec.get("away_team"):
-            merged_game["home_team"] = rec["home_team"]
-            merged_game["away_team"] = rec["away_team"]
-        ts = rec.get("generated_at") or rec.get("updated_at") or model_updated
-        updated = format_et(ts)
-        tooltip_bits = [f"From {model['model_name']}."]
-        if acc_note:
-            note = acc_note if acc_note.endswith(".") else acc_note + "."
-            tooltip_bits.append(note)
-        if updated:
-            tooltip_bits.append(f"Updated {updated}.")
-        mw = winner_from_probs(
-            game=merged_game,
-            home_p=hp,
-            away_p=ap,
-            source="model",
-            source_label=model["model_name"],
+        merged = dict(g)
+        for k in ("home_team", "away_team", "matchup"):
+            if rec.get(k) and not merged.get(k):
+                merged[k] = rec[k]
+        ts = rec.get("updated_at") or updated_at
+        label = "Betting odds favorite"
+        w = winner_from_probs(
+            game=merged,
+            home_p=rec["home_win_prob"],
+            away_p=rec["away_win_prob"],
+            source=src,
+            source_label=label,
             updated_at=ts,
-            tooltip=" ".join(tooltip_bits),
+            n_books=rec.get("n_books"),
+            tooltip=market_tooltip(ts),
         )
-        if not mw:
-            continue
-        winners[gid] = {
-            "game_id": mw["game_id"],
-            "matchup": mw["matchup"],
-            "home_team": mw["home_team"],
-            "away_team": mw["away_team"],
-            "model": {
+        if w:
+            w["market"] = {
+                "likely_winner": w["likely_winner"],
+                "likely_winner_prob": w["likely_winner_prob"],
+                "home_win_prob": w["home_win_prob"],
+                "away_win_prob": w["away_win_prob"],
+                "source": src,
+                "source_label": label,
+                "tooltip": w["winner_tooltip"],
+                "updated_at": ts,
+                "n_books": rec.get("n_books"),
+            }
+            winners[gid] = w
+
+    model_path = root / "out" / "game_win_probs.json"
+    model = parse_model_file(model_path) if model_path.exists() else None
+    model_accuracy = None
+    model_count = 0
+    if model:
+        model_accuracy = accuracy_from_model(model)
+        model_updated = model.get("generated_at")
+        acc_note = (model.get("accuracy_note") or "").strip()
+        for g in games:
+            gid = str(g.get("game_id") or "")
+            rec = model["games"].get(gid)
+            if not rec:
+                continue
+            hp = rec.get("home_win_prob")
+            try:
+                hp = float(hp)
+            except (TypeError, ValueError):
+                continue
+            if not (math.isfinite(hp) and 0 <= hp <= 1):
+                continue
+            ap = rec.get("away_win_prob")
+            try:
+                ap = float(ap) if ap is not None else 1.0 - hp
+            except (TypeError, ValueError):
+                ap = 1.0 - hp
+            merged_game = dict(winners.get(gid) or g)
+            if rec.get("home_team") and rec.get("away_team"):
+                merged_game["home_team"] = rec["home_team"]
+                merged_game["away_team"] = rec["away_team"]
+            ts = rec.get("generated_at") or rec.get("updated_at") or model_updated
+            updated = format_et(ts)
+            tooltip_bits = [f"From {model['model_name']}."]
+            if acc_note:
+                note = acc_note if acc_note.endswith(".") else acc_note + "."
+                tooltip_bits.append(note)
+            if updated:
+                tooltip_bits.append(f"Updated {updated}.")
+            mw = winner_from_probs(
+                game=merged_game,
+                home_p=hp,
+                away_p=ap,
+                source="model",
+                source_label=model["model_name"],
+                updated_at=ts,
+                tooltip=" ".join(tooltip_bits),
+            )
+            if not mw:
+                continue
+            model_block = {
                 "likely_winner": mw["likely_winner"],
                 "likely_winner_prob": mw["likely_winner_prob"],
                 "home_win_prob": mw["home_win_prob"],
@@ -855,36 +812,61 @@ def build(site: Path, season: Optional[int] = None, week: Optional[int] = None) 
                 "tooltip": mw["winner_tooltip"],
                 "updated_at": ts,
                 "accuracy_note": acc_note or None,
-            },
-            "model_winner": mw["likely_winner"],
-            "model_winner_prob": mw["likely_winner_prob"],
-            "model_source_label": model["model_name"],
-            "model_tooltip": mw["winner_tooltip"],
-            "model_updated_at": ts,
-            "model_home_win_prob": mw["home_win_prob"],
-            "model_away_win_prob": mw["away_win_prob"],
-        }
+            }
+            base = winners.get(gid) or {
+                "game_id": mw["game_id"],
+                "matchup": mw["matchup"],
+                "home_team": mw["home_team"],
+                "away_team": mw["away_team"],
+            }
+            base["model"] = model_block
+            base["model_winner"] = mw["likely_winner"]
+            base["model_winner_prob"] = mw["likely_winner_prob"]
+            base["model_source_label"] = model["model_name"]
+            base["model_tooltip"] = mw["winner_tooltip"]
+            base["model_updated_at"] = ts
+            base["model_home_win_prob"] = mw["home_win_prob"]
+            base["model_away_win_prob"] = mw["away_win_prob"]
+            winners[gid] = base
+            model_count += 1
+
+    accuracy = compute_market_accuracy(root) or {
+        "source": "market",
+        "source_label": "Betting odds favorite",
+        "title": "Betting odds favorite accuracy",
+        "intro": "",
+        "note": "",
+        "headline": [],
+        "calibration": None,
+    }
+    if model_accuracy:
+        accuracy["model_accuracy"] = model_accuracy
 
     payload = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "season": season,
         "week": week,
-        "source": "model",
-        "source_label": model["model_name"],
-        "updated_at": model_updated,
+        "source": "market+model" if model_count else "market",
+        "source_label": "Betting odds favorite",
+        "updated_at": updated_at,
         "games": [winners[str(g["game_id"])] for g in games if str(g.get("game_id")) in winners],
         "missing": [
-            {"game_id": g.get("game_id"), "matchup": g.get("matchup")}
+            {
+                "game_id": g.get("game_id"),
+                "matchup": g.get("matchup"),
+            }
             for g in games
             if str(g.get("game_id")) not in winners
         ],
+        "accuracy": accuracy,
         "model_accuracy": model_accuracy,
-        "accuracy": model_accuracy,
     }
-    attach_model_to_week_files(site, season, week, winners, payload)
+    attach_to_week_files(site, season, week, winners, payload)
     log(
-        f"build_winners: source=model {len(payload['games'])} games with an Our model line, "
-        f"{len(payload['missing'])} without, week {season}-wk{week:02d}"
+        f"build_winners: source={payload['source']} "
+        f"{len(payload['games'])} games with a betting-odds favorite, "
+        f"{model_count} with an our-model line, "
+        f"{len(payload['missing'])} without market data, week {season}-wk{week:02d}"
     )
     return 0
 

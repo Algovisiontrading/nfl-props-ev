@@ -626,11 +626,23 @@
 
   function winnerLineHtml(g) {
     if (!g) return "";
+    var market = g.market || {};
+    var marketTeam = market.likely_winner || g.likely_winner;
+    var marketProb = market.likely_winner_prob != null ? market.likely_winner_prob : g.likely_winner_prob;
+    var marketTip = market.tooltip || market.winner_tooltip || g.winner_tooltip || "";
+    var html = oneWinnerLine(
+      "Betting odds favorite",
+      marketTeam,
+      marketProb,
+      marketTip,
+      "About the betting odds favorite",
+      "game-winner game-winner-market"
+    );
     var model = g.model || {};
     var modelTeam = model.likely_winner || g.model_winner;
     var modelProb = model.likely_winner_prob != null ? model.likely_winner_prob : g.model_winner_prob;
     var modelTip = model.tooltip || model.winner_tooltip || g.model_tooltip || "";
-    return oneWinnerLine(
+    html += oneWinnerLine(
       "Our model",
       modelTeam,
       modelProb,
@@ -638,6 +650,7 @@
       "About our win model",
       "game-winner game-winner-model"
     );
+    return html;
   }
 
   function mergeWinner(target, rec) {

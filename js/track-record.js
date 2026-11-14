@@ -704,14 +704,13 @@
   function renderWinnerAccuracy(data) {
     var panel = $("winner-accuracy-panel");
     if (!panel) return;
-    var isModel = data && (data.source === "model" || (data.title && String(data.title).indexOf("Betting") === -1 && data.source !== "market"));
-    if (!isModel || (!data.intro && !(data.calibration && data.calibration.buckets && data.calibration.buckets.length) && !data.note)) {
+    if (!data || (!data.intro && !(data.calibration && data.calibration.buckets && data.calibration.buckets.length) && !data.note)) {
       panel.hidden = true;
       return;
     }
     panel.hidden = false;
     var title = $("winner-accuracy-title");
-    if (title) title.textContent = data.title || "Our model accuracy";
+    if (title) title.textContent = data.title || "Betting odds favorite accuracy";
     var intro = $("winner-accuracy-intro");
     if (intro) intro.textContent = data.intro || "";
     var note = $("winner-accuracy-note");

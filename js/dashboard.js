@@ -270,7 +270,7 @@
         B.showMeta($("page-meta"), data.payload, data.rows);
         B.showSampleBanner($("sample-banner"), data.payload);
         function finish() { render(); }
-        var need = !B.gamesForBoard(data).some(function (g) { return g.model_winner; });
+        var need = !B.gamesForBoard(data).some(function (g) { return g.likely_winner; });
         if (!need) { finish(); return; }
         B.loadWinners(data.season, data.week).then(function (winners) {
           if (winners && state.board) {
