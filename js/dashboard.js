@@ -97,12 +97,12 @@
     var dir = state.sortDir === "asc" ? 1 : -1;
     var numeric = [
       "line", "odds_american", "model_prob", "fair_odds_american",
-      "edge_pct", "ev_per_100", "kelly_stake_pct", "sample_size",
+      "edge_pct", "ev_per_100", "kelly_stake_pct", "sample_size", "projection",
     ];
     var copy = rows.slice();
     copy.sort(function (a, b) {
-      var va = a[key];
-      var vb = b[key];
+      var va = key === "projection" ? (a.proj_median != null ? a.proj_median : a.model_mean) : a[key];
+      var vb = key === "projection" ? (b.proj_median != null ? b.proj_median : b.model_mean) : b[key];
       var na = va == null || va === "";
       var nb = vb == null || vb === "";
       if (na && nb) return 0;
@@ -228,7 +228,7 @@
           state.sortDir = state.sortDir === "desc" ? "asc" : "desc";
         } else {
           state.sortKey = key;
-          state.sortDir = key === "ev_per_100" || key === "edge_pct" || key === "kelly_stake_pct" || key === "model_prob" ? "desc" : "asc";
+          state.sortDir = key === "ev_per_100" || key === "edge_pct" || key === "kelly_stake_pct" || key === "model_prob" || key === "projection" ? "desc" : "asc";
         }
         state.page = 0;
         render();

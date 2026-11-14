@@ -11,6 +11,7 @@
     market: "The prop market, such as receiving yards or anytime touchdown.",
     side: "Over or under the posted line.",
     line: "The sportsbook or exchange line.",
+    projection: "Model projection: median with a 25th–75th percentile range when those fields are in the file, otherwise the model's mean. Yard totals are whole yards; counts use one decimal; anytime TD is expected touchdowns.",
     odds_american: "American odds at the listed book.",
     book: "Source of the line. Volume and open interest are shown when the book provides them.",
     ev_per_100: "Expected profit per $100 staked, at the posted odds, using the model probability. Positive means the model thinks the bet has value.",
@@ -30,6 +31,7 @@
     { key: "market", label: "Market" },
     { key: "side", label: "Side" },
     { key: "line", label: "Line", num: true },
+    { key: "projection", label: "Projection", num: true },
     { key: "odds_american", label: "Odds", num: true },
     { key: "book", label: "Book" },
     { key: "ev_per_100", label: "EV / $100", num: true },
@@ -522,6 +524,7 @@
       market: "<td>" + P.escapeHtml(P.marketLabel(r.market)) + "</td>",
       side: "<td><span class=\"" + sideCls + "\">" + P.escapeHtml(r.side || "—") + "</span></td>",
       line: '<td class="num">' + (r.line != null ? r.line : "—") + "</td>",
+      projection: '<td class="num proj">' + P.escapeHtml(P.formatProjection(r)) + "</td>",
       odds_american: '<td class="num">' + P.formatAmerican(r.odds_american) + "</td>",
       book: "<td>" + book + "</td>",
       ev_per_100: '<td class="num ' + P.evClass(r.ev_per_100) + '">' + P.formatMoney(r.ev_per_100) + "</td>",
@@ -581,6 +584,7 @@
               (r.line != null ? P.escapeHtml(String(r.line)) : "")) +
             cell("Odds", P.formatAmerican(r.odds_american) +
               (r.book ? ' <span class="muted">@ ' + P.escapeHtml(r.book) + "</span>" : "")) +
+            cell("Projection", P.escapeHtml(P.formatProjection(r))) +
             cell("Model", P.formatProb(r.model_prob), "", true) +
             cell("Fair", P.formatAmerican(r.fair_odds_american), "", true) +
             cell("Edge", P.formatSignedPct(r.edge_pct), P.edgeClass(r.edge_pct), true) +

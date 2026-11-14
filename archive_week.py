@@ -81,6 +81,20 @@ SLIM_FIELDS = (
     "precip_pct",
     "coaching_flag",
     "updated_at",
+    "model_mean",
+    "mean",
+    "proj_mean",
+    "proj_median",
+    "median",
+    "model_median",
+    "proj_p25",
+    "p25",
+    "model_p25",
+    "q25",
+    "proj_p75",
+    "p75",
+    "model_p75",
+    "q75",
 )
 
 CHECK_EDGE = 15

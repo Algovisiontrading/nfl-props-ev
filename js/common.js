@@ -116,6 +116,35 @@
     return s + "$" + v.toFixed(2);
   }
 
+  function formatProjNumber(v, market) {
+    if (!Number.isFinite(v)) return null;
+    var m = canonicalMarket(market || "");
+    if (m === "pass_yds" || m === "rush_yds" || m === "rec_yds" || /_yds$/.test(m)) {
+      return String(Math.round(v));
+    }
+    if (m === "anytime_td" || m === "player_tds") {
+      return v.toFixed(2);
+    }
+    return v.toFixed(1);
+  }
+
+  function formatProjection(row) {
+    if (!row) return "—";
+    var mid = row.proj_median;
+    var lo = row.proj_p25;
+    var hi = row.proj_p75;
+    if (!Number.isFinite(mid)) mid = row.model_mean;
+    if (!Number.isFinite(mid)) return "—";
+    var s = formatProjNumber(mid, row.market);
+    if (s == null) return "—";
+    if (Number.isFinite(lo) && Number.isFinite(hi)) {
+      var a = formatProjNumber(lo, row.market);
+      var b = formatProjNumber(hi, row.market);
+      if (a != null && b != null) s += " (" + a + "–" + b + ")";
+    }
+    return s;
+  }
+
   function formatInt(v) {
     if (!Number.isFinite(v)) return "—";
     return Math.round(v).toLocaleString("en-US");
@@ -375,6 +404,10 @@
     row.temp_f = num(pick(raw, ["temp_f", "temp"]));
     row.precip_pct = num(pick(raw, ["precip_pct", "precip"]));
     row.coaching_flag = pick(raw, ["coaching_flag"]);
+    row.model_mean = num(pick(raw, ["model_mean", "mean", "proj_mean"]));
+    row.proj_median = num(pick(raw, ["proj_median", "median", "model_median"]));
+    row.proj_p25 = num(pick(raw, ["proj_p25", "p25", "model_p25", "q25"]));
+    row.proj_p75 = num(pick(raw, ["proj_p75", "p75", "model_p75", "q75"]));
 
     var impliedRaw = americanToImplied(row.odds_american);
     var implied = row.implied_prob_novig != null ? row.implied_prob_novig : impliedRaw;
@@ -499,6 +532,8 @@
     formatSignedPct: formatSignedPct,
     formatProb: formatProb,
     formatMoney: formatMoney,
+    formatProjNumber: formatProjNumber,
+    formatProjection: formatProjection,
     formatInt: formatInt,
     formatET: formatET,
     formatKickoff: formatKickoff,
