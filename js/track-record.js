@@ -1634,24 +1634,44 @@
     return String(Number(n.toFixed(2)));
   }
 
+  function firstNum(obj, keys) {
+    for (var i = 0; i < keys.length; i++) {
+      if (obj[keys[i]] != null && obj[keys[i]] !== "" && Number.isFinite(Number(obj[keys[i]]))) return Number(obj[keys[i]]);
+    }
+    return null;
+  }
+
   function normalizeAccRow(r) {
     r = r || {};
     var market = r.market || r.stat || r.name || r.label || "";
-    var better = r.better_pct != null ? r.better_pct : (
-      r.better_by != null ? r.better_by : r.better
-    );
     return {
       stat: P.marketLabel(market) || market || "—",
-      games: r.n != null ? r.n : (r.games != null ? r.games : r.count),
-      avg_actual: r.avg_actual != null ? r.avg_actual : r.average_actual,
-      miss_model: r.miss_model != null ? r.miss_model : (
-        r.our_avg_miss != null ? r.our_avg_miss : r.model_miss
-      ),
-      miss_recent8: r.miss_recent8 != null ? r.miss_recent8 : (
-        r.last8_avg_miss != null ? r.last8_avg_miss : r.miss_last8
-      ),
-      better_pct: better
+      games: firstNum(r, ["n", "games", "count"]),
+      avg_actual: firstNum(r, ["avg_actual", "average_actual"]),
+      miss_model: firstNum(r, ["miss_model", "our_avg_miss", "model_miss", "mae_model", "mae"]),
+      miss_recent8: firstNum(r, ["miss_recent8", "last8_avg_miss", "miss_last8", "mae_last8", "mae_recent8"]),
+      better_pct: firstNum(r, ["better_pct", "better_by", "better", "pct_better_vs_last8"])
     };
+  }
+
+  function accRowsFromPayload(data) {
+    if (!data) return { rows: [], note: null };
+    if (Array.isArray(data)) return { rows: data, note: null };
+    var rows = data.rows || data.by_market || data.markets || data.stats || data.data || [];
+    var note = data.note || data.intro || data.caption || null;
+    if (!note && Array.isArray(data.seasons) && data.seasons.length) {
+      note = "Walk-forward test on " + data.seasons.join("–") +
+        (data.season_type ? " (" + data.season_type + ")" : "") +
+        ". The benchmark is each player's last-8-game average.";
+    }
+    return { rows: rows, note: note };
+  }
+
+  function accUsable(rows) {
+    return (rows || []).filter(function (r) {
+      var n = normalizeAccRow(r);
+      return n.miss_model != null || n.miss_recent8 != null || n.better_pct != null;
+    });
   }
 
   function betterCell(v) {
@@ -1729,16 +1749,29 @@
   }
 
   function initProjectionAccuracy() {
-    P.fetchJson("data/projection_accuracy.json")
-      .then(function (data) {
-        var got = rowsFromAccPayload(data);
-        if (got.rows && got.rows.length) {
-          renderProjectionAccuracy(got.rows, got.note);
-          return null;
-        }
-        return loadAccCsv();
+    var jsonP = P.fetchJson("data/projection_accuracy.json").then(accRowsFromPayload).catch(function () { return { rows: [], note: null }; });
+    var csvP = fetch("data/projection_accuracy.csv", { cache: "no-store" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("csv");
+        return res.text();
       })
-      .catch(function () { return loadAccCsv(); });
+      .then(function (text) { return { rows: parseCsv(text), note: null }; })
+      .catch(function () { return { rows: [], note: null }; });
+    Promise.all([jsonP, csvP]).then(function (pair) {
+      var js = pair[0], csv = pair[1];
+      var jsonUse = accUsable(js.rows);
+      var csvUse = accUsable(csv.rows);
+      // Prefer JSON when it is at least as complete as the CSV; a one-market work-in-progress should not hide the CSV table.
+      if (jsonUse.length && jsonUse.length >= csvUse.length) {
+        renderProjectionAccuracy(js.rows, js.note);
+      } else if (csvUse.length) {
+        renderProjectionAccuracy(csv.rows, csv.note);
+      } else if (jsonUse.length) {
+        renderProjectionAccuracy(js.rows, js.note);
+      } else if ($("projection-accuracy-panel")) {
+        $("projection-accuracy-panel").hidden = true;
+      }
+    });
   }
 
   function start() {
